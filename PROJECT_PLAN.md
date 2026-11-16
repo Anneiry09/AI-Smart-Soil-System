@@ -31,16 +31,16 @@ Hệ thống AIoT giám sát và phân tích dinh dưỡng đất thời gian th
 - **Client App:** Flutter (`mobile-app/`) supporting Android, iOS and Web.
 - **Documentation:** Technical & sensor specs (`docs/`).
 
-## 4. Milestones & Progress
-- [x] Milestone 3.1: Tổ chức cấu trúc thư mục repo (`firmware-esp32/`, `backend/`, `mobile-app/`, `docs/`).
-- [x] Milestone 4.1: Xây dựng Backend Telemetry Ingestion API & CSDL SQLite (Đã deploy thành công lên VPS `221.121.4.208:80`).
-- [ ] Milestone 3.2: Hoàn thiện Firmware ESP32 (kết nối Wi-Fi, đọc cảm biến 7-in-1, lọc trung vị Median Filter và bắn dữ liệu lên VPS).
-- [ ] Milestone 5.1: Xây dựng giao diện ứng dụng Flutter kết nối API xem số đo thời gian thực.
-- [ ] Milestone 6.1 (Nghiên cứu riêng): Thu thập dataset thực tế từ cảm biến và huấn luyện mô hình AI đánh giá độ phì nhiêu của đất.
-
-## 5. Live Server Endpoints (VPS wiservices)
+## 4. Live Server Endpoints (VPS Ubuntu 22.04 - wiservices)
 - **Base URL:** `http://221.121.4.208`
-- **Swagger Docs:** `http://221.121.4.208/docs`
-- **Ingestion Endpoint (POST):** `http://221.121.4.208/api/v1/telemetry/`
-- **Latest Record (GET):** `http://221.121.4.208/api/v1/telemetry/latest`
-- **Export CSV (GET):** `http://221.121.4.208/api/v1/telemetry/export-csv`
+- **Swagger API Docs:** `http://221.121.4.208/docs`
+- **Telemetry Ingestion:** `POST http://221.121.4.208/api/v1/telemetry/`
+- **Latest Reading:** `GET http://221.121.4.208/api/v1/telemetry/latest`
+- **CSV Dataset Export:** `GET http://221.121.4.208/api/v1/telemetry/export-csv`
+
+## 5. Milestones & Progress Tracker
+- [x] **Milestone 3.1:** Khởi tạo cấu trúc dự án chuẩn (`firmware-esp32/`, `backend/`, `mobile-app/`, `docs/`).
+- [x] **Milestone 4.1:** Xây dựng Backend Ingestion API (FastAPI) & Database SQLite WAL, triển khai chạy nền 24/7 trên VPS `221.121.4.208`.
+- [ ] **Milestone 3.2 (ĐANG LÀM):** Hoàn thiện Firmware ESP32: Đọc cảm biến 7-in-1 qua RS485, bộ lọc trung vị (Median Filter), kết nối Wi-Fi và đẩy dữ liệu lên VPS qua HTTP POST.
+- [ ] **Milestone 5.1:** Xây dựng giao diện ứng dụng (Flutter Mobile/Web) trực quan hóa thông số đất và cảnh báo từ API.
+- [ ] **Milestone 4.2 (Giai đoạn sau):** Nghiên cứu & Huấn luyện mô hình AI phân tích dinh dưỡng đất từ tập dữ liệu thực tế thu thập được.
