@@ -33,7 +33,14 @@ Hệ thống AIoT giám sát và phân tích dinh dưỡng đất thời gian th
 
 ## 4. Milestones & Progress
 - [x] Milestone 3.1: Tổ chức cấu trúc thư mục repo (`firmware-esp32/`, `backend/`, `mobile-app/`, `docs/`).
-- [ ] Milestone 3.2: Nâng cấp code ESP32 kết nối Wi-Fi, lọc trung vị (Median Filter) và gửi JSON payload qua HTTP POST.
-- [ ] Milestone 4.1: Xây dựng Backend API và Database lưu trữ lịch sử đo đạc.
-- [ ] Milestone 4.2: Tích hợp mô hình AI phân tích dữ liệu đất (tập trung vào EC, pH, Ẩm, Nhiệt kết hợp nội suy NPK) để đề xuất chế độ chăm sóc cây trồng.
-- [ ] Milestone 5.1: Xây dựng giao diện Dashboard hiển thị biểu đồ và khuyến nghị AI cho nongthinh.vn.
+- [x] Milestone 4.1: Xây dựng Backend Telemetry Ingestion API & CSDL SQLite (Đã deploy thành công lên VPS `221.121.4.208:80`).
+- [ ] Milestone 3.2: Hoàn thiện Firmware ESP32 (kết nối Wi-Fi, đọc cảm biến 7-in-1, lọc trung vị Median Filter và bắn dữ liệu lên VPS).
+- [ ] Milestone 5.1: Xây dựng giao diện ứng dụng Flutter kết nối API xem số đo thời gian thực.
+- [ ] Milestone 6.1 (Nghiên cứu riêng): Thu thập dataset thực tế từ cảm biến và huấn luyện mô hình AI đánh giá độ phì nhiêu của đất.
+
+## 5. Live Server Endpoints (VPS wiservices)
+- **Base URL:** `http://221.121.4.208`
+- **Swagger Docs:** `http://221.121.4.208/docs`
+- **Ingestion Endpoint (POST):** `http://221.121.4.208/api/v1/telemetry/`
+- **Latest Record (GET):** `http://221.121.4.208/api/v1/telemetry/latest`
+- **Export CSV (GET):** `http://221.121.4.208/api/v1/telemetry/export-csv`
