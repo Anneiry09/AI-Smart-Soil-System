@@ -41,6 +41,7 @@ Hệ thống AIoT giám sát và phân tích dinh dưỡng đất thời gian th
 ## 5. Milestones & Progress Tracker
 - [x] **Milestone 3.1:** Khởi tạo cấu trúc dự án chuẩn (`firmware-esp32/`, `backend/`, `mobile-app/`, `docs/`).
 - [x] **Milestone 4.1:** Xây dựng Backend Ingestion API (FastAPI) & Database SQLite WAL, triển khai chạy nền 24/7 trên VPS `221.121.4.208`.
-- [ ] **Milestone 3.2 (ĐANG LÀM):** Hoàn thiện Firmware ESP32: Đọc cảm biến 7-in-1 qua RS485, bộ lọc trung vị (Median Filter), kết nối Wi-Fi và đẩy dữ liệu lên VPS qua HTTP POST.
+- [x] **Milestone 3.2:** Hoàn thiện Firmware ESP32: Đọc cảm biến 7-in-1 qua RS485, bộ lọc trung vị (Median Filter), kết nối Wi-Fi và đẩy dữ liệu lên VPS qua HTTP POST.
+- [ ] **Milestone 3.3 (Thực địa):** Nạp code vào kit ESP32 thực tế, cắm cảm biến vào mẫu đất và xác nhận dữ liệu nhảy liên tục trên VPS.
 - [ ] **Milestone 5.1:** Xây dựng giao diện ứng dụng (Flutter Mobile/Web) trực quan hóa thông số đất và cảnh báo từ API.
 - [ ] **Milestone 4.2 (Giai đoạn sau):** Nghiên cứu & Huấn luyện mô hình AI phân tích dinh dưỡng đất từ tập dữ liệu thực tế thu thập được.
