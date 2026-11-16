@@ -66,3 +66,36 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+
+# --- PlatformIO ---
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# --- Python & Backend ---
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+*.db
+*.sqlite3
+
+# --- Flutter & Dart ---
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+mobile-app/build/
+mobile-app/.dart_tool/
+mobile-app/.flutter-plugins
+mobile-app/.flutter-plugins-dependencies
+
+# --- IDEs & OS ---
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
