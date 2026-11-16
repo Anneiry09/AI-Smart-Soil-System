@@ -5,8 +5,8 @@
 // 1. Cấu hình Mạng Wi-Fi
 // ==========================================
 // Hãy điền tên Wi-Fi (SSID) của bạn vào đây (vd: Tên Wi-Fi nhà hoặc điểm phát sóng 4G điện thoại)
-#define WIFI_SSID           "YOUR_WIFI_SSID"
-#define WIFI_PASSWORD       "Anneiry814651@"
+#define WIFI_SSID           "Pink Home"
+#define WIFI_PASSWORD       "68686868"
 
 // ==========================================
 // 2. Cấu hình Backend Server (VPS wiservices)
