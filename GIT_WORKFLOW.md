@@ -1,5 +1,5 @@
 # Quy Trình Quản Lý Git & Tiêu Chuẩn Commit Cho Nhóm
-> **Dự án:** AI Smart Soil System (nongthinh.vn)  
+> **Dự án:** AI Smart Soil System  
 > **Điều phối & Quản lý:** Do Team Lead (An) trực tiếp phân công công việc linh hoạt cho từng thành viên theo từng giai đoạn.  
 > **Mô hình Git:** Không gian làm việc cá nhân riêng biệt (Personal Workspaces) kết hợp Đánh giá mã nguồn (Pull Request Review) trước khi gộp vào `main`.
 
