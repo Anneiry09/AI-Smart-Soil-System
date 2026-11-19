@@ -101,7 +101,8 @@ mobile-app/.flutter-plugins-dependencies
 Thumbs.db
 
 
-# --- Ignore all markdown files except root README.md ---
+# --- Ignore all markdown files except root README.md & GIT_WORKFLOW.md ---
 *.md
 !/README.md
+!/GIT_WORKFLOW.md
 docs/*.md
