@@ -1,6 +1,7 @@
-# Quy Trình Quản Lý Git & Tiêu Chuẩn Commit Chuẩn
+# Quy Trình Quản Lý Git & Tiêu Chuẩn Commit Cho Nhóm
 > **Dự án:** AI Smart Soil System (nongthinh.vn)  
-> **Mục tiêu:** Giữ lịch sử Git sạch (clean history), dễ truy vết, chuyên nghiệp, bảo mật và cộng tác hiệu quả giữa 3 thành viên: **An (Lead)**, **Trí (Firmware)**, **Khiêm (Mobile)**.
+> **Điều phối & Quản lý:** Do Team Lead (An) trực tiếp phân công công việc linh hoạt cho từng thành viên theo từng giai đoạn.  
+> **Mô hình Git:** Không gian làm việc cá nhân riêng biệt (Personal Workspaces) kết hợp Đánh giá mã nguồn (Pull Request Review) trước khi gộp vào `main`.
 
 ---
 
@@ -13,7 +14,7 @@
 
 ## 2. Quy Ước Đặt Tên Commit (Conventional Commits)
 
-Toàn bộ thành viên (An, Trí, Khiêm) đều phải tuân thủ chuẩn **Conventional Commits** kèm **Scope** tương ứng với module mình phụ trách.
+Bất kỳ thành viên nào khi thực hiện công việc được giao đều phải tuân thủ chuẩn **Conventional Commits** kèm **Scope** tương ứng với phần việc mình đang làm.
 
 ### Cú pháp:
 ```text
@@ -32,68 +33,70 @@ Toàn bộ thành viên (An, Trí, Khiêm) đều phải tuân thủ chuẩn **C
 | `chore` | Cập nhật cấu hình build, dependency, thư viện, `.gitignore` |
 | `test` | Viết hoặc cập nhật unit test, widget test |
 
-### Các Scope (Phạm vi) trong dự án:
-| Scope | Thư mục & Module tương ứng | Phụ trách chính |
-| :--- | :--- | :--- |
-| `firmware` | Mã nguồn ESP32 PlatformIO (`firmware-esp32/`) | **Trí** |
-| `mobile` | Ứng dụng Flutter di động & web (`mobile-app/`) | **Khiêm** |
-| `backend` | Server FastAPI, SQLite WAL, Telemetry APIs (`backend/`) | **An** |
-| `ai` | Module đánh giá độ phì, thuật toán khuyến nghị dinh dưỡng | **An** |
-| `config` | Cấu hình dự án, PlatformIO environment, gitignore | Cả nhóm |
-| `docs` | Tài liệu hướng dẫn, sơ đồ mạch, sơ đồ luồng dữ liệu | Cả nhóm |
+### Các Scope (Phạm vi module) trong dự án:
+*(Thành viên chọn scope tương ứng với thư mục mã nguồn mà mình đang code theo nhiệm vụ được giao)*
 
-### Ví dụ Commit Chuẩn:
-* **Firmware (Trí):**
+| Scope | Thư mục & Module tương ứng | Mục đích |
+| :--- | :--- | :--- |
+| `firmware` | Mã nguồn ESP32 PlatformIO (`firmware-esp32/`) | Lập trình phần cứng, đọc cảm biến, kết nối mạng |
+| `mobile` | Ứng dụng Flutter di động & web (`mobile-app/`) | Giao diện người dùng, hiển thị biểu đồ, kết nối API |
+| `backend` | Server FastAPI, SQLite WAL (`backend/`) | Xử lý dữ liệu cảm biến, lưu trữ cơ sở dữ liệu, API |
+| `ai` | Module đánh giá độ phì, thuật toán khuyến nghị dinh dưỡng | Phân tích nông học, cảnh báo ngưỡng đất |
+| `config` | Cấu hình dự án, PlatformIO environment, gitignore | Cài đặt môi trường chung của dự án |
+| `docs` | Tài liệu hướng dẫn, sơ đồ mạch, sơ đồ luồng dữ liệu | Viết tài liệu báo cáo, giải thích hệ thống |
+
+### Ví dụ Commit Chuẩn theo từng Module:
+* **Khi làm việc với Firmware:**
   * `feat(firmware): add median filter algorithm for 7-in-1 soil sensor`
   * `fix(firmware): resolve rs485 modbus timeout on esp32 doit devkit v1`
   * `chore(firmware): update platformio library dependencies`
-* **Mobile (Khiêm):**
+* **Khi làm việc với Mobile App:**
   * `feat(mobile): build real-time soil telemetry dashboard screen`
   * `fix(mobile): handle null values when sensor is offline`
   * `refactor(mobile): optimize color-coded alert widgets for soil metrics`
-* **Backend & AI (An):**
+* **Khi làm việc với Backend & AI:**
   * `feat(backend): add telemetry ingestion and latest status api endpoints`
   * `feat(ai): integrate npk fertility rating and npk deficiency warnings`
-  * `docs(workflow): supplement 3-member git workflow and conventional commit rules`
+* **Khi làm việc với Tài liệu & Cấu hình:**
+  * `docs(workflow): supplement conventional commit standards and branch guide`
+  * `chore(config): ignore temporary build and cache directories`
 
 ---
 
-## 3. Mô Hình 4 Nhánh Cố Định Cho Nhóm 3 Người
+## 3. Mô Hình Phân Nhánh Cho Dự Án (Personal Workspaces)
 
-Để tránh việc phải tạo và xóa nhánh liên tục gây rối rắm, dự án áp dụng mô hình **Nhánh Không Gian Riêng (Personal Fixed Workspaces)**:
+Mỗi thành viên có **một không gian làm việc riêng (nhánh cá nhân)** để nhận và xử lý bất kỳ công việc nào do Team Lead phân công:
 
 ```text
-       (Khiêm code mobile-app/)
-       dev-khiem ──●──────●──────● ───┐ (Pull Request)
+       (Thành viên làm việc trên nhánh riêng)
+       dev-khiem ──●──────●──────● ───┐ (Gửi Pull Request)
                                       │
   main ───────────────────────────────▼───● (An Review & Merge) ──● (Deploy VPS)
                                       ▲
-       dev-tri   ──●──────●──────● ───┘ (Pull Request)
-       (Trí code firmware-esp32/)
+       dev-tri   ──●──────●──────● ───┘ (Gửi Pull Request)
+       (Thành viên làm việc trên nhánh riêng)
 ```
 
 | Nhánh | Chủ sở hữu | Quyền hạn & Mục đích |
 | :--- | :--- | :--- |
 | **`main`** | **Cả nhóm (An bảo vệ)** | • Nhánh chính thức (Production).<br/>• Kết nối trực tiếp với VPS `221.121.4.208` và chạy demo hội đồng/thầy cô.<br/>• **Chỉ có An mới có quyền duyệt và gộp (Merge) code vào nhánh này.** |
-| **`dev-an`** | **An** | Không gian làm việc riêng của An (Backend, Database, Hạ tầng VPS, AI). |
-| **`dev-tri`** | **Trí** | Không gian làm việc riêng của Trí (Firmware ESP32, Cảm biến RS485). |
-| **`dev-khiem`** | **Khiêm** | Không gian làm việc riêng của Khiêm (Giao diện Mobile App / Web Flutter). |
+| **`dev-an`** | **An** | Không gian làm việc riêng của An. |
+| **`dev-tri`** | **Trí** | Không gian làm việc riêng của Trí. |
+| **`dev-khiem`** | **Khiêm** | Không gian làm việc riêng của Khiêm. |
 
-### Phân chia thư mục độc lập (Tránh xung đột code 100%):
+### Cấu trúc mã nguồn của dự án:
 ```text
 AI-Smart-Soil-System/
-├── firmware-esp32/   ---> 🔧 TRÍ quản lý & lập trình
-├── mobile-app/       ---> 📱 KHIÊM quản lý & lập trình
-├── backend/          ---> ⚙️ AN quản lý & triển khai VPS
-├── README.md         ---> 📖 Dùng chung
-└── GIT_WORKFLOW.md   ---> 📖 Dùng chung
+├── firmware-esp32/   ---> Mã nguồn nhúng ESP32 & Cảm biến RS485 Modbus RTU
+├── mobile-app/       ---> Ứng dụng di động (Android/iOS) & Dashboard Flutter
+├── backend/          ---> API Server FastAPI, SQLite WAL, Telemetry & AI
+├── README.md         ---> Tài liệu tổng quan dự án
+└── GIT_WORKFLOW.md   ---> Quy chuẩn Git & Hướng dẫn phối hợp nhóm
 ```
-
-*(Tùy chọn mở rộng: Nếu sau này dự án có tính năng lớn cần thử nghiệm tách biệt hoàn toàn, thành viên có thể tạo nhánh phụ `feat/<tên-tính-năng>` từ nhánh của mình, sau khi xong thì gộp lại nhánh `dev-*` trước khi tạo PR vào `main`).*
 
 ---
 
-## 4. Hướng Dẫn Quy Trình Cho TRÍ & KHIÊM
+## 4. Hướng Dẫn Quy Trình Cho Thành Viên (Developer)
 
 ### Bước 1: Lấy dự án về máy (Chỉ làm 1 lần đầu)
 ```bash
@@ -101,66 +104,65 @@ AI-Smart-Soil-System/
 git clone https://github.com/Anneiry09/AI-Smart-Soil-System.git
 cd AI-Smart-Soil-System
 
-# Chuyển sang không gian làm việc riêng của mình
-git checkout dev-tri     # (Đối với Khiêm thì gõ: git checkout dev-khiem)
+# Chuyển sang không gian làm việc riêng của mình (ví dụ Trí: dev-tri, Khiêm: dev-khiem)
+git checkout dev-tri
 ```
 
-### Bước 2: Hàng ngày làm việc & Đẩy code lên nhánh riêng
-Trí/Khiêm chỉ cần làm việc bình thường trong thư mục của mình (`firmware-esp32/` hoặc `mobile-app/`). Khi code xong một phần việc thì commit và đẩy lên nhánh cá nhân:
+### Bước 2: Thực hiện công việc được giao & Đẩy code lên nhánh riêng
+Thành viên làm các tác vụ theo phân công của Team Lead An. Khi hoàn thành một phần việc, commit và đẩy lên nhánh cá nhân:
 ```bash
-# Kiểm tra file đã sửa
+# 1. Kiểm tra file đã sửa
 git status
 
-# Thêm file thay đổi
+# 2. Thêm file thay đổi
 git add .
 
-# Commit theo chuẩn Conventional Commit
+# 3. Commit theo chuẩn Conventional Commit tương ứng với module vừa làm
 git commit -m "feat(firmware): implement auto reconnect wifi for esp32"
 # hoặc: git commit -m "feat(mobile): display npk chart on dashboard"
 
-# Đẩy lên GitHub nhánh của mình
+# 4. Đẩy code lên GitHub nhánh của mình
 git push origin dev-tri  # (Đối với Khiêm: git push origin dev-khiem)
 ```
 
-### Bước 3: Khi hoàn thành một mốc/tính năng $\rightarrow$ Báo An Review
+### Bước 3: Khi hoàn thành một mốc công việc $\rightarrow$ Báo An Review
 1. Truy cập vào: [https://github.com/Anneiry09/AI-Smart-Soil-System/pulls](https://github.com/Anneiry09/AI-Smart-Soil-System/pulls)
 2. Bấm nút **New pull request**:
    * Nhánh đích (**base**): chọn **`main`**
-   * Nhánh nguồn (**compare**): chọn **`dev-tri`** *(hoặc `dev-khiem`)*
-3. Bấm **Create pull request**, ghi tóm tắt những nội dung đã làm và báo cho An qua Zalo/Facebook:  
-   *"An ơi, mình hoàn thành phần đọc cảm biến rồi, vào review và merge giúp mình nhé!"*
+   * Nhánh nguồn (**compare**): chọn nhánh của mình (ví dụ `dev-tri` hoặc `dev-khiem`)
+3. Bấm **Create pull request**, điền tóm tắt nội dung công việc đã làm và báo cho An:  
+   *"An ơi, mình làm xong phần việc được giao rồi, vào review và merge giúp mình nhé!"*
 
 ### Bước 4: Sau khi An đã duyệt và gộp vào `main`
-Để kéo những tính năng mới nhất mà cả nhóm đã làm về lại máy của mình:
+Để kéo những thay đổi mới nhất của cả nhóm về lại máy của mình:
 ```bash
-# Đang đứng ở nhánh riêng (dev-tri hoặc dev-khiem), chỉ cần gõ 1 lệnh:
+# Đang đứng ở nhánh riêng của mình, chỉ cần gõ:
 git pull origin main
 ```
-*(Xong bước này, Trí/Khiêm lại tiếp tục code bình thường trên nhánh của mình mà không cần tạo nhánh mới nào cả!)*
+*(Sau lệnh này, bạn tiếp tục thực hiện các nhiệm vụ tiếp theo trên nhánh của mình mà không cần tạo nhánh mới).*
 
 ---
 
 ## 5. Hướng Dẫn Quy Trình Cho AN (Team Lead / Reviewer)
 
-Khi Trí hoặc Khiêm gửi Pull Request về `main`:
-
-1. **Vào kiểm tra:** Truy cập tab **Pull requests** trên GitHub của dự án.
-2. **Review Code (Soát lỗi):** Bấm vào PR đó $\rightarrow$ Chuyển sang tab **Files changed**:
-   * Xem Trí/Khiêm đã sửa những file nào (màu xanh là thêm mới, màu đỏ là xóa).
-   * Đảm bảo không có commit nhầm mật khẩu nhạy cảm, API key bí mật, hoặc sửa nhầm file ngoài thư mục phụ trách.
-   * Đảm bảo thông điệp commit tuân thủ định dạng Conventional Commits.
-3. **Gộp vào `main` (Merge):**
-   * Khi code đạt chuẩn: Bấm nút **Merge pull request** (hoặc chọn mũi tên xổ xuống chọn **Squash and merge** để gộp các commit nhỏ thành 1 commit gọn gàng).
+1. **Giao việc:** An linh hoạt phân công nhiệm vụ cụ thể cho từng thành viên theo từng giai đoạn của dự án.
+2. **Kiểm tra khi có Pull Request:** Truy cập tab **Pull requests** trên GitHub của dự án.
+3. **Review Code (Soát lỗi):** Bấm vào PR đó $\rightarrow$ Chuyển sang tab **Files changed**:
+   * Kiểm tra nội dung mã nguồn thay đổi.
+   * Đảm bảo không có thông tin nhạy cảm (mật khẩu Wi-Fi thật, API key, token bí mật).
+   * Đảm bảo thông điệp commit tuân thủ chuẩn Conventional Commits.
+4. **Gộp vào `main` (Merge):**
+   * Bấm nút **Merge pull request** (khuyên dùng **Squash and merge** để gộp các commit nhỏ thành 1 commit ngắn gọn trên nhánh `main`).
    * Bấm **Confirm merge**.
-4. **Lưu ý cực kỳ quan trọng:** **KHÔNG bấm nút *"Delete branch"*** sau khi merge, vì `dev-tri` và `dev-khiem` là nhánh làm việc cố định lâu dài của các bạn!
+5. **Lưu ý quan trọng:** **KHÔNG bấm nút *"Delete branch"*** sau khi merge, vì các nhánh `dev-*` là không gian làm việc cố định lâu dài của các thành viên.
 
 ---
 
 ## 6. Cài Đặt Khóa Bảo Vệ Nhánh `main` Trên GitHub (Làm 1 lần)
 
-Để tránh trường hợp thành viên lỡ gõ nhầm lệnh đẩy trực tiếp đè lên nhánh chính `main`, An cài đặt bảo vệ:
+Để tránh trường hợp ai đó lỡ gõ nhầm lệnh đẩy trực tiếp đè lên nhánh chính `main`, An cài đặt bảo vệ:
 
-1. Vào repo trên web GitHub: [Settings](https://github.com/Anneiry09/AI-Smart-Soil-System/settings)
+1. Vào repo trên GitHub: [Settings](https://github.com/Anneiry09/AI-Smart-Soil-System/settings)
 2. Chọn mục **Branches** ở cột bên trái.
 3. Bấm **Add branch protection rule**:
    * **Branch name pattern:** gõ chữ `main`
@@ -172,11 +174,8 @@ Khi Trí hoặc Khiêm gửi Pull Request về `main`:
 
 ## 7. Danh Sách Kiểm Tra "Clean Git" Trước Khi Push (Pre-push Checklist)
 
-Trước khi gõ `git push`, mỗi thành viên hãy tự kiểm tra 4 điều sau:
-- [ ] **Không có file rác:** Không commit các thư mục build tạm thời (`.pio/`, `__pycache__/`, `.dart_tool/`, `build/`, `.vscode/`).
-- [ ] **Không có thông tin nhạy cảm:** Không để mật khẩu Wi-Fi thực tế, token, credential trong code đẩy lên remote.
-- [ ] **Code kiểm tra chạy tốt:**
-  - Firmware: `pio run` build thành công không lỗi.
-  - Backend: Chạy thử local hoặc test API thành công.
-  - Mobile: `flutter analyze` không có lỗi đỏ (error).
-- [ ] **Commit message chuẩn:** Tuân thủ đúng định dạng `<type>(<scope>): <mô tả ngắn>`.
+Trước khi gõ `git push`, mỗi thành viên hãy tự kiểm tra:
+- [ ] **Không có file rác:** Không commit các thư mục tạm (`.pio/`, `__pycache__/`, `.dart_tool/`, `build/`, `.vscode/`).
+- [ ] **Không có thông tin nhạy cảm:** Không để mật khẩu Wi-Fi thực tế, token, credential trong code.
+- [ ] **Code kiểm tra chạy tốt:** Build hoặc chạy thử không phát sinh lỗi cú pháp trước khi đẩy.
+- [ ] **Commit message chuẩn:** Tuân thủ đúng cú pháp `<type>(<scope>): <mô tả ngắn>`.
