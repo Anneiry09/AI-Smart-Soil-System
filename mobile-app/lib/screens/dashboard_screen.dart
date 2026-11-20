@@ -101,7 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Text(
-              'Nông Thịnh Đồng Nai • nongthinh.vn',
+              'Hệ Thống Giám Sát Nông Nghiệp Thời Gian Thực',
               style: TextStyle(fontSize: 12, color: Colors.green.shade100),
             ),
           ],
@@ -266,6 +266,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   // Widget Header: Thông tin thiết bị & Thời gian đo
   Widget _buildHeaderCard(SoilData data, DateFormat formatter) {
+    final isOnline = data.isOnline;
+    final isFault = data.isFault;
+
     return Card(
       elevation: 1.5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
@@ -279,7 +282,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.sensors, color: Color(0xFF1B5E20), size: 26),
+                    Icon(Icons.sensors, color: isOnline ? const Color(0xFF1B5E20) : Colors.red, size: 26),
                     const SizedBox(width: 8),
                     Text(
                       data.deviceId,
@@ -290,9 +293,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.green.shade50,
+                    color: isOnline ? Colors.green.shade50 : Colors.red.shade50,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.green.shade400),
+                    border: Border.all(color: isOnline ? Colors.green.shade400 : Colors.red.shade400),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -300,17 +303,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Container(
                         width: 7,
                         height: 7,
-                        decoration: const BoxDecoration(
-                          color: Colors.green,
+                        decoration: BoxDecoration(
+                          color: isOnline ? Colors.green : Colors.red,
                           shape: BoxShape.circle,
                         ),
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        'Bản ghi #${data.id ?? '---'}',
+                        isOnline ? 'TRỰC TUYẾN' : 'NGOẠI TUYẾN',
                         style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.green.shade800,
+                          fontSize: 11,
+                          color: isOnline ? Colors.green.shade800 : Colors.red.shade800,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -319,17 +322,68 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ],
             ),
-            const Divider(height: 20),
+            const Divider(height: 18),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Icon(Icons.access_time, size: 16, color: Colors.grey),
-                const SizedBox(width: 6),
-                Text(
-                  'Cập nhật: ${formatter.format(data.createdAt)}',
-                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                Row(
+                  children: [
+                    const Icon(Icons.access_time, size: 15, color: Colors.grey),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Bản ghi #${data.id ?? '---'} (${formatter.format(data.createdAt)})',
+                      style: const TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ],
                 ),
               ],
             ),
+            if (!isOnline) ...[
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.amber.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.amber.shade300),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.info_outline, size: 18, color: Colors.amber.shade900),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'ESP32 đang tắt hoặc mất sóng. Đang hiển thị bản ghi lưu trữ cuối cùng.',
+                        style: TextStyle(fontSize: 11, color: Colors.amber.shade900, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            if (isFault) ...[
+              const SizedBox(height: 8),
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.red.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.red.shade300),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded, size: 18, color: Colors.red.shade900),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'Cảnh báo: Tín hiệu cảm biến bất thường (-40°C, 20.000 µS/cm). Hãy kiểm tra dây RS485 và nguồn 12V.',
+                        style: TextStyle(fontSize: 11, color: Colors.red.shade900, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

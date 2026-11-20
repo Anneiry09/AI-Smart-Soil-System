@@ -16,8 +16,8 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(
-    title="AI Smart Soil System API",
-    description="Hệ thống tiếp nhận dữ liệu cảm biến đất 7-in-1 thời gian thực từ ESP32",
+    title="Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng",
+    description="API tiếp nhận dữ liệu cảm biến đất 7-in-1 thời gian thực từ ESP32 qua RS485 Modbus RTU",
     version="1.0.0",
     lifespan=lifespan
 )
@@ -39,14 +39,14 @@ def root_dashboard():
     """Trang chủ tổng quan giám sát chỉ số đất thời gian thực."""
     if os.path.exists(TEMPLATE_PATH):
         return FileResponse(TEMPLATE_PATH)
-    return HTMLResponse("<h1>AI Smart Soil System</h1><p><a href='/docs'>Mở Swagger API Docs</a></p>")
+    return HTMLResponse("<h1>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</h1><p><a href='/docs'>Mở Swagger API Docs</a></p>")
 
 @app.get("/api", tags=["General"])
 def api_status():
     """Thông tin trạng thái API server."""
     return {
         "status": "online",
-        "service": "AI Smart Soil System API",
+        "service": "Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng",
         "version": "1.0.0",
         "docs_url": "/docs"
     }
