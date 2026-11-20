@@ -1,6 +1,19 @@
+import os
 from sqlalchemy import create_engine, event
+from sqlalchemy.engine.url import make_url
 from sqlalchemy.orm import declarative_base, sessionmaker
 from app.core.config import settings
+
+# Đảm bảo thư mục cha chứa file SQLite tồn tại (nếu dùng đường dẫn file SQLite)
+if "sqlite" in settings.DATABASE_URL:
+    try:
+        url_obj = make_url(settings.DATABASE_URL)
+        if url_obj.database and url_obj.database != ":memory:":
+            db_dir = os.path.dirname(os.path.abspath(url_obj.database))
+            if db_dir:
+                os.makedirs(db_dir, exist_ok=True)
+    except Exception:
+        pass
 
 # Cấu hình engine kết nối SQLite
 connect_args = {"check_same_thread": False} if "sqlite" in settings.DATABASE_URL else {}
