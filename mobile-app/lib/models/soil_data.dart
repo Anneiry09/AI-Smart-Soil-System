@@ -26,6 +26,13 @@ class SoilData {
   });
 
   factory SoilData.fromJson(Map<String, dynamic> json) {
+    DateTime parsedDate = DateTime.now();
+    if (json['created_at'] != null) {
+      final rawStr = json['created_at'].toString();
+      final cleanStr = rawStr.endsWith('Z') ? rawStr : '${rawStr}Z';
+      parsedDate = DateTime.tryParse(cleanStr)?.toLocal() ?? DateTime.now();
+    }
+
     return SoilData(
       id: json['id'],
       deviceId: json['device_id'] ?? 'ESP32_SOIL_01',
@@ -36,11 +43,15 @@ class SoilData {
       nitrogen: (json['nitrogen'] as num?)?.toDouble() ?? 0.0,
       phosphorus: (json['phosphorus'] as num?)?.toDouble() ?? 0.0,
       potassium: (json['potassium'] as num?)?.toDouble() ?? 0.0,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'])?.toLocal() ?? DateTime.now()
-          : DateTime.now(),
+      createdAt: parsedDate,
     );
   }
+
+  // Phát hiện lỗi cảm biến cực trị
+  bool get isFault => temperature <= -35 || ec >= 19999 || (moisture >= 99 && ph >= 13.9);
+
+  // Kiểm tra thiết bị có đang hoạt động trong vòng 30 giây không
+  bool get isOnline => DateTime.now().difference(createdAt).inSeconds < 30;
 
   // --- ĐÁNH GIÁ NÔNG HỌC & MÀU SẮC TRỰC QUAN ---
 

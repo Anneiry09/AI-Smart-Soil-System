@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Smart Soil System • Bảng Điều Khiển Giám Sát Đất Thời Gian Thực</title>
+  <title>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
   
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
@@ -19,18 +19,29 @@
 
   <style>
     :root {
-      --bg-body: #0b1120;
-      --bg-card: rgba(17, 24, 39, 0.85);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --primary: #10b981;
-      --primary-glow: rgba(16, 185, 129, 0.35);
-      --blue: #3b82f6;
-      --blue-glow: rgba(59, 130, 246, 0.35);
-      --amber: #f59e0b;
-      --red: #ef4444;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --radius: 16px;
+      --bg-base: #070d18;
+      --bg-surface: #0f192b;
+      --bg-card: #132238;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(56, 189, 248, 0.35);
+      
+      --green-500: #10b981;
+      --green-400: #34d399;
+      --blue-500: #0ea5e9;
+      --blue-400: #38bdf8;
+      --amber-500: #f59e0b;
+      --amber-400: #fbbf24;
+      --red-500: #ef4444;
+      --red-400: #f87171;
+      --purple-500: #8b5cf6;
+      --purple-400: #a78bfa;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
     }
 
     * {
@@ -40,31 +51,32 @@
     }
 
     body {
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 85% 60%, rgba(14, 165, 233, 0.07), transparent);
       background-attachment: fixed;
-      padding-bottom: 60px;
+      line-height: 1.5;
+      padding-bottom: 70px;
     }
 
-    /* TOP NAVBAR */
-    .navbar {
-      background: rgba(15, 23, 42, 0.88);
+    /* TOP HEADER & NAVBAR */
+    .header-bar {
+      background: rgba(11, 20, 36, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
       z-index: 100;
       padding: 14px 24px;
     }
 
-    .nav-container {
-      max-width: 1380px;
+    .header-inner {
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -73,56 +85,58 @@
       gap: 16px;
     }
 
-    .brand {
+    .system-brand {
       display: flex;
       align-items: center;
       gap: 14px;
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--text-primary);
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
+    .brand-symbol {
+      width: 46px;
+      height: 46px;
       background: linear-gradient(135deg, #10b981, #059669);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      color: #fff;
-      box-shadow: 0 0 20px var(--primary-glow);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+      flex-shrink: 0;
     }
 
-    .brand-title h1 {
-      font-size: 1.15rem;
+    .brand-meta h1 {
+      font-size: 1.05rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(120deg, #ffffff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.35;
     }
 
-    .brand-title p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+    .brand-meta p {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
       font-weight: 500;
+      margin-top: 2px;
     }
 
-    .nav-actions {
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .btn {
+    /* BUTTONS */
+    .btn-action {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 18px;
-      border-radius: 10px;
-      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease;
@@ -130,838 +144,966 @@
       border: 1px solid transparent;
     }
 
-    .btn-api {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #fff;
-      box-shadow: 0 4px 14px var(--blue-glow);
+    .btn-api-primary {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
-    .btn-api:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-      color: #fff;
-    }
-
-    .btn-csv {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-main);
-      border-color: var(--border-card);
-    }
-    .btn-csv:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+    .btn-api-primary:hover {
+      background: linear-gradient(135deg, #0369a1, #075985);
+      transform: translateY(-1px);
+      color: #ffffff;
     }
 
-    /* STATUS BADGE */
-    .status-badge {
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    /* STATUS PILL */
+    .device-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      letter-spacing: 0.03em;
-      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
     }
 
-    .badge-online {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
+    .pill-online {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--green-400);
     }
 
-    .badge-offline {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #f87171;
+    .pill-offline {
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: var(--red-400);
     }
 
-    .dot {
+    .pulsing-dot {
       width: 8px;
       height: 8px;
       border-radius: 50%;
     }
 
-    .dot-online {
-      background-color: #10b981;
-      animation: pulse-green 1.8s infinite;
+    .dot-green {
+      background: var(--green-500);
+      animation: pulse-glow 1.8s infinite;
     }
 
-    .dot-offline {
-      background-color: #ef4444;
+    .dot-red {
+      background: var(--red-500);
     }
 
-    @keyframes pulse-green {
+    @keyframes pulse-glow {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      70% { transform: scale(1.15); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    /* MAIN CONTAINER */
-    .container {
-      max-width: 1380px;
+    /* MAIN WRAPPER */
+    .dashboard-content {
+      max-width: 1400px;
       margin: 24px auto 0;
       padding: 0 20px;
     }
 
-    /* OFFLINE WARNING BANNER */
-    .offline-alert-box {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(185, 28, 28, 0.2));
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      border-radius: var(--radius);
-      padding: 16px 22px;
-      margin-bottom: 20px;
+    /* OFFLINE NOTICE */
+    .offline-notice {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 24px;
       display: none;
       align-items: center;
       gap: 14px;
     }
-    .offline-alert-box.active {
+    .offline-notice.show {
       display: flex;
     }
-    .offline-alert-box i {
-      font-size: 1.6rem;
-      color: #ef4444;
+    .offline-notice i {
+      font-size: 1.5rem;
+      color: var(--red-400);
       flex-shrink: 0;
     }
-    .offline-alert-text h4 {
-      font-size: 0.95rem;
+    .offline-notice h4 {
+      font-size: 0.92rem;
       font-weight: 700;
-      color: #f87171;
-      margin-bottom: 3px;
+      color: var(--red-400);
+      margin-bottom: 2px;
     }
-    .offline-alert-text p {
-      font-size: 0.85rem;
+    .offline-notice p {
+      font-size: 0.82rem;
       color: #cbd5e1;
-      line-height: 1.4;
     }
 
-    /* HERO BANNER */
-    .hero-banner {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 22px 28px;
+    /* SECTION 1: SƠ ĐỒ LUỒNG HOẠT ĐỘNG IOT (FLOW DIAGRAM) */
+    .diagram-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-title-wrap {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 20px;
       flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      gap: 12px;
     }
 
-    .hero-info h2 {
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .hero-info p {
-      color: var(--text-muted);
-      font-size: 0.88rem;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-
-    .meta-box {
-      text-align: right;
-    }
-    .meta-box span {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .meta-box strong {
-      font-size: 0.95rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-    }
-
-    /* SENSOR CARDS GRID */
-    .grid-7 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .metric-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(10px);
-    }
-    .metric-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .metric-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-    }
-
-    .card-moisture::before { background: #38bdf8; }
-    .card-temp::before { background: #f97316; }
-    .card-ec::before { background: #a855f7; }
-    .card-ph::before { background: #10b981; }
-    .card-n::before { background: #6366f1; }
-    .card-p::before { background: #ec4899; }
-    .card-k::before { background: #eab308; }
-
-    .card-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .card-title {
-      font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-    }
-    .card-icon {
-      font-size: 1.1rem;
-      opacity: 0.85;
-    }
-
-    .card-value {
-      font-size: 1.9rem;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
-    }
-    .card-unit {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-left: 4px;
-    }
-
-    .card-status {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-top: 6px;
-    }
-
-    .status-good { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-    .status-warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-    .status-alert { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-    .status-offline { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
-
-    /* CHARTS SECTION */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-    @media (max-width: 992px) {
-      .charts-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .chart-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-    }
-
-    .chart-box-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .chart-box-head h3 {
-      font-size: 1.05rem;
+    .section-title-wrap h2 {
+      font-size: 1.15rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 10px;
+      color: #ffffff;
     }
 
-    .chart-canvas-container {
+    .section-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* FLOW PIPELINE TILES */
+    .flow-pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
       position: relative;
-      height: 280px;
-      width: 100%;
     }
 
-    /* ADVISORY SECTION */
-    .advisory-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.8));
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 22px 26px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: flex-start;
-      gap: 18px;
-    }
-    .advisory-icon {
-      font-size: 2rem;
-      color: var(--primary);
-      padding-top: 4px;
-    }
-    .advisory-content h4 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-    .advisory-content p {
-      font-size: 0.92rem;
-      color: #e2e8f0;
-      line-height: 1.5;
+    @media (max-width: 1024px) {
+      .flow-pipeline {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    /* RECENT LOGS TABLE */
-    .table-card {
+    @media (max-width: 600px) {
+      .flow-pipeline {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flow-step-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 32px;
-      overflow-x: auto;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      position: relative;
+      transition: all 0.25s ease;
     }
 
-    .table-head-row {
+    .flow-step-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .step-number {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .step-icon {
+      font-size: 1.35rem;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .step-details {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .step-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Colors for pipeline */
+    .color-sensor .step-icon { color: #10b981; }
+    .color-sensor .step-tag { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+    .color-mcu .step-icon { color: #f59e0b; }
+    .color-mcu .step-tag { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .color-cloud .step-icon { color: #0ea5e9; }
+    .color-cloud .step-tag { background: rgba(14, 165, 233, 0.15); color: #38bdf8; }
+
+    .color-dashboard .step-icon { color: #8b5cf6; }
+    .color-dashboard .step-tag { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+
+    /* SECTION 2: 7 CHỈ SỐ ĐO ĐẠC THỜI GIAN THỰC */
+    .metrics-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    .table-head-row h3 {
+
+    .metrics-header h3 {
       font-size: 1.05rem;
       font-weight: 700;
+      color: #ffffff;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    table {
+    .metrics-meta-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .metrics-grid-7 {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 1200px) {
+      .metrics-grid-7 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .metrics-grid-7 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 440px) {
+      .metrics-grid-7 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-tile {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      position: relative;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-tile:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .metric-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .metric-symbol {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .metric-val-wrap {
+      margin-bottom: 8px;
+    }
+
+    .metric-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .metric-unit {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-left: 3px;
+    }
+
+    .metric-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    .badge-optimal { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .badge-danger  { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .badge-neutral { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; }
+
+    /* SECTION 3: 2 BIỂU ĐỒ RÕ RÀNG & DỄ HIỂU */
+    .charts-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 900px) {
+      .charts-duo {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .chart-panel-header {
+      margin-bottom: 14px;
+    }
+
+    .chart-panel-header h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-panel-header p {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .chart-holder {
+      position: relative;
+      height: 270px;
+      width: 100%;
+    }
+
+    .chart-legend-guide {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .guide-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* SECTION 4: BẢNG LỊCH SỬ ĐO ĐẠC */
+    .history-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      overflow-x: auto;
+    }
+
+    .history-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .history-card-header h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    table.data-table {
       width: 100%;
       border-collapse: collapse;
-      text-align: left;
-      font-size: 0.85rem;
+      font-size: 0.83rem;
     }
 
-    th {
-      color: var(--text-muted);
+    table.data-table th {
+      color: var(--text-secondary);
       font-weight: 600;
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-card);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
       text-transform: uppercase;
       font-size: 0.72rem;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
+      text-align: left;
     }
 
-    td {
-      padding: 14px;
+    table.data-table td {
+      padding: 12px 14px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.04);
       font-family: 'JetBrains Mono', monospace;
       color: #cbd5e1;
     }
 
-    tbody tr:hover {
+    table.data-table tbody tr:hover {
       background: rgba(255, 255, 255, 0.02);
     }
 
-    /* API CALLOUT BANNER */
-    .api-callout {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(15, 23, 42, 0.95));
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: var(--radius);
-      padding: 30px;
+    /* SECTION 5: CỔNG API LẬP TRÌNH (DEVELOPER CALLOUT) */
+    .developer-gateway {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(15, 25, 43, 0.95));
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 20px;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
     }
 
-    .api-callout-text h3 {
-      font-size: 1.3rem;
+    .gateway-info h3 {
+      font-size: 1.1rem;
       font-weight: 700;
-      margin-bottom: 8px;
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 10px;
-    }
-    .api-callout-text p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      max-width: 680px;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .api-callout-btns {
+    .gateway-info p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      max-width: 650px;
+    }
+
+    .gateway-actions {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .btn-swagger {
-      background: #2563eb;
-      color: #fff;
-      padding: 12px 24px;
-      font-size: 0.95rem;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 18px var(--blue-glow);
-      transition: all 0.2s ease;
-    }
-    .btn-swagger:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(37, 99, 235, 0.6);
-      color: #fff;
-    }
-
     /* FOOTER */
-    footer {
+    footer.app-footer {
       text-align: center;
-      margin-top: 48px;
-      font-size: 0.8rem;
+      margin-top: 40px;
+      font-size: 0.78rem;
       color: var(--text-muted);
-    }
-
-    @media (max-width: 640px) {
-      .hero-meta {
-        text-align: left;
-      }
-      .meta-box {
-        text-align: left;
-      }
-      .card-value {
-        font-size: 1.55rem;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION BAR -->
-  <header class="navbar">
-    <div class="nav-container">
-      <a href="/" class="brand">
-        <div class="brand-icon">
+  <!-- HEADER & NAVIGATION -->
+  <header class="header-bar">
+    <div class="header-inner">
+      <a href="/" class="system-brand">
+        <div class="brand-symbol">
           <i class="fa-solid fa-seedling"></i>
         </div>
-        <div class="brand-title">
-          <h1>AI SMART SOIL SYSTEM</h1>
-          <p>Hệ Thống Giám Sát & Phân Tích Thổ Nhưỡng Thời Gian Thực</p>
+        <div class="brand-meta">
+          <h1>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</h1>
+          <p>Quan trắc 7 chỉ số thổ nhưỡng nông nghiệp thời gian thực qua Modbus RS485 & Máy chủ Cloud</p>
         </div>
       </a>
 
-      <div class="nav-actions">
-        <!-- DYNAMIC ONLINE / OFFLINE BADGE -->
-        <div class="status-badge badge-offline" id="device-status-badge">
-          <span class="dot dot-offline" id="device-status-dot"></span>
-          <span id="device-status-text">Đang kiểm tra kết nối...</span>
+      <div class="header-actions">
+        <!-- Live device status pill -->
+        <div class="device-pill pill-offline" id="device-pill">
+          <span class="pulsing-dot dot-red" id="pill-dot"></span>
+          <span id="pill-text">Kiểm tra kết nối...</span>
         </div>
 
-        <a href="/docs" class="btn btn-api" target="_blank" title="Mở trang tài liệu Swagger API">
+        <!-- Swagger Docs Button -->
+        <a href="/docs" class="btn-action btn-api-primary" target="_blank" title="Xem tài liệu API Swagger">
           <i class="fa-solid fa-code"></i>
           <span>Tài Liệu API (Docs)</span>
         </a>
 
-        <a href="/api/v1/telemetry/export-csv" class="btn btn-csv" download title="Xuất toàn bộ dataset CSV">
+        <!-- Export CSV Button -->
+        <a href="/api/v1/telemetry/export-csv" class="btn-action btn-secondary" download title="Tải toàn bộ dữ liệu CSV">
           <i class="fa-solid fa-file-csv"></i>
           <span>Xuất CSV</span>
         </a>
 
-        <button onclick="fetchLatestTelemetry(true)" class="btn btn-csv" title="Làm mới tức thì">
-          <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i>
+        <!-- Refresh Button -->
+        <button onclick="manualRefresh()" class="btn-action btn-secondary" title="Làm mới dữ liệu">
+          <i class="fa-solid fa-arrows-rotate" id="refresh-spinner"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN BODY -->
-  <main class="container">
+  <!-- MAIN CONTAINER -->
+  <main class="dashboard-content">
 
-    <!-- OFFLINE WARNING BANNER -->
-    <div class="offline-alert-box" id="offline-banner">
-      <i class="fa-solid fa-triangle-exclamation"></i>
-      <div class="offline-alert-text">
-        <h4>THIẾT BỊ ĐO ĐANG NGOẠI TUYẾN (OFFLINE / CHƯA BẬT NGUỒN)</h4>
-        <p id="offline-desc">ESP32 hiện chưa gửi dữ liệu mới. Các số liệu và biểu đồ bên dưới đang hiển thị <strong>bản ghi lưu trữ cuối cùng trong cơ sở dữ liệu</strong> từ lần đo trước.</p>
+    <!-- OFFLINE WARNING NOTICE -->
+    <div class="offline-notice" id="offline-banner">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div>
+        <h4>THIẾT BỊ ĐO ĐANG TẠM NGỪNG HOẠT ĐỘNG (OFFLINE)</h4>
+        <p id="offline-detail">ESP32 hiện chưa gửi dữ liệu mới. Bảng điều khiển đang hiển thị bản ghi lưu trữ cuối cùng trong cơ sở dữ liệu.</p>
       </div>
     </div>
 
-    <!-- HERO STATUS BANNER -->
-    <section class="hero-banner">
-      <div class="hero-info">
-        <h2>Tổng Quan Chỉ Số Đất Nông Nghiệp</h2>
-        <p>Thu thập tự động từ Cảm biến 7-in-1 qua RS485 Modbus RTU & Lọc Trung Vị</p>
+    <!-- 1. SƠ ĐỒ LUỒNG HOẠT ĐỘNG HỆ THỐNG IOT (FLOW PIPELINE) -->
+    <section class="diagram-panel">
+      <div class="section-title-wrap">
+        <div>
+          <h2><i class="fa-solid fa-diagram-project" style="color: #38bdf8;"></i> Sơ Đồ Luồng Hoạt Động Hệ Thống IoT</h2>
+          <p class="section-desc">Quy trình vận hành khép kín từ cảm biến ngoài thực địa đến máy chủ phân tích và ứng dụng người dùng</p>
+        </div>
+        <div class="metrics-meta-text">
+          <span>Bản ghi mới nhất: </span><strong id="meta-record-id" style="color: #38bdf8;">#---</strong>
+          <span style="margin: 0 6px;">•</span>
+          <span id="meta-time-text">--:--:--</span>
+        </div>
       </div>
-      <div class="hero-meta">
-        <div class="meta-box">
-          <span>Thời gian bản ghi cuối</span>
-          <strong id="meta-last-time">--:--:--</strong>
+
+      <div class="flow-pipeline">
+        <!-- Bước 1 -->
+        <div class="flow-step-card color-sensor">
+          <span class="step-number">Bước 1 • Thực Địa</span>
+          <div class="step-header">
+            <i class="fa-solid fa-earth-americas step-icon"></i>
+            <div class="step-title">Cảm Biến 7-in-1</div>
+          </div>
+          <p class="step-details">Cắm trực tiếp tại vùng rễ cây trồng. Đo liên tục 7 thông số thổ nhưỡng quan trọng với độ bền chuẩn công nghiệp.</p>
+          <span class="step-tag">RS485 Modbus RTU</span>
         </div>
-        <div class="meta-box">
-          <span>Bản ghi ID</span>
-          <strong id="meta-record-id">#---</strong>
+
+        <!-- Bước 2 -->
+        <div class="flow-step-card color-mcu">
+          <span class="step-number">Bước 2 • Vi Xử Lý</span>
+          <div class="step-header">
+            <i class="fa-solid fa-microchip step-icon"></i>
+            <div class="step-title">ESP32 DevKit V1</div>
+          </div>
+          <p class="step-details">Thu thập 5 mẫu liên tiếp qua UART2, chạy bộ lọc trung vị (Median Filter) loại bỏ 100% xung nhiễu và đóng gói JSON.</p>
+          <span class="step-tag">Lọc Nhiễu 5 Mẫu • Wi-Fi</span>
         </div>
-        <div class="meta-box">
-          <span>Khoảng cách thời gian</span>
-          <strong id="meta-time-ago" style="color: #f59e0b;">Đang tính...</strong>
+
+        <!-- Bước 3 -->
+        <div class="flow-step-card color-cloud">
+          <span class="step-number">Bước 3 • Máy Chủ</span>
+          <div class="step-header">
+            <i class="fa-solid fa-server step-icon"></i>
+            <div class="step-title">Cloud VPS Backend</div>
+          </div>
+          <p class="step-details">FastAPI tiếp nhận dữ liệu qua REST API cổng 80, kiểm định Pydantic và lưu trữ đồng thời vào SQLite chế độ WAL.</p>
+          <span class="step-tag">FastAPI • SQLite WAL</span>
+        </div>
+
+        <!-- Bước 4 -->
+        <div class="flow-step-card color-dashboard">
+          <span class="step-number">Bước 4 • Đầu Ra</span>
+          <div class="step-header">
+            <i class="fa-solid fa-chart-pie step-icon"></i>
+            <div class="step-title">Bảng Điều Khiển</div>
+          </div>
+          <p class="step-details">Web Dashboard và App Mobile cập nhật tự động mỗi 3 giây, trực quan hóa biểu đồ và dữ liệu phục vụ chăm sóc cây trồng.</p>
+          <span class="step-tag">Web & Flutter App</span>
         </div>
       </div>
     </section>
 
-    <!-- 7 METRIC CARDS -->
-    <section class="grid-7">
-      <!-- 1. Moisture -->
-      <div class="metric-card card-moisture">
-        <div class="card-head">
-          <span class="card-title">Độ Ẩm Đất</span>
-          <i class="fa-solid fa-droplet card-icon" style="color: #38bdf8;"></i>
-        </div>
-        <div class="card-value"><span id="val-moisture">--</span><span class="card-unit">%</span></div>
-        <div class="card-status status-offline" id="status-moisture">Chờ dữ liệu</div>
+    <!-- 2. 7 THẺ CHỈ SỐ THỔ NHƯỠNG THỜI GIAN THỰC -->
+    <section>
+      <div class="metrics-header">
+        <h3><i class="fa-solid fa-gauge-high" style="color: #10b981;"></i> Chỉ Số Thổ Nhưỡng Thời Gian Thực</h3>
+        <span class="metrics-meta-text" id="meta-relative-time">Đang kiểm tra...</span>
       </div>
 
-      <!-- 2. Temperature -->
-      <div class="metric-card card-temp">
-        <div class="card-head">
-          <span class="card-title">Nhiệt Độ Đất</span>
-          <i class="fa-solid fa-temperature-half card-icon" style="color: #f97316;"></i>
+      <div class="metrics-grid-7">
+        <!-- 1. Độ ẩm -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Ẩm Đất</span>
+            <i class="fa-solid fa-droplet metric-symbol" style="color: #38bdf8;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-moisture">--</span>
+            <span class="metric-unit">%</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-moisture">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-temperature">--</span><span class="card-unit">°C</span></div>
-        <div class="card-status status-offline" id="status-temp">Chờ dữ liệu</div>
-      </div>
 
-      <!-- 3. pH -->
-      <div class="metric-card card-ph">
-        <div class="card-head">
-          <span class="card-title">Độ Chua pH</span>
-          <i class="fa-solid fa-flask-vial card-icon" style="color: #10b981;"></i>
+        <!-- 2. Nhiệt độ -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Nhiệt Độ Đất</span>
+            <i class="fa-solid fa-temperature-half metric-symbol" style="color: #f97316;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-temperature">--</span>
+            <span class="metric-unit">°C</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-temp">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-ph">--</span><span class="card-unit">pH</span></div>
-        <div class="card-status status-offline" id="status-ph">Chờ dữ liệu</div>
-      </div>
 
-      <!-- 4. EC -->
-      <div class="metric-card card-ec">
-        <div class="card-head">
-          <span class="card-title">Độ Dẫn Điện EC</span>
-          <i class="fa-solid fa-bolt card-icon" style="color: #a855f7;"></i>
+        <!-- 3. pH -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Chua pH</span>
+            <i class="fa-solid fa-flask-vial metric-symbol" style="color: #10b981;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-ph">--</span>
+            <span class="metric-unit">pH</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-ph">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-ec">--</span><span class="card-unit">µS/cm</span></div>
-        <div class="card-status status-offline" id="status-ec">Chờ dữ liệu</div>
-      </div>
 
-      <!-- 5. Nitrogen -->
-      <div class="metric-card card-n">
-        <div class="card-head">
-          <span class="card-title">Đạm (N)</span>
-          <i class="fa-solid fa-leaf card-icon" style="color: #6366f1;"></i>
+        <!-- 4. EC -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Dẫn Điện EC</span>
+            <i class="fa-solid fa-bolt metric-symbol" style="color: #a855f7;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-ec">--</span>
+            <span class="metric-unit">µS/cm</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-ec">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-n">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-offline" id="status-n">Chờ dữ liệu</div>
-      </div>
 
-      <!-- 6. Phosphorus -->
-      <div class="metric-card card-p">
-        <div class="card-head">
-          <span class="card-title">Lân (P)</span>
-          <i class="fa-solid fa-dna card-icon" style="color: #ec4899;"></i>
+        <!-- 5. Nitơ (N) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Đạm (N)</span>
+            <i class="fa-solid fa-leaf metric-symbol" style="color: #6366f1;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-n">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-n">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-p">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-offline" id="status-p">Chờ dữ liệu</div>
-      </div>
 
-      <!-- 7. Potassium -->
-      <div class="metric-card card-k">
-        <div class="card-head">
-          <span class="card-title">Kali (K)</span>
-          <i class="fa-solid fa-gem card-icon" style="color: #eab308;"></i>
+        <!-- 6. Photpho (P) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Lân (P)</span>
+            <i class="fa-solid fa-dna metric-symbol" style="color: #ec4899;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-p">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-p">Chờ đo</div>
         </div>
-        <div class="card-value"><span id="val-k">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-offline" id="status-k">Chờ dữ liệu</div>
+
+        <!-- 7. Kali (K) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Kali (K)</span>
+            <i class="fa-solid fa-gem metric-symbol" style="color: #eab308;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-k">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-k">Chờ đo</div>
+        </div>
       </div>
     </section>
 
-    <!-- ADVISORY BOX -->
-    <section class="advisory-card" id="advisory-container">
-      <div class="advisory-icon">
-        <i class="fa-solid fa-circle-info" id="adv-icon"></i>
-      </div>
-      <div class="advisory-content">
-        <h4 id="adv-title">Đánh Giá Trạng Thái Thổ Nhưỡng</h4>
-        <p id="adv-text">Đang đối chiếu số liệu cảm biến với tiêu chuẩn nông học...</p>
-      </div>
-    </section>
-
-    <!-- REAL-TIME CHARTS -->
-    <section class="charts-row">
-      <div class="chart-box">
-        <div class="chart-box-head">
-          <h3><i class="fa-solid fa-chart-line" style="color: #38bdf8;"></i> Diễn Biến Độ Ẩm & Nhiệt Độ</h3>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">Lịch sử đo gần nhất</span>
+    <!-- 3. 2 BIỂU ĐỒ MÔ TẢ DỄ HIỂU (CLEAR & INTUITIVE CHARTS) -->
+    <section class="charts-duo">
+      <!-- BIỂU ĐỒ 1: MÔI TRƯỜNG ĐẤT -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <h3><i class="fa-solid fa-water" style="color: #38bdf8;"></i> Biểu Đồ 1: Môi Trường Đất (Độ Ẩm & Nhiệt Độ)</h3>
+          <p>Theo dõi diễn biến lượng nước trong đất (%) và nhiệt độ vùng rễ (°C) qua 30 lần đo gần nhất</p>
         </div>
-        <div class="chart-canvas-container">
+
+        <div class="chart-holder">
           <canvas id="chart-env"></canvas>
         </div>
+
+        <div class="chart-legend-guide">
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #38bdf8;"></span>
+            <span>Độ ẩm đất (%): Ngưỡng thích hợp 55% - 75%</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #f97316;"></span>
+            <span>Nhiệt độ đất (°C): Ngưỡng tối ưu 22°C - 32°C</span>
+          </div>
+        </div>
       </div>
 
-      <div class="chart-box">
-        <div class="chart-box-head">
-          <h3><i class="fa-solid fa-chart-area" style="color: #a855f7;"></i> Diễn Biến pH & Độ Dẫn Điện EC</h3>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">Động thái hóa sinh</span>
+      <!-- BIỂU ĐỒ 2: ĐỘ CHUA & DINH DƯỠNG KHOÁNG -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <h3><i class="fa-solid fa-vial-circle-check" style="color: #10b981;"></i> Biểu Đồ 2: Hóa Sinh Đất (Độ Chua pH & Muối Khoáng EC)</h3>
+          <p>Theo dõi độ chua/kiềm (pH) và tổng lượng dinh dưỡng muối khoáng hòa tan trong đất (EC)</p>
         </div>
-        <div class="chart-canvas-container">
+
+        <div class="chart-holder">
           <canvas id="chart-chem"></canvas>
+        </div>
+
+        <div class="chart-legend-guide">
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #10b981;"></span>
+            <span>Độ pH: Đất lý tưởng 6.0 - 7.0 (Dưới 5.5 là đất chua)</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #a855f7;"></span>
+            <span>Độ dẫn điện EC (µS/cm): Dinh dưỡng tốt 500 - 1500</span>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- RECENT TELEMETRY TABLE -->
-    <section class="table-card">
-      <div class="table-head-row">
-        <h3><i class="fa-solid fa-clock-rotate-left"></i> Nhật Ký Đo Đạc Lưu Trữ Gần Nhất</h3>
-        <a href="/api/v1/telemetry/history?limit=50" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.8rem; font-weight: 600;">Xem JSON thô &rarr;</a>
+    <!-- 4. BẢNG NHẬT KÝ ĐO ĐẠC GẦN ĐÂY -->
+    <section class="history-card">
+      <div class="history-card-header">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Bảng Nhật Ký Dữ Liệu Đo Đạc Gần Nhất</h3>
+        <a href="/api/v1/telemetry/history?limit=50" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.78rem; font-weight: 600;">Xem API JSON &rarr;</a>
       </div>
-      <table>
+
+      <table class="data-table">
         <thead>
           <tr>
-            <th>Bản Ghi</th>
-            <th>Thời Gian (VN)</th>
+            <th>Mã Số</th>
+            <th>Thời Gian (Giờ VN)</th>
             <th>Độ Ẩm (%)</th>
             <th>Nhiệt Độ (°C)</th>
-            <th>pH</th>
+            <th>Độ pH</th>
             <th>EC (µS/cm)</th>
-            <th>N - P - K (mg/kg)</th>
+            <th>Đạm - Lân - Kali (mg/kg)</th>
           </tr>
         </thead>
-        <tbody id="table-logs-body">
+        <tbody id="logs-tbody">
           <tr>
-            <td colspan="7" style="text-align:center; padding: 20px;">Đang tải dữ liệu từ máy chủ...</td>
+            <td colspan="7" style="text-align: center; padding: 24px;">Đang tải dữ liệu từ máy chủ...</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <!-- API PROMINENT CALLOUT BANNER -->
-    <section class="api-callout">
-      <div class="api-callout-text">
-        <h3><i class="fa-solid fa-plug-circle-bolt" style="color: #60a5fa;"></i> Cổng Giao Tiếp Lập Trình (Developer API Gateway)</h3>
-        <p>Hệ thống cung cấp đầy đủ chuẩn RESTful API phục vụ kết nối IoT, ứng dụng di động Flutter và các mô hình AI Machine Learning huấn luyện độ phì đất.</p>
+    <!-- 5. KHỐI CỔNG GIAO TIẾP LẬP TRÌNH API -->
+    <section class="developer-gateway">
+      <div class="gateway-info">
+        <h3><i class="fa-solid fa-plug" style="color: #38bdf8;"></i> Cổng Giao Tiếp Lập Trình (Developer API Gateway)</h3>
+        <p>Hệ thống cung cấp chuẩn RESTful API phục vụ kết nối thiết bị IoT ESP32, ứng dụng di động Flutter và các mô hình AI Machine Learning phân tích độ phì nhiêu của đất.</p>
       </div>
-      <div class="api-callout-btns">
-        <a href="/docs" target="_blank" class="btn-swagger">
+
+      <div class="gateway-actions">
+        <a href="/docs" target="_blank" class="btn-action btn-api-primary" style="padding: 10px 20px;">
           <i class="fa-solid fa-book-open"></i>
           <span>Mở Swagger UI Docs (/docs)</span>
         </a>
-        <a href="/redoc" target="_blank" class="btn btn-csv" style="padding: 12px 20px;">
+        <a href="/redoc" target="_blank" class="btn-action btn-secondary" style="padding: 10px 18px;">
           <i class="fa-solid fa-file-lines"></i>
           <span>Mở ReDoc</span>
         </a>
-        <a href="/api/v1/telemetry/latest" target="_blank" class="btn btn-csv" style="padding: 12px 20px;">
+        <a href="/api/v1/telemetry/latest" target="_blank" class="btn-action btn-secondary" style="padding: 10px 18px;">
           <i class="fa-solid fa-bolt"></i>
-          <span>Endpoint /latest</span>
+          <span>API Số Đo Mới Nhất</span>
         </a>
       </div>
     </section>
 
   </main>
 
-  <footer>
-    <p>AI Smart Soil System • Dự Án Nông Nghiệp Thông Minh Giám Sát Sức Khỏe Thổ Nhưỡng</p>
-    <p style="margin-top: 4px; opacity: 0.7;">Chạy trên máy chủ đám mây Ubuntu • FastAPI • SQLite WAL</p>
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <p>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</p>
+    <p style="margin-top: 4px; opacity: 0.65;">Vận hành trên nền tảng Cloud Ubuntu VPS • FastAPI • SQLite WAL Mode • Cảm biến Modbus RTU</p>
   </footer>
 
+  <!-- SCRIPT LOGIC -->
   <script>
     let envChart = null;
     let chemChart = null;
 
-    // Helper format ISO string with UTC timezone to Vietnam Local Time
+    // Parse UTC Date from SQLite ISO string
     function parseDateUTC(isoStr) {
       if (!isoStr) return null;
-      // SQLite stores UTC without trailing Z, append Z if missing
       const cleanIso = isoStr.endsWith('Z') ? isoStr : isoStr + 'Z';
       return new Date(cleanIso);
     }
 
+    // Format local Vietnam time
     function formatTime(d) {
-      if (!d) return '--';
+      if (!d) return '--:--:--';
       return d.toLocaleTimeString('vi-VN', { hour12: false }) + ' ' + d.toLocaleDateString('vi-VN');
     }
 
+    // Compute relative time string
     function getRelativeTimeString(secondsAgo) {
-      if (secondsAgo < 15) return 'Vừa mới gửi';
+      if (secondsAgo < 15) return 'Vừa nhận tức thời';
       if (secondsAgo < 60) return `${Math.round(secondsAgo)} giây trước`;
       if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)} phút trước`;
       if (secondsAgo < 86400) return `${Math.floor(secondsAgo / 3600)} giờ trước`;
       return `${Math.floor(secondsAgo / 86400)} ngày trước`;
     }
 
-    // Helper evaluations
-    function evaluateMetrics(m, t, ph, ec, isOnline) {
-      const advTitle = document.getElementById('adv-title');
-      const advText = document.getElementById('adv-text');
-      const advIcon = document.getElementById('adv-icon');
+    // Update status labels
+    function updateMetricStatus(m, t, ph, ec) {
+      // Check abnormal/unplugged sensor fault
+      const isFault = (t <= -35 || ec >= 19999 || (m === 100 && ph === 14));
 
-      // Check abnormal/unplugged sensor condition (-40°C, EC=20000, pH=14)
-      const isSensorFault = (t <= -35 || ec >= 19999 || (m === 100 && ph === 14));
-
-      if (isSensorFault) {
-        document.getElementById('status-moisture').className = 'card-status status-alert';
-        document.getElementById('status-moisture').innerText = 'Dữ Liệu Lỗi';
-        document.getElementById('status-temp').className = 'card-status status-alert';
-        document.getElementById('status-temp').innerText = 'Cực Trị (-40°C)';
-        document.getElementById('status-ph').className = 'card-status status-alert';
-        document.getElementById('status-ph').innerText = 'Cực Trị (14.0)';
-        document.getElementById('status-ec').className = 'card-status status-alert';
-        document.getElementById('status-ec').innerText = 'Chạm Ngưỡng Max';
-        document.getElementById('status-n').className = 'card-status status-offline';
-        document.getElementById('status-n').innerText = 'Không Đo';
-        document.getElementById('status-p').className = 'card-status status-offline';
-        document.getElementById('status-p').innerText = 'Không Đo';
-        document.getElementById('status-k').className = 'card-status status-offline';
-        document.getElementById('status-k').innerText = 'Không Đo';
-
-        advTitle.innerText = "Cảnh Báo Lỗi Tín Hiệu Cảm Biến (Sensor Fault)";
-        advTitle.style.color = "#ef4444";
-        advIcon.className = "fa-solid fa-triangle-exclamation";
-        advIcon.style.color = "#ef4444";
-        advText.innerHTML = `
-          Số đo bản ghi này là <strong>giá trị cực trị báo lỗi</strong> của cảm biến (Nhiệt độ -40°C, EC 20.000, pH 14).<br/>
-          • Nguyên nhân: Cảm biến chưa được cấp nguồn 12V đủ, hoặc dây RS485 A/B bị lỏng/hở mạch lúc đo.<br/>
-          • Hãy kiểm tra lại giắc cắm nguồn 12V và 2 dây A-B nối giữa cảm biến và module HW-0519.
-        `;
+      if (isFault) {
+        setMetricBadge('badge-moisture', 'Lỗi tín hiệu', 'badge-danger');
+        setMetricBadge('badge-temp', 'Cực trị (-40°C)', 'badge-danger');
+        setMetricBadge('badge-ph', 'Cực trị (14.0)', 'badge-danger');
+        setMetricBadge('badge-ec', 'Chạm trần Max', 'badge-danger');
+        setMetricBadge('badge-n', 'Chưa cắm tải', 'badge-neutral');
+        setMetricBadge('badge-p', 'Chưa cắm tải', 'badge-neutral');
+        setMetricBadge('badge-k', 'Chưa cắm tải', 'badge-neutral');
         return;
       }
 
-      // Normal Evaluation
       // Moisture
-      const mEl = document.getElementById('status-moisture');
-      if (m < 40) { mEl.className = 'card-status status-alert'; mEl.innerText = 'Thiếu Nước'; }
-      else if (m <= 75) { mEl.className = 'card-status status-good'; mEl.innerText = 'Tối Ưu'; }
-      else { mEl.className = 'card-status status-warn'; mEl.innerText = 'Độ Ẩm Cao'; }
+      if (m < 40) setMetricBadge('badge-moisture', 'Đất khô', 'badge-danger');
+      else if (m <= 75) setMetricBadge('badge-moisture', 'Lý tưởng', 'badge-optimal');
+      else setMetricBadge('badge-moisture', 'Ẩm cao', 'badge-warning');
 
       // Temp
-      const tEl = document.getElementById('status-temp');
-      if (t < 18) { tEl.className = 'card-status status-warn'; tEl.innerText = 'Lạnh'; }
-      else if (t <= 32) { tEl.className = 'card-status status-good'; tEl.innerText = 'Phù Hợp'; }
-      else { tEl.className = 'card-status status-alert'; tEl.innerText = 'Quá Nóng'; }
+      if (t < 18) setMetricBadge('badge-temp', 'Hơi lạnh', 'badge-warning');
+      else if (t <= 32) setMetricBadge('badge-temp', 'Tối ưu', 'badge-optimal');
+      else setMetricBadge('badge-temp', 'Nóng rễ', 'badge-danger');
 
       // pH
-      const phEl = document.getElementById('status-ph');
-      if (ph < 5.5) { phEl.className = 'card-status status-alert'; phEl.innerText = 'Đất Chua'; }
-      else if (ph <= 7.0) { phEl.className = 'card-status status-good'; phEl.innerText = 'Lý Tưởng'; }
-      else { phEl.className = 'card-status status-warn'; phEl.innerText = 'Đất Kiềm'; }
+      if (ph < 5.5) setMetricBadge('badge-ph', 'Đất chua', 'badge-danger');
+      else if (ph <= 7.0) setMetricBadge('badge-ph', 'Lý tưởng', 'badge-optimal');
+      else setMetricBadge('badge-ph', 'Đất kiềm', 'badge-warning');
 
       // EC
-      const ecEl = document.getElementById('status-ec');
-      if (ec < 400 && ec > 0) { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Nghèo Muối'; }
-      else if (ec <= 1600 && ec >= 400) { ecEl.className = 'card-status status-good'; ecEl.innerText = 'Dinh Dưỡng Tốt'; }
-      else if (ec === 0) { ecEl.className = 'card-status status-offline'; ecEl.innerText = 'Ngoài Không Khí'; }
-      else { ecEl.className = 'card-status status-alert'; ecEl.innerText = 'Quá Mặn'; }
+      if (ec === 0 && m === 0) setMetricBadge('badge-ec', 'Ngoài không khí', 'badge-neutral');
+      else if (ec < 400) setMetricBadge('badge-ec', 'Nghèo khoáng', 'badge-warning');
+      else if (ec <= 1600) setMetricBadge('badge-ec', 'Độ phì tốt', 'badge-optimal');
+      else setMetricBadge('badge-ec', 'Quá mặn', 'badge-danger');
 
-      // NPK status
-      document.getElementById('status-n').className = 'card-status status-good';
-      document.getElementById('status-n').innerText = 'Hòa Tan';
-      document.getElementById('status-p').className = 'card-status status-good';
-      document.getElementById('status-p').innerText = 'Hòa Tan';
-      document.getElementById('status-k').className = 'card-status status-good';
-      document.getElementById('status-k').innerText = 'Hòa Tan';
+      // NPK
+      setMetricBadge('badge-n', 'Khả dụng', 'badge-optimal');
+      setMetricBadge('badge-p', 'Khả dụng', 'badge-optimal');
+      setMetricBadge('badge-k', 'Khả dụng', 'badge-optimal');
+    }
 
-      let alerts = [];
-      if (ph < 5.5) alerts.push(`Đất có tính axit (pH = ${ph}). Cần bón thêm vôi nông nghiệp (CaCO3) để nâng pH lên mức 6.0 - 6.5.`);
-      if (m < 45) alerts.push(`Độ ẩm thấp (${m}%). Đất đang thiếu nước, khuyến nghị kích hoạt tưới nhỏ giọt.`);
-      if (m > 85) alerts.push(`Độ ẩm rất cao (${m}%). Nguy cơ úng rễ, cần kiểm tra mương thoát nước.`);
-      if (ec < 400 && ec > 0) alerts.push(`Độ dẫn điện EC thấp (${ec} µS/cm). Đất nghèo dinh dưỡng, cần bổ sung phân bón N-P-K cân đối.`);
-      if (ec === 0 && m === 0) alerts.push(`Cảm biến đang đặt ngoài không khí hoặc cắm trong đất khô cằn (EC = 0, NPK = 0).`);
-
-      if (alerts.length > 0) {
-        advTitle.innerText = "Cảnh Báo & Khuyến Nghị Nông Học";
-        advTitle.style.color = "#f59e0b";
-        advIcon.className = "fa-solid fa-triangle-exclamation";
-        advIcon.style.color = "#f59e0b";
-        advText.innerHTML = alerts.map(a => `• ${a}`).join('<br>');
-      } else {
-        advTitle.innerText = "Tình Trạng Sức Khỏe Đất Tốt";
-        advTitle.style.color = "#34d399";
-        advIcon.className = "fa-solid fa-circle-check";
-        advIcon.style.color = "#34d399";
-        advText.innerText = "Các chỉ số Độ ẩm, Nhiệt độ, Độ chua (pH) và Muối khoáng (EC) đều nằm trong dải sinh trưởng tối ưu cho cây trồng.";
+    function setMetricBadge(elId, text, className) {
+      const el = document.getElementById(elId);
+      if (el) {
+        el.className = 'metric-badge ' + className;
+        el.innerText = text;
       }
     }
 
-    // Fetch Latest Telemetry
-    async function fetchLatestTelemetry(isManual = false) {
-      const refreshIcon = document.getElementById('refresh-icon');
-      if (refreshIcon) refreshIcon.classList.add('fa-spin');
-
+    // Fetch latest telemetry record
+    async function fetchLatest() {
       try {
         const res = await fetch('/api/v1/telemetry/latest?device_id=ESP32_SOIL_01');
-        if (!res.ok) throw new Error('Không có bản ghi');
+        if (!res.ok) throw new Error('Chưa có bản ghi');
         const data = await res.json();
 
-        // Check Online vs Offline Status (Heartbeat timeout 30s)
         const recordDate = parseDateUTC(data.created_at);
         const now = new Date();
         const diffSeconds = (now.getTime() - recordDate.getTime()) / 1000;
         const isOnline = diffSeconds >= 0 && diffSeconds < 30;
 
-        const badge = document.getElementById('device-status-badge');
-        const dot = document.getElementById('device-status-dot');
-        const statusText = document.getElementById('device-status-text');
-        const offlineBanner = document.getElementById('offline-banner');
-        const offlineDesc = document.getElementById('offline-desc');
+        // Update Device Pill
+        const pill = document.getElementById('device-pill');
+        const dot = document.getElementById('pill-dot');
+        const text = document.getElementById('pill-text');
+        const banner = document.getElementById('offline-banner');
+        const detail = document.getElementById('offline-detail');
 
         if (isOnline) {
-          badge.className = 'status-badge badge-online';
-          dot.className = 'dot dot-online';
-          statusText.innerText = 'TRỰC TUYẾN: ESP32_SOIL_01';
-          offlineBanner.classList.remove('active');
+          pill.className = 'device-pill pill-online';
+          dot.className = 'pulsing-dot dot-green';
+          text.innerText = 'TRỰC TUYẾN: ESP32';
+          banner.classList.remove('show');
         } else {
-          badge.className = 'status-badge badge-offline';
-          dot.className = 'dot dot-offline';
-          statusText.innerText = 'NGOẠI TUYẾN (ESP32 Chưa Bật)';
-          offlineBanner.classList.add('active');
-          offlineDesc.innerHTML = `
-            ESP32 hiện chưa gửi dữ liệu mới (lần cuối: <strong>${getRelativeTimeString(diffSeconds)}</strong>).<br/>
-            Các thông số hiển thị bên dưới là <strong>bản ghi lưu trữ cuối cùng (#${data.id})</strong> từ lúc <strong>${formatTime(recordDate)}</strong>.
-          `;
+          pill.className = 'device-pill pill-offline';
+          dot.className = 'pulsing-dot dot-red';
+          text.innerText = 'NGOẠI TUYẾN (ESP32 Tắt)';
+          banner.classList.add('show');
+          detail.innerHTML = `ESP32 hiện chưa gửi dữ liệu mới (lần gửi cuối: <strong>${getRelativeTimeString(diffSeconds)}</strong>). Bảng điều khiển đang hiển thị bản ghi lưu trữ <strong>#${data.id}</strong> từ lúc <strong>${formatTime(recordDate)}</strong>.`;
         }
 
-        // Update values
+        // Meta header
         document.getElementById('meta-record-id').innerText = '#' + data.id;
-        document.getElementById('meta-last-time').innerText = formatTime(recordDate);
-        document.getElementById('meta-time-ago').innerText = isOnline ? '🟢 Vừa nhận xong' : `🔴 ${getRelativeTimeString(diffSeconds)}`;
+        document.getElementById('meta-time-text').innerText = formatTime(recordDate);
+        document.getElementById('meta-relative-time').innerText = isOnline ? '🟢 Đang cập nhật trực tuyến' : `🔴 Lần cuối: ${getRelativeTimeString(diffSeconds)}`;
 
+        // Card values
         document.getElementById('val-moisture').innerText = data.moisture.toFixed(1);
         document.getElementById('val-temperature').innerText = data.temperature.toFixed(1);
         document.getElementById('val-ph').innerText = data.ph.toFixed(1);
@@ -970,15 +1112,13 @@
         document.getElementById('val-p').innerText = Math.round(data.phosphorus);
         document.getElementById('val-k').innerText = Math.round(data.potassium);
 
-        evaluateMetrics(data.moisture, data.temperature, data.ph, data.ec, isOnline);
+        updateMetricStatus(data.moisture, data.temperature, data.ph, data.ec);
       } catch (err) {
-        console.warn('Telemetry fetch error:', err);
-      } finally {
-        if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+        console.warn('Latest fetch warning:', err);
       }
     }
 
-    // Fetch History & Draw Charts
+    // Fetch history and render both charts + table
     async function fetchHistoryAndRender() {
       try {
         const res = await fetch('/api/v1/telemetry/history?limit=30&device_id=ESP32_SOIL_01');
@@ -986,24 +1126,24 @@
         const list = await res.json();
         if (!list || list.length === 0) return;
 
-        // Render Table
-        const tbody = document.getElementById('table-logs-body');
+        // Render Table (10 rows)
+        const tbody = document.getElementById('logs-tbody');
         tbody.innerHTML = list.slice(0, 10).map(row => {
           const rowDate = parseDateUTC(row.created_at);
           return `
             <tr>
-              <td style="color:#38bdf8; font-weight:700;">#${row.id}</td>
+              <td style="color: #38bdf8; font-weight: 700;">#${row.id}</td>
               <td>${formatTime(rowDate)}</td>
-              <td><strong style="color:#38bdf8;">${row.moisture.toFixed(1)}%</strong></td>
+              <td><strong style="color: #38bdf8;">${row.moisture.toFixed(1)}%</strong></td>
               <td>${row.temperature.toFixed(1)}°C</td>
-              <td><span style="color:#10b981; font-weight:600;">${row.ph.toFixed(1)}</span></td>
+              <td><span style="color: #10b981; font-weight: 600;">${row.ph.toFixed(1)}</span></td>
               <td>${Math.round(row.ec)}</td>
               <td>${Math.round(row.nitrogen)} - ${Math.round(row.phosphorus)} - ${Math.round(row.potassium)}</td>
             </tr>
           `;
         }).join('');
 
-        // Prepare chart data (chronological order)
+        // Prepare chronological chart data
         const chron = [...list].reverse();
         const labels = chron.map(c => {
           const d = parseDateUTC(c.created_at);
@@ -1015,7 +1155,7 @@
         const phs = chron.map(c => c.ph);
         const ecs = chron.map(c => c.ec);
 
-        // Chart 1: Environment
+        // Chart 1: Environment (Moisture & Temperature)
         if (!envChart) {
           const ctx1 = document.getElementById('chart-env').getContext('2d');
           envChart = new Chart(ctx1, {
@@ -1024,20 +1164,24 @@
               labels: labels,
               datasets: [
                 {
-                  label: 'Độ ẩm (%)',
+                  label: 'Độ ẩm đất (%)',
                   data: moistures,
                   borderColor: '#38bdf8',
-                  backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                  backgroundColor: 'rgba(56, 189, 248, 0.08)',
                   fill: true,
                   tension: 0.35,
+                  borderWidth: 2.5,
+                  pointRadius: 2,
                   yAxisID: 'y'
                 },
                 {
-                  label: 'Nhiệt độ (°C)',
+                  label: 'Nhiệt độ đất (°C)',
                   data: temps,
                   borderColor: '#f97316',
                   backgroundColor: 'transparent',
                   tension: 0.35,
+                  borderWidth: 2,
+                  pointRadius: 2,
                   yAxisID: 'y1'
                 }
               ]
@@ -1045,11 +1189,34 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: { labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 12 } } },
+                tooltip: { backgroundColor: 'rgba(15, 25, 43, 0.95)', titleColor: '#fff', padding: 10 }
+              },
               scales: {
-                x: { ticks: { color: '#64748b', maxTicksLimit: 6 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { type: 'linear', position: 'left', ticks: { color: '#38bdf8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y1: { type: 'linear', position: 'right', ticks: { color: '#f97316' }, grid: { drawOnChartArea: false } }
+                x: {
+                  ticks: { color: '#64748b', maxTicksLimit: 6, font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' }
+                },
+                y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: { display: true, text: 'Độ ẩm (%)', color: '#38bdf8', font: { size: 11 } },
+                  ticks: { color: '#38bdf8', font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                  min: 0,
+                  max: 100
+                },
+                y1: {
+                  type: 'linear',
+                  position: 'right',
+                  title: { display: true, text: 'Nhiệt độ (°C)', color: '#f97316', font: { size: 11 } },
+                  ticks: { color: '#f97316', font: { size: 11 } },
+                  grid: { drawOnChartArea: false },
+                  min: 0,
+                  max: 50
+                }
               }
             }
           });
@@ -1060,7 +1227,7 @@
           envChart.update('none');
         }
 
-        // Chart 2: Chemical (pH & EC)
+        // Chart 2: Soil Chemistry (pH & EC)
         if (!chemChart) {
           const ctx2 = document.getElementById('chart-chem').getContext('2d');
           chemChart = new Chart(ctx2, {
@@ -1069,20 +1236,24 @@
               labels: labels,
               datasets: [
                 {
-                  label: 'pH',
+                  label: 'Độ chua (pH)',
                   data: phs,
                   borderColor: '#10b981',
                   backgroundColor: 'transparent',
                   tension: 0.35,
+                  borderWidth: 2.5,
+                  pointRadius: 2,
                   yAxisID: 'y'
                 },
                 {
-                  label: 'EC (µS/cm)',
+                  label: 'Độ dẫn điện EC (µS/cm)',
                   data: ecs,
                   borderColor: '#a855f7',
-                  backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                  backgroundColor: 'rgba(168, 85, 247, 0.08)',
                   fill: true,
                   tension: 0.35,
+                  borderWidth: 2,
+                  pointRadius: 2,
                   yAxisID: 'y1'
                 }
               ]
@@ -1090,11 +1261,33 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: { labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 12 } } },
+                tooltip: { backgroundColor: 'rgba(15, 25, 43, 0.95)', titleColor: '#fff', padding: 10 }
+              },
               scales: {
-                x: { ticks: { color: '#64748b', maxTicksLimit: 6 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { type: 'linear', position: 'left', ticks: { color: '#10b981' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y1: { type: 'linear', position: 'right', ticks: { color: '#a855f7' }, grid: { drawOnChartArea: false } }
+                x: {
+                  ticks: { color: '#64748b', maxTicksLimit: 6, font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' }
+                },
+                y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: { display: true, text: 'Độ pH (0 - 14)', color: '#10b981', font: { size: 11 } },
+                  ticks: { color: '#10b981', font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                  min: 0,
+                  max: 14
+                },
+                y1: {
+                  type: 'linear',
+                  position: 'right',
+                  title: { display: true, text: 'EC (µS/cm)', color: '#a855f7', font: { size: 11 } },
+                  ticks: { color: '#a855f7', font: { size: 11 } },
+                  grid: { drawOnChartArea: false },
+                  suggestedMin: 0
+                }
               }
             }
           });
@@ -1106,16 +1299,24 @@
         }
 
       } catch (err) {
-        console.warn('History fetch error:', err);
+        console.warn('History fetch warning:', err);
       }
     }
 
-    // Auto Refresh Interval every 3s
-    fetchLatestTelemetry();
-    fetchHistoryAndRender();
+    // Manual Refresh Trigger
+    function manualRefresh() {
+      const spinner = document.getElementById('refresh-spinner');
+      if (spinner) spinner.classList.add('fa-spin');
+      Promise.all([fetchLatest(), fetchHistoryAndRender()]).finally(() => {
+        if (spinner) setTimeout(() => spinner.classList.remove('fa-spin'), 400);
+      });
+    }
 
+    // Auto-update every 3 seconds
+    fetchLatest();
+    fetchHistoryAndRender();
     setInterval(() => {
-      fetchLatestTelemetry();
+      fetchLatest();
       fetchHistoryAndRender();
     }, 3000);
   </script>
