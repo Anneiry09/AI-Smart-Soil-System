@@ -19,3 +19,19 @@ class TelemetryRecord(Base):
     __table_args__ = (
         Index("idx_device_created_at", "device_id", "created_at"),
     )
+
+
+class CalibrationSample(Base):
+    """Lưu mẫu đo đối chứng trên từng môi trường chuẩn (nước khoáng, NaOH, dung môi, đất mẫu) để hiệu chuẩn cảm biến."""
+    __tablename__ = "calibration_samples"
+
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    device_id = Column(String(50), nullable=False, index=True)
+    environment_type = Column(String(40), nullable=False, index=True)  # mineral_water, naoh_alkaline, solvent_acid, standard_soil
+    measured_ph = Column(Float, nullable=False)
+    reference_ph = Column(Float, nullable=False)
+    measured_ec = Column(Float, nullable=False)
+    reference_ec = Column(Float, nullable=False)
+    measured_moisture = Column(Float, nullable=True)
+    note = Column(String(255), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, index=True)

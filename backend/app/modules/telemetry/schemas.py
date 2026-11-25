@@ -1,5 +1,5 @@
 from pydantic import BaseModel, Field
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 class TelemetryCreate(BaseModel):
@@ -33,3 +33,43 @@ class IngestionSuccessResponse(BaseModel):
     message: str = "Data recorded successfully"
     record_id: int
     device_id: str
+
+
+class TelemetryBatchCreate(BaseModel):
+    records: List[TelemetryCreate] = Field(..., min_length=1, max_length=500)
+
+
+class BatchSyncResponse(BaseModel):
+    status: str = "success"
+    inserted_count: int
+    skipped_outliers: int = 0
+
+
+class CalibrationSampleCreate(BaseModel):
+    device_id: str = Field(..., example="ESP32_SOIL_01", min_length=1, max_length=50)
+    environment_type: str = Field(
+        ...,
+        example="mineral_water",
+        description="Môi trường test: mineral_water, naoh_alkaline, solvent_acid, distilled_water, standard_soil"
+    )
+    measured_ph: float = Field(..., ge=0.0, le=14.0)
+    reference_ph: float = Field(..., ge=0.0, le=14.0)
+    measured_ec: float = Field(..., ge=0.0, le=20000.0)
+    reference_ec: float = Field(..., ge=0.0, le=20000.0)
+    measured_moisture: Optional[float] = Field(None, ge=0.0, le=100.0)
+    note: Optional[str] = Field(None, max_length=255)
+
+
+class CalibrationSampleResponse(BaseModel):
+    id: int
+    device_id: str
+    environment_type: str
+    measured_ph: float
+    reference_ph: float
+    ph_offset: float
+    measured_ec: float
+    reference_ec: float
+    ec_ratio: float
+    measured_moisture: Optional[float]
+    note: Optional[str]
+    created_at: datetime
