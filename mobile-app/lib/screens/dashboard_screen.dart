@@ -101,7 +101,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Text(
-              'Nông Thịnh Đồng Nai • nongthinh.vn',
+              'Trạm Quan Trắc & Điều Khiển Canh Tác Thời Gian Thực',
               style: TextStyle(fontSize: 12, color: Colors.green.shade100),
             ),
           ],

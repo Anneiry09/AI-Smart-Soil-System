@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/dashboard_screen.dart';
+import 'screens/main_navigation_screen.dart';
 
 void main() {
   runApp(const SmartSoilApp());
@@ -16,7 +16,7 @@ class SmartSoilApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1B5E20),
+          seedColor: const Color(0xFF2E7D32),
           brightness: Brightness.light,
         ),
         fontFamily: 'Roboto',
@@ -25,7 +25,7 @@ class SmartSoilApp extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
         ),
       ),
-      home: const DashboardScreen(),
+      home: const MainNavigationScreen(),
     );
   }
 }
