@@ -1,6 +1,7 @@
 # AI Smart Soil System
 > **Hệ thống AIoT Giám Sát và Phân Tích Dinh Dưỡng Đất Nông Nghiệp Thời Gian Thực**  
-> Dự án phục vụ theo dõi sức khỏe thổ nhưỡng, tối ưu hóa tưới tiêu và phân bón cho cây trồng tại Đồng Nai.
+> Dự án phục vụ theo dõi sức khỏe thổ nhưỡng, tối ưu hóa tưới tiêu và phân bón cho cây trồng.
+
 
 ---
 
