@@ -6,6 +6,9 @@ from contextlib import asynccontextmanager
 
 from app.core.database import engine, Base
 from app.modules.telemetry.router import router as telemetry_router
+from app.modules.soil_ai.router import router as soil_ai_router
+from app.modules.recommendations.router import router as approvals_router
+from app.modules.farms.router import router as farms_router
 
 TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "app", "templates", "index.html")
 
@@ -17,8 +20,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="AI Smart Soil System API",
-    description="Hệ thống tiếp nhận dữ liệu cảm biến đất 7-in-1 thời gian thực từ ESP32",
-    version="1.0.0",
+    description="Hệ thống AIoT Giám sát, Dự báo Sinh lý Đất & Điều khiển Canh tác Tự động",
+    version="2.0.0",
     lifespan=lifespan
 )
 
@@ -31,12 +34,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Đăng ký router telemetry
+# Đăng ký các router chức năng
 app.include_router(telemetry_router, prefix="/api/v1")
+app.include_router(soil_ai_router, prefix="/api/v1")
+app.include_router(approvals_router, prefix="/api/v1")
+app.include_router(farms_router, prefix="/api/v1")
 
 @app.get("/", tags=["Dashboard"], response_class=HTMLResponse)
 def root_dashboard():
-    """Trang chủ tổng quan giám sát chỉ số đất thời gian thực."""
+    """Trang chủ bảng điều khiển toàn diện 7 phân hệ AIoT."""
     if os.path.exists(TEMPLATE_PATH):
         return FileResponse(TEMPLATE_PATH)
     return HTMLResponse("<h1>AI Smart Soil System</h1><p><a href='/docs'>Mở Swagger API Docs</a></p>")
@@ -47,7 +53,15 @@ def api_status():
     return {
         "status": "online",
         "service": "AI Smart Soil System API",
-        "version": "1.0.0",
+        "version": "2.0.0",
+        "modules": [
+            "Telemetry Ingestion",
+            "Bi-LSTM Forecasting",
+            "XGBoost Root Diagnostics",
+            "Fuzzy Logic Actuator Control",
+            "Human-in-the-Loop AI Agent Queue",
+            "Multi-Node & Crop Configuration"
+        ],
         "docs_url": "/docs"
     }
 
