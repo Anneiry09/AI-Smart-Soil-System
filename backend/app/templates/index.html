@@ -122,85 +122,236 @@
 
     body {
       background-color: var(--bg-body);
+      background-image:
+        radial-gradient(at 12% 0%, rgba(16, 185, 129, 0.11) 0px, transparent 48%),
+        radial-gradient(at 90% 18%, rgba(132, 204, 22, 0.08) 0px, transparent 42%);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 14px;
       line-height: 1.5;
       min-height: 100vh;
-      transition: background-color 0.2s ease, color 0.2s ease;
+      transition: background-color 0.25s ease, color 0.25s ease;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* TOP HEADER */
-    .header-top {
-      background-color: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 32px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      backdrop-filter: blur(12px);
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .header-content {
-      max-width: 1480px;
-      margin: 0 auto;
+    /* APP SHELL LAYOUT (SIDEBAR + CONTENT) */
+    .app-shell {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      min-height: 100vh;
     }
 
-    .brand-section {
+    .sidebar {
+      width: 272px;
+      background: linear-gradient(180deg, #11301e 0%, #0b2014 60%, #07150d 100%);
+      color: #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 120;
+      border-right: 1px solid rgba(110, 231, 183, 0.14);
+      padding: 20px 14px;
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
       display: flex;
       align-items: center;
       gap: 12px;
-      text-decoration: none;
-      color: inherit;
+      padding: 6px 10px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 16px;
     }
 
     .brand-logo {
       width: 42px;
       height: 42px;
-      background: linear-gradient(135deg, #059669, #047857);
-      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ffffff;
       font-size: 20px;
-      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.25);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
       flex-shrink: 0;
     }
 
     .brand-info h1 {
-      font-size: 1.15rem;
+      font-size: 0.96rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--text-main);
+      letter-spacing: -0.01em;
+      color: #ffffff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .brand-tag {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: var(--primary-subtle);
-      color: var(--primary-text);
-      border: 1px solid var(--primary-border);
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.35);
       text-transform: uppercase;
       letter-spacing: 0.04em;
     }
 
     .brand-info p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      font-size: 0.7rem;
+      color: #94a3b8;
       font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .nav-group-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      padding: 10px 12px 6px;
+    }
+
+    .nav-tabs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .nav-tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 13px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      border-radius: 11px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      user-select: none;
+      border: 1px solid transparent;
+    }
+
+    .nav-tab-btn i {
+      width: 18px;
+      text-align: center;
+      font-size: 0.92rem;
+      color: #94a3b8;
+      transition: color 0.18s ease;
+    }
+
+    .nav-tab-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-tab-btn:hover i {
+      color: #6ee7b7;
+    }
+
+    .nav-tab-btn.active {
+      color: #ffffff;
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.24), rgba(16, 185, 129, 0.08));
+      border: 1px solid rgba(16, 185, 129, 0.38);
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-tab-btn.active i {
+      color: #34d399;
+    }
+
+    .sidebar-storage-card {
+      margin-top: 16px;
+      padding: 13px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      font-size: 0.74rem;
+    }
+
+    .sidebar-storage-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: #a7f3d0;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-storage-row {
+      display: flex;
+      justify-content: space-between;
+      color: #94a3b8;
+      margin-top: 3px;
+      font-size: 0.71rem;
+    }
+
+    .sidebar-storage-row strong {
+      color: #f8fafc;
+    }
+
+    .content-wrapper {
+      flex: 1;
+      margin-left: 272px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    /* TOP HEADER (MATCHING MOBILE APP GREEN THEME) */
+    .header-top {
+      background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 14px 28px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 16px rgba(27, 94, 32, 0.22);
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    [data-theme="dark"] .header-top {
+      background: linear-gradient(135deg, #1E5622 0%, #123815 100%);
+      border-bottom-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .header-content {
+      max-width: 1420px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .topbar-title {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar-title span.sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #C8E6C9;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .topbar-title strong {
+      font-size: 1.06rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.01em;
     }
 
     .header-controls {
@@ -210,15 +361,74 @@
       flex-wrap: wrap;
     }
 
+    /* PHỐI MÀU CÁC KHUNG CHỮ & NÚT TRÊN NỀN XANH */
+    .header-top .status-pill {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      color: #FFFFFF;
+      backdrop-filter: blur(8px);
+    }
+
+    .header-top .status-pill .indicator-dot {
+      background: #76FF03;
+      box-shadow: 0 0 0 3px rgba(118, 255, 3, 0.28);
+    }
+
+    .header-top .btn,
+    .header-top .theme-toggle-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      color: #FFFFFF;
+      box-shadow: none;
+    }
+
+    .header-top .btn:hover,
+    .header-top .theme-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.26);
+      border-color: rgba(255, 255, 255, 0.45);
+      color: #FFFFFF;
+    }
+
+    .header-top .btn-primary {
+      background: linear-gradient(135deg, #F57C00, #EF6C00);
+      border-color: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
+    }
+
+    .header-top .btn-primary:hover {
+      background: linear-gradient(135deg, #FB8C00, #F57C00);
+      border-color: rgba(255, 255, 255, 0.45);
+      color: #FFFFFF;
+    }
+
+    @media (max-width: 1024px) {
+      .app-shell { flex-direction: column; }
+      .sidebar {
+        position: static;
+        width: 100%;
+        padding: 14px 18px;
+      }
+      .nav-tabs-container {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .nav-tab-btn { white-space: nowrap; }
+      .nav-group-label, .sidebar-storage-card { display: none; }
+      .content-wrapper { margin-left: 0; }
+      .header-top { padding: 12px 18px; }
+    }
+
     /* STATUS PILL */
     .status-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 14px;
+      padding: 7px 14px;
       border-radius: 30px;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-size: 0.78rem;
+      font-weight: 700;
       background: var(--primary-subtle);
       border: 1px solid var(--primary-border);
       color: var(--primary-text);
@@ -229,7 +439,7 @@
       height: 8px;
       border-radius: 50%;
       background: #10b981;
-      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
       animation: pulseDot 2s infinite ease-in-out;
     }
 
@@ -243,16 +453,17 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.82rem;
+      padding: 8px 15px;
+      border-radius: 10px;
+      font-size: 0.81rem;
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.15s ease;
+      transition: all 0.16s ease;
       border: 1px solid var(--border);
       background: var(--bg-card);
       color: var(--text-main);
+      box-shadow: var(--shadow-xs);
     }
 
     .btn:hover {
@@ -262,21 +473,21 @@
     }
 
     .btn-primary {
-      background: var(--primary);
+      background: linear-gradient(135deg, #059669, #047857);
       color: #ffffff;
-      border-color: var(--primary);
-      box-shadow: var(--shadow-xs);
+      border-color: transparent;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
     }
     .btn-primary:hover {
-      background: var(--primary-hover);
+      background: linear-gradient(135deg, #047857, #065f46);
       color: #ffffff;
-      border-color: var(--primary-hover);
+      box-shadow: 0 6px 16px rgba(5, 150, 105, 0.35);
     }
 
     .theme-toggle-btn {
       width: 38px;
       height: 38px;
-      border-radius: var(--radius-sm);
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -288,59 +499,12 @@
     }
     .theme-toggle-btn:hover { color: var(--text-main); background: var(--bg-card-subtle); }
 
-    /* SEGMENTED TAB NAVIGATION */
-    .nav-tabs-wrapper {
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 70px;
-      z-index: 90;
-      transition: background-color 0.2s ease, border-color 0.2s ease;
-    }
-
-    .nav-tabs-container {
-      max-width: 1480px;
-      margin: 0 auto;
-      display: flex;
-      gap: 6px;
-      padding: 6px 32px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .nav-tabs-container::-webkit-scrollbar { display: none; }
-
-    .nav-tab-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 16px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-      user-select: none;
-    }
-
-    .nav-tab-btn:hover {
-      color: var(--text-main);
-      background: var(--bg-card-subtle);
-    }
-
-    .nav-tab-btn.active {
-      color: var(--primary-text);
-      background: var(--primary-subtle);
-      border: 1px solid var(--primary-border);
-      font-weight: 700;
-    }
-
     /* MAIN BODY */
     .main-body {
-      max-width: 1480px;
-      margin: 24px auto 0;
-      padding: 0 32px 50px;
+      max-width: 1420px;
+      width: 100%;
+      margin: 22px auto 0;
+      padding: 0 28px 50px;
     }
 
     .tab-pane {
@@ -348,18 +512,18 @@
     }
     .tab-pane.active {
       display: block;
-      animation: tabFadeIn 0.2s ease-out;
+      animation: tabFadeIn 0.22s ease-out;
     }
 
     @keyframes tabFadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     /* SECTION BANNER */
     .section-banner {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--bg-card) 0%, var(--primary-subtle) 100%);
+      border: 1px solid var(--primary-border);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
       margin-bottom: 22px;
@@ -368,7 +532,9 @@
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
     }
 
     .section-title-wrap h2 {
@@ -415,12 +581,12 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* BALANCED TWO-TIER METRIC GRID (NO LONELY CARDS!) */
+    /* BALANCED TWO-TIER METRIC GRID */
     .metric-section-title {
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 0.8rem;
+      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       margin-bottom: 12px;
       display: flex;
@@ -432,7 +598,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .grid-tier-2 {
@@ -454,20 +620,32 @@
     .card-metric {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       padding: 18px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       box-shadow: var(--shadow-sm);
-      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       position: relative;
+      overflow: hidden;
+    }
+
+    .card-metric::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #84cc16);
+      opacity: 0.78;
     }
 
     .card-metric:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--border-focus);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary-border);
     }
 
     .metric-header {
@@ -583,8 +761,8 @@
 
     /* NOTICE BOX / ADVISORY */
     .advisory-notice {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: linear-gradient(90deg, var(--primary-subtle) 0%, var(--bg-card) 42%);
+      border: 1px solid var(--primary-border);
       border-left: 4px solid var(--primary);
       border-radius: var(--radius-md);
       padding: 18px 22px;
@@ -831,82 +1009,108 @@
 </head>
 <body>
 
-  <!-- ========================================================
-       TOP NAVIGATION BAR
-       ======================================================== -->
-  <header class="header-top">
-    <div class="header-content">
-      <div class="brand-section">
+  <div class="app-shell">
+    <!-- ========================================================
+         LEFT COMMAND SIDEBAR
+         ======================================================== -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
         <div class="brand-logo">
           <i class="fa-solid fa-seedling"></i>
         </div>
         <div class="brand-info">
           <h1>
-            AI SMART SOIL SYSTEM
-            <span class="brand-tag">v2.4 IoT</span>
+            AI SMART SOIL
+            <span class="brand-tag">v2.4</span>
           </h1>
-          <p>Hệ Thống Quan Trắc Thổ Nhưỡng, Dự Báo AI & Canh Tác Tự Động Thời Gian Thực</p>
+          <p>Hệ Thống Quan Trắc AIoT</p>
         </div>
       </div>
 
-      <div class="header-controls">
-        <div class="status-pill" id="live-indicator">
-          <span class="indicator-dot"></span>
-          <span id="live-node-title">ESP32_SOIL_01 • TRỰC TUYẾN</span>
+      <div class="nav-tabs-container">
+        <div class="nav-group-label">Giám Sát & Phân Tích</div>
+        <div class="nav-tab-btn active" onclick="switchNav('tab-1-live')">
+          <i class="fa-solid fa-gauge-high"></i> Giám Sát Thời Gian Thực
+        </div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-2-forecast')">
+          <i class="fa-solid fa-chart-line"></i> Phân Tích & Dự Báo (Bi-LSTM)
+        </div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-3-logs')">
+          <i class="fa-solid fa-table-list"></i> Nhật Ký Dữ Liệu & API
         </div>
 
-        <a href="/docs" target="_blank" class="btn" title="Mở Swagger API Specification">
-          <i class="fa-solid fa-code" style="color: var(--blue);"></i> API Docs
-        </a>
+        <div class="nav-group-label">AI Nông Học & Điều Khiển</div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-4-agronomy')">
+          <i class="fa-solid fa-dna"></i> Chẩn Đoán Sinh Lý (XGBoost)
+        </div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-5-actuators')">
+          <i class="fa-solid fa-sliders"></i> Điều Khiển Thiết Bị (Fuzzy)
+        </div>
 
-        <a href="/api/v1/telemetry/export-csv" class="btn" title="Xuất tập dữ liệu CSV">
-          <i class="fa-solid fa-file-arrow-down" style="color: var(--primary);"></i> Xuất CSV
-        </a>
+        <div class="nav-group-label">Vận Hành & Cấu Hình</div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-6-approvals')">
+          <i class="fa-solid fa-clipboard-check"></i> Trạm Phê Duyệt Tự Động
+        </div>
+        <div class="nav-tab-btn" onclick="switchNav('tab-7-config')">
+          <i class="fa-solid fa-microchip"></i> Quản Lý Trạm & Vùng Trồng
+        </div>
+      </div>
 
-        <button class="theme-toggle-btn" onclick="toggleTheme()" title="Chuyển chế độ Sáng / Tối">
-          <i class="fa-solid fa-moon" id="theme-icon"></i>
-        </button>
+      <div class="sidebar-storage-card">
+        <div class="sidebar-storage-title">
+          <i class="fa-solid fa-database"></i> Kiến Trúc Lưu Trữ
+        </div>
+        <div class="sidebar-storage-row">
+          <span>Kho chính:</span>
+          <strong id="sidebar-primary-db">Đang kiểm tra...</strong>
+        </div>
+        <div class="sidebar-storage-row">
+          <span>SQLite Offline:</span>
+          <strong id="sidebar-offline-queue">0 chờ đồng bộ</strong>
+        </div>
+      </div>
+    </aside>
 
-        <button class="btn btn-primary" onclick="refreshAll()" title="Làm mới dữ liệu">
-          <i class="fa-solid fa-rotate" id="refresh-spin"></i> Làm mới
-        </button>
-      </div>
-    </div>
-  </header>
+    <div class="content-wrapper">
+      <!-- ========================================================
+           TOP NAVIGATION BAR
+           ======================================================== -->
+      <header class="header-top">
+        <div class="header-content">
+          <div class="topbar-title">
+            <span class="sub">AI Smart Soil System • Đồng Nai</span>
+            <strong id="topbar-active-title">Giám Sát Thời Gian Thực</strong>
+          </div>
 
-  <!-- ========================================================
-       SEGMENTED TAB NAVIGATION (7 TABS)
-       ======================================================== -->
-  <div class="nav-tabs-wrapper">
-    <div class="nav-tabs-container">
-      <div class="nav-tab-btn active" onclick="switchNav('tab-1-live')">
-        <i class="fa-solid fa-gauge-high"></i> 1. Giám Sát Thời Gian Thực
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-2-forecast')">
-        <i class="fa-solid fa-chart-spline"></i> 2. Phân Tích & Dự Báo (Bi-LSTM)
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-3-logs')">
-        <i class="fa-solid fa-table-list"></i> 3. Nhật Ký Dữ Liệu & API
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-4-agronomy')">
-        <i class="fa-solid fa-dna"></i> 4. Chẩn Đoán Sinh Lý Đất (XGBoost)
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-5-actuators')">
-        <i class="fa-solid fa-sliders"></i> 5. Điều Khiển Thiết Bị (Fuzzy AI)
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-6-approvals')">
-        <i class="fa-solid fa-clipboard-check"></i> 6. Trạm Phê Duyệt Tự Động
-      </div>
-      <div class="nav-tab-btn" onclick="switchNav('tab-7-config')">
-        <i class="fa-solid fa-sliders-simple"></i> 7. Quản Lý Trạm & Vùng Trồng
-      </div>
-    </div>
-  </div>
+          <div class="header-controls">
+            <div class="status-pill" id="live-indicator">
+              <span class="indicator-dot"></span>
+              <span id="live-node-title">ESP32_SOIL_01 • TRỰC TUYẾN</span>
+            </div>
 
-  <!-- ========================================================
-       MAIN BODY (7 TABS CONTENT)
-       ======================================================== -->
-  <main class="main-body">
+            <a href="/docs" target="_blank" class="btn" title="Mở Swagger API Specification">
+              <i class="fa-solid fa-code" style="color: #BAE6FD;"></i> API Docs
+            </a>
+
+            <a href="/api/v1/telemetry/export-csv" class="btn" title="Xuất tập dữ liệu CSV">
+              <i class="fa-solid fa-file-arrow-down" style="color: #B9F6CA;"></i> Xuất CSV
+            </a>
+
+            <button class="theme-toggle-btn" onclick="toggleTheme()" title="Chuyển chế độ Sáng / Tối">
+              <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+
+            <button class="btn btn-primary" onclick="refreshAll()" title="Làm mới dữ liệu">
+              <i class="fa-solid fa-rotate" id="refresh-spin"></i> Làm mới
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- ========================================================
+           MAIN BODY (7 TABS CONTENT)
+           ======================================================== -->
+      <main class="main-body">
 
     <!-- ====================================================
          TAB 1: GIÁM SÁT THỜI GIAN THỰC (LIVE OVERVIEW)
@@ -1535,7 +1739,9 @@
       </div>
     </div>
 
-  </main>
+      </main>
+    </div>
+  </div>
 
   <div id="global-toast">Thông báo hệ thống</div>
 
@@ -1580,7 +1786,11 @@
       if (target) target.classList.add('active');
       
       const btn = Array.from(document.querySelectorAll('.nav-tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
-      if (btn) btn.classList.add('active');
+      if (btn) {
+        btn.classList.add('active');
+        const topTitle = document.getElementById('topbar-active-title');
+        if (topTitle) topTitle.innerText = btn.innerText.trim();
+      }
 
       if (tabId === 'tab-2-forecast') {
         setTimeout(initForecastCharts, 80);
@@ -2080,6 +2290,22 @@
       notify('Đã khôi phục cài đặt mặc định của hệ thống!');
     }
 
+    async function loadStorageStatus() {
+      try {
+        const res = await fetch('/api/v1/telemetry/storage-status');
+        if (!res.ok) return;
+        const s = await res.json();
+        const elPrimary = document.getElementById('sidebar-primary-db');
+        const elQueue = document.getElementById('sidebar-offline-queue');
+        if (elPrimary) elPrimary.innerText = s.configured_primary_engine || 'SQLite Fallback';
+        if (elQueue && s.offline_queue_stats) {
+          elQueue.innerText = `${s.offline_queue_stats.pending} chờ đồng bộ`;
+        }
+      } catch (err) {
+        console.warn('Storage status:', err);
+      }
+    }
+
     function refreshAll() {
       const icon = document.getElementById('refresh-spin');
       icon.classList.add('fa-spin');
@@ -2090,7 +2316,8 @@
         loadAgronomy(),
         loadActuators(),
         loadApprovals(),
-        loadConfigNodes()
+        loadConfigNodes(),
+        loadStorageStatus()
       ]).finally(() => {
         setTimeout(() => icon.classList.remove('fa-spin'), 500);
       });
