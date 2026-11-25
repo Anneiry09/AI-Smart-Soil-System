@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../models/soil_data.dart';
 import '../widgets/arc_gauge.dart';
+import 'metric_detail_screen.dart';
 
 class MeasurementScreen extends StatefulWidget {
   final SoilData? latestData;
@@ -119,9 +120,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.nitrogen,
                           min: 0,
                           max: 300,
+                          optimalMin: 40,
+                          optimalMax: 90,
                           unit: 'mg/kg',
                           statusText: _getNStatus(d.nitrogen),
                           statusColor: _getNColor(d.nitrogen),
+                          valueExtractor: (s) => s.nitrogen,
+                          decimalPlaces: 0,
                         ),
 
                         // Card 2: Lân P2O5 dễ tiêu
@@ -131,9 +136,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.phosphorus,
                           min: 0,
                           max: 100,
+                          optimalMin: 20,
+                          optimalMax: 55,
                           unit: 'mg/kg',
                           statusText: _getPStatus(d.phosphorus),
                           statusColor: _getPColor(d.phosphorus),
+                          valueExtractor: (s) => s.phosphorus,
+                          decimalPlaces: 0,
                         ),
 
                         // Card 3: Kali K2O dễ tiêu
@@ -143,9 +152,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.potassium,
                           min: 0,
                           max: 300,
+                          optimalMin: 75,
+                          optimalMax: 140,
                           unit: 'mg/kg',
                           statusText: _getKStatus(d.potassium),
                           statusColor: _getKColor(d.potassium),
+                          valueExtractor: (s) => s.potassium,
+                          decimalPlaces: 0,
                         ),
 
                         // Card 4: Độ dẫn điện EC
@@ -155,9 +168,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.ec,
                           min: 0,
                           max: 1600,
+                          optimalMin: 300,
+                          optimalMax: 1000,
                           unit: 'µS/cm',
                           statusText: d.ecStatus,
                           statusColor: d.ecColor,
+                          valueExtractor: (s) => s.ec,
+                          decimalPlaces: 0,
                         ),
 
                         // Card 5: Độ chua pH
@@ -167,9 +184,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.ph,
                           min: 3.0,
                           max: 9.0,
+                          optimalMin: 5.8,
+                          optimalMax: 6.8,
                           unit: 'pH',
                           statusText: d.phStatus,
                           statusColor: d.phColor,
+                          valueExtractor: (s) => s.ph,
+                          decimalPlaces: 1,
                         ),
 
                         // Card 6: Độ ẩm đất
@@ -179,9 +200,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.moisture,
                           min: 0,
                           max: 100,
+                          optimalMin: 40,
+                          optimalMax: 65,
                           unit: '%',
                           statusText: d.moistureStatus,
                           statusColor: d.moistureColor,
+                          valueExtractor: (s) => s.moisture,
+                          decimalPlaces: 1,
                         ),
 
                         // Card 7: Nhiệt độ đất
@@ -191,9 +216,13 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
                           value: d.temperature,
                           min: 15,
                           max: 45,
+                          optimalMin: 22,
+                          optimalMax: 32,
                           unit: '°C',
                           statusText: d.tempStatus,
                           statusColor: d.tempColor,
+                          valueExtractor: (s) => s.temperature,
+                          decimalPlaces: 1,
                         ),
 
                         const SizedBox(height: 80), // Padding cho BottomBar
@@ -603,48 +632,88 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
     required double value,
     required double min,
     required double max,
+    required double optimalMin,
+    required double optimalMax,
     required String unit,
     required String statusText,
     required Color statusColor,
+    required double Function(SoilData) valueExtractor,
+    int decimalPlaces = 1,
   }) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 0.8,
       color: Colors.white,
+      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      child: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Tiêu đề thẻ & Icon
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1E293B),
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(icon, size: 16, color: const Color(0xFF2E7D32)),
-                  ],
-                ),
-                Text(
-                  '${value % 1 == 0 ? value.toInt() : value.toStringAsFixed(1)} $unit',
-                  style: const TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF0F172A),
-                  ),
-                ),
-              ],
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => MetricDetailScreen(
+                title: title,
+                icon: icon,
+                unit: unit,
+                currentValue: value,
+                minRange: min,
+                maxRange: max,
+                optimalMin: optimalMin,
+                optimalMax: optimalMax,
+                statusText: statusText,
+                statusColor: statusColor,
+                selectedNode: widget.selectedNode,
+                history: widget.history,
+                valueExtractor: valueExtractor,
+                decimalPlaces: decimalPlaces,
+              ),
             ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Tiêu đề thẻ & Icon
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w800,
+                              color: Color(0xFF1E293B),
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(icon, size: 16, color: const Color(0xFF2E7D32)),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${value % 1 == 0 ? value.toInt() : value.toStringAsFixed(1)} $unit',
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF0F172A),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(Icons.chevron_right, size: 20, color: Colors.grey.shade500),
+                    ],
+                  ),
+                ],
+              ),
             const SizedBox(height: 14),
 
             // Đồng hồ vòng cung Arc Gauge nằm ở giữa
@@ -691,6 +760,7 @@ class _MeasurementScreenState extends State<MeasurementScreen> with SingleTicker
             ),
           ],
         ),
+      ),
       ),
     );
   }
