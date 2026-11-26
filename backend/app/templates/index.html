@@ -663,6 +663,854 @@
       font-size: 0.78rem;
       color: var(--text-muted);
     }
+
+    /* ==========================================================================
+       AI DIAGNOSTIC BENTO DARK MINIMALIST STYLES
+       ========================================================================== */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ai-diagnostic-card {
+      background: linear-gradient(180deg, rgba(15, 25, 43, 0.94) 0%, rgba(9, 13, 24, 0.96) 100%);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 20px;
+      padding: 24px 26px;
+      margin-bottom: 26px;
+      box-shadow: 0 20px 48px -24px rgba(0, 0, 0, 0.75);
+      position: relative;
+    }
+
+    .ai-diag-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .ai-head-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .ai-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .ai-head-meta-wrap {
+      min-width: 0;
+    }
+
+    .ai-head-left h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .ai-meta-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .ai-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.75);
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .ai-chip-info {
+      background: rgba(56, 189, 248, 0.08);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.22);
+    }
+    .ai-chip-live {
+      background: rgba(16, 185, 129, 0.08);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.22);
+    }
+
+    .btn-reanalyze {
+      background: rgba(16, 185, 129, 0.10);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 9px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-reanalyze:hover:not(:disabled) {
+      background: #10b981;
+      border-color: #10b981;
+      color: #061210;
+    }
+    .btn-reanalyze:disabled,
+    .btn-reanalyze.is-loading {
+      opacity: 0.72;
+      cursor: wait;
+    }
+
+    .ai-error-box {
+      background: rgba(239, 68, 68, 0.10);
+      border: 1px solid rgba(239, 68, 68, 0.30);
+      border-radius: 16px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .ai-error-box > i {
+      font-size: 1.6rem;
+      color: #f87171;
+      padding-top: 2px;
+    }
+    .ai-error-content h4 {
+      font-size: 1rem;
+      color: #f87171;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .ai-error-content p {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .ai-bento-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .bento-card {
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 20px 22px;
+      transition: border-color 0.2s ease;
+    }
+    .bento-card:hover {
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+
+    .ai-bento-hero {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .bento-span-7 { grid-column: span 7; }
+    .bento-span-5 { grid-column: span 5; }
+    .bento-span-6 { grid-column: span 6; }
+
+    .ai-overview-card {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      height: 100%;
+    }
+
+    .ai-score-ring {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-score-svg {
+      width: 112px;
+      height: 112px;
+      transform: rotate(-90deg);
+    }
+    .score-track {
+      fill: none;
+      stroke: rgba(148, 163, 184, 0.14);
+      stroke-width: 8;
+    }
+    .score-progress {
+      fill: none;
+      stroke: #34d399;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 301.59;
+      stroke-dashoffset: 301.59;
+      transition: stroke-dashoffset 0.65s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+    }
+    .ai-score-ring.score-high .score-progress { stroke: #34d399; }
+    .ai-score-ring.score-high .score-num { color: #34d399; }
+    .ai-score-ring.score-mid .score-progress { stroke: #fbbf24; }
+    .ai-score-ring.score-mid .score-num { color: #fbbf24; }
+    .ai-score-ring.score-low .score-progress { stroke: #f87171; }
+    .ai-score-ring.score-low .score-num { color: #f87171; }
+
+    .score-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .score-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: #f8fafc;
+    }
+    .score-sub {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+    .score-label {
+      font-size: 0.58rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .ai-overview-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .ai-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .ai-risk-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      line-height: 1.3;
+    }
+    .risk-low {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .risk-med {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .risk-high, .risk-crit {
+      background: rgba(239, 68, 68, 0.14);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .ai-anomaly-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.10);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+
+    .ai-overview-text h4 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+    .ai-overview-text p {
+      font-size: 0.86rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    .ai-profile-card {
+      border-left: 3px solid #34d399;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      height: 100%;
+    }
+    .ai-profile-card.profile-danger { border-left-color: #f87171; }
+    .ai-profile-card.profile-warn { border-left-color: #fbbf24; }
+    .ai-profile-card.profile-good { border-left-color: #34d399; }
+    .ai-profile-card.profile-empty { border-left-color: rgba(148, 163, 184, 0.35); }
+
+    .profile-top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .profile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .profile-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .profile-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      line-height: 1.35;
+    }
+    .ai-profile-card.profile-danger .profile-name { color: #fca5a5; }
+    .ai-profile-card.profile-warn .profile-name { color: #fde68a; }
+    .ai-profile-card.profile-good .profile-name { color: #6ee7b7; }
+    .profile-match {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .profile-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: rgba(148, 163, 184, 0.10);
+      border: 1px solid rgba(148, 163, 184, 0.20);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-variant-numeric: tabular-nums;
+    }
+    .profile-warning {
+      background: rgba(245, 158, 11, 0.09);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      color: #fde68a;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .profile-warning i {
+      color: #fbbf24;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .profile-warning ul {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    .ai-pillars-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-pillars-head {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ai-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .pillar-card {
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pillar-card:hover {
+      border-color: rgba(148, 163, 184, 0.25);
+      transform: translateY(-2px);
+    }
+    .pillar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .pillar-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+    .pillar-icon {
+      font-size: 0.84rem;
+      color: #38bdf8;
+      flex-shrink: 0;
+    }
+    .pillar-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pillar-badge {
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .badge-tot {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .badge-canhbao {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .badge-nguyhiem {
+      background: rgba(239, 68, 68, 0.14);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .pillar-value {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .pillar-note {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    .ai-bento-insights {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .ai-sub-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-subtitle {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ai-shap-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      justify-content: center;
+    }
+    .ai-shap-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .shap-row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+    .shap-name {
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+    .shap-impact {
+      font-size: 0.74rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+    .shap-impact.is-pos { color: #34d399; }
+    .shap-impact.is-neg { color: #f87171; }
+    .shap-track {
+      background: rgba(148, 163, 184, 0.12);
+      border-radius: 999px;
+      height: 7px;
+      overflow: hidden;
+    }
+    .shap-bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .bar-pos {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+    .bar-neg {
+      background: linear-gradient(90deg, #f59e0b, #f87171);
+    }
+
+    .ai-prereq-alert {
+      background: rgba(245, 158, 11, 0.09);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-left: 3px solid #fbbf24;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      font-size: 0.8rem;
+      color: #fde68a;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+    .ai-prereq-alert i {
+      color: #fbbf24;
+      font-size: 0.95rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .ai-crop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: auto;
+    }
+    .crop-card {
+      background: rgba(30, 41, 59, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .crop-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.38);
+    }
+    .crop-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .crop-rank {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      background: rgba(56, 189, 248, 0.10);
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+    .crop-conf {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #34d399;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .crop-name-vi {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-top: 4px;
+    }
+    .crop-name-en {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-transform: capitalize;
+    }
+    .crop-bar-track {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.14);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .crop-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #38bdf8, #34d399);
+      transition: width 0.45s ease;
+    }
+
+    .ai-action-plan-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ai-plan-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ai-plan-head h4 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 3px;
+    }
+    .plan-sub {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .plan-progress-chip {
+      font-size: 0.74rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+
+    .ai-plan-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .plan-step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(30, 41, 59, 0.32);
+      border: 1px solid rgba(148, 163, 184, 0.10);
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+    .plan-step-card:hover {
+      background: rgba(30, 41, 59, 0.52);
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+    .plan-step-card.is-done {
+      opacity: 0.56;
+      background: rgba(16, 185, 129, 0.04);
+      border-color: rgba(16, 185, 129, 0.18);
+    }
+    .plan-step-card.is-done .plan-step-title {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+    .plan-step-card.is-done .plan-step-detail {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+    .plan-step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-weight: 800;
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+    }
+    .plan-step-card.is-done .plan-step-number {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: #34d399;
+      color: #34d399;
+    }
+    .plan-step-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .plan-step-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+    }
+    .step-badge {
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .badge-urgent {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .badge-monitor {
+      background: rgba(56, 189, 248, 0.14);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.30);
+    }
+    .badge-care {
+      background: rgba(16, 185, 129, 0.14);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.30);
+    }
+    .plan-step-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .plan-step-detail {
+      font-size: 0.83rem;
+      color: #94a3b8;
+      line-height: 1.55;
+    }
+    .step-check-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.30);
+      background: rgba(15, 23, 42, 0.6);
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+    .plan-step-card.is-done .step-check-btn {
+      background: #10b981;
+      border-color: #10b981;
+      color: #061210;
+    }
+
+    @media (max-width: 1024px) {
+      .bento-span-7,
+      .bento-span-5 {
+        grid-column: span 12;
+      }
+      .ai-pillars-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 960px) {
+      .bento-span-6 {
+        grid-column: span 12;
+      }
+    }
+    @media (max-width: 640px) {
+      .ai-diagnostic-card {
+        padding: 18px 16px;
+      }
+      .ai-overview-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .ai-pillars-grid,
+      .ai-crop-grid {
+        grid-template-columns: 1fr;
+      }
+      .ai-head-right {
+        width: 100%;
+      }
+      .btn-reanalyze {
+        width: 100%;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -881,6 +1729,138 @@
       </div>
     </section>
 
+
+    <!-- 2B. CHẨN ĐOÁN THỔ NHƯỠNG TỔNG THỂ (AI BENTO DARK) -->
+    <section class="ai-diagnostic-card" id="ai-diagnostic-container">
+      <!-- HEADER -->
+      <div class="ai-diag-head">
+        <div class="ai-head-left">
+          <div class="ai-icon-badge"><i class="fa-solid fa-microchip"></i></div>
+          <div class="ai-head-meta-wrap">
+            <h3>Chẩn Đoán Thổ Nhưỡng Tổng Thể (AI)</h3>
+            <div class="ai-meta-chips">
+              <span class="ai-chip ai-chip-info" id="ai-meta-badge">
+                <i class="fa-solid fa-layer-group"></i> <span id="ai-meta-text">Đang kết nối mô hình AI...</span>
+              </span>
+              <span class="ai-chip ai-chip-live" id="ai-source-badge">
+                <i class="fa-solid fa-satellite-dish"></i> <span>Nguồn: Cảm biến thực tế ESP32 + Open-Meteo</span>
+              </span>
+              <span class="ai-chip ai-chip-info" id="ai-weather-badge" style="display: none;">
+                <i class="fa-solid fa-cloud-sun-rain"></i> <span id="ai-weather-text">Thời tiết</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-head-right">
+          <button type="button" onclick="reanalyzeAI()" class="btn-reanalyze" id="btn-reanalyze" title="Phân tích lại dữ liệu mới nhất">
+            <i class="fa-solid fa-arrows-rotate" id="reanalyze-icon"></i>
+            <span id="reanalyze-label">Phân tích lại</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ERROR STATE (HIDDEN BY DEFAULT) -->
+      <div class="ai-error-box" id="ai-error-box" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div class="ai-error-content">
+          <h4 id="ai-error-title">Lỗi Cảm Biến / Phần Cứng RS485</h4>
+          <p id="ai-error-msg">Dữ liệu vượt ngưỡng vật lý an toàn hoặc mất tín hiệu. Hệ thống tạm dừng phân tích AI để tránh đưa ra lời khuyên sai lệch.</p>
+          <ul id="ai-error-reasons" style="margin-top: 6px; padding-left: 20px; font-size: 0.85rem; color: #fca5a5;"></ul>
+        </div>
+      </div>
+
+      <!-- MAIN AI CONTENT BODY: 4 BENTO ROWS -->
+      <div class="ai-diag-body ai-bento-stack" id="ai-diag-body">
+        <!-- ROW 1: BENTO HERO (7 + 5) -->
+        <div class="ai-bento-hero">
+          <div class="bento-card ai-overview-card bento-span-7">
+            <div class="ai-score-ring" id="ai-score-ring">
+              <svg class="ai-score-svg" viewBox="0 0 112 112" aria-hidden="true">
+                <circle class="score-track" cx="56" cy="56" r="48"></circle>
+                <circle class="score-progress" id="ai-score-arc" cx="56" cy="56" r="48"></circle>
+              </svg>
+              <div class="score-center">
+                <span class="score-num" id="ai-score-num">--</span>
+                <span class="score-sub">/ 100</span>
+                <span class="score-label" id="ai-score-label">Sức khỏe</span>
+              </div>
+            </div>
+            <div class="ai-overview-text">
+              <div class="ai-hero-badges">
+                <span class="ai-risk-tag risk-low" id="ai-risk-tag">Đang tải...</span>
+                <span class="ai-anomaly-pill" id="ai-anomaly-pill" style="display: none;">
+                  <i class="fa-solid fa-wave-square"></i>
+                  <span id="ai-anomaly-text">Bất thường tổ hợp chỉ số</span>
+                </span>
+              </div>
+              <h4 id="ai-overall-title">Đang phân tích dữ liệu thổ nhưỡng...</h4>
+              <p id="ai-overall-summary">Vui lòng chờ trong giây lát khi hệ thống tổng hợp các chỉ số cảm biến 7-in-1 qua mô hình học máy.</p>
+            </div>
+          </div>
+
+          <div class="bento-card ai-profile-card profile-empty bento-span-5" id="ai-profile-card">
+            <div class="profile-top">
+              <div class="profile-head">
+                <span class="profile-label"><i class="fa-solid fa-layer-group"></i> Đặc Tính Đất Dự Đoán</span>
+                <span class="pillar-badge badge-tot" id="ai-profile-level" style="display: none;">Thuận lợi</span>
+              </div>
+              <div class="profile-name" id="ai-profile-name">Đang xác định hồ sơ đất...</div>
+              <div class="profile-match" id="ai-profile-match">Hệ thống đang đối chiếu tổ hợp chỉ số pH, EC, độ ẩm và NPK.</div>
+              <div class="profile-tags" id="ai-profile-tags" style="display: none;"></div>
+            </div>
+            <div class="profile-warning" id="ai-profile-warning" style="display: none;">
+              <i class="fa-solid fa-droplet-slash"></i>
+              <ul id="ai-profile-warning-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: 4 PILLARS -->
+        <div class="ai-pillars-section">
+          <div class="ai-pillars-head">
+            <i class="fa-solid fa-cubes"></i>
+            <span>4 Trụ Cột Thổ Nhưỡng Đánh Giá</span>
+          </div>
+          <div class="ai-pillars-grid" id="ai-pillars-grid"></div>
+        </div>
+
+        <!-- ROW 3: EXPLAINABLE AI & TOP 3 CROPS (6 + 6) -->
+        <div class="ai-bento-insights">
+          <div class="bento-card ai-sub-card bento-span-6">
+            <div class="card-subtitle">
+              <i class="fa-solid fa-chart-simple" style="color: #38bdf8;"></i>
+              <span>Yếu Tố Ảnh Hưởng Chính (TreeSHAP)</span>
+            </div>
+            <div class="ai-shap-list" id="ai-shap-list"></div>
+          </div>
+
+          <div class="bento-card ai-sub-card bento-span-6">
+            <div class="card-subtitle">
+              <i class="fa-solid fa-seedling" style="color: #34d399;"></i>
+              <span>Cây Trồng Phù Hợp Nhất (Top 3)</span>
+            </div>
+            <div class="ai-prereq-alert" id="ai-prereq-alert" style="display: none;">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span id="ai-prereq-text">Lưu ý điều kiện canh tác</span>
+            </div>
+            <div class="ai-crop-grid" id="ai-crop-list"></div>
+          </div>
+        </div>
+
+        <!-- ROW 4: INTERACTIVE ACTION PLAN CHECKLIST -->
+        <div class="bento-card ai-action-plan-section">
+          <div class="ai-plan-head">
+            <div>
+              <h4><i class="fa-solid fa-list-check" style="color: #fbbf24;"></i> Phác Đồ Xử Lý & Canh Tác Theo Thứ Tự Ưu Tiên</h4>
+              <span class="plan-sub">Thực hiện tuần tự từ Bước 1 • Bấm vào từng bước để đánh dấu đã hoàn thành</span>
+            </div>
+            <span class="plan-progress-chip" id="ai-plan-progress" style="display: none;">0/0 hoàn thành</span>
+          </div>
+          <div class="ai-plan-steps" id="ai-plan-steps"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- 3. 2 BIỂU ĐỒ MÔ TẢ DỄ HIỂU (CLEAR & INTUITIVE CHARTS) -->
     <section class="charts-duo">
       <!-- BIỂU ĐỒ 1: MÔI TRƯỜNG ĐẤT -->
@@ -1066,17 +2046,416 @@
       }
     }
 
+
+    // =========================================================================
+    // AI DIAGNOSTIC BENTO DARK RENDERING
+    // =========================================================================
+    const SOIL_PROFILE_LEVELS = {
+      DAT_CHUA_MAN: 'danger',
+      DAT_NGHI_PHEN: 'danger',
+      DAT_NHIEM_MAN: 'danger',
+      DAT_CHUA_MANH: 'danger',
+      DAT_KIEM_CAO: 'danger',
+      DAT_BAC_MAU_CHUA: 'warn',
+      DAT_CHUA_NHE: 'warn',
+      DAT_HOI_KIEM: 'warn',
+      DAT_BAC_MAU: 'warn',
+      DAT_TRUNG_TINH_TOT: 'good',
+      DAT_TRUNG_TINH_ON_DINH: 'good'
+    };
+    const SOIL_PROFILE_LEVEL_UI = {
+      danger: { label: 'Rủi ro cao', badge: 'badge-nguyhiem' },
+      warn: { label: 'Cần lưu ý', badge: 'badge-canhbao' },
+      good: { label: 'Thuận lợi', badge: 'badge-tot' }
+    };
+    const PILLAR_ICONS = {
+      physical: 'fa-temperature-half',
+      chemical_ph: 'fa-flask',
+      salinity_ec: 'fa-bolt',
+      nutrition_npk: 'fa-seedling'
+    };
+    const SCORE_RING_CIRCUMFERENCE = 2 * Math.PI * 48;
+    const completedActionSteps = new Set();
+    let latestActionSteps = [];
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatAITime(rawTime) {
+      if (!rawTime) return '--:--:--';
+      const d = rawTime instanceof Date ? rawTime : new Date(rawTime);
+      if (Number.isNaN(d.getTime())) return String(rawTime);
+      return formatTime(d);
+    }
+
+    function getStepKey(stepObj) {
+      return `${stepObj.step || 0}::${stepObj.title || ''}`;
+    }
+
+    function updatePlanProgress(steps) {
+      const chip = document.getElementById('ai-plan-progress');
+      if (!chip) return;
+      if (!steps || steps.length === 0) {
+        chip.style.display = 'none';
+        return;
+      }
+      const doneCount = steps.filter(s => completedActionSteps.has(getStepKey(s))).length;
+      chip.style.display = 'inline-flex';
+      chip.textContent = `${doneCount}/${steps.length} hoàn thành`;
+    }
+
+    function toggleActionStep(stepKey) {
+      if (completedActionSteps.has(stepKey)) completedActionSteps.delete(stepKey);
+      else completedActionSteps.add(stepKey);
+      renderActionPlan(latestActionSteps);
+    }
+
+    function renderActionPlan(steps) {
+      latestActionSteps = Array.isArray(steps) ? steps : [];
+      const container = document.getElementById('ai-plan-steps');
+      if (!container) return;
+      updatePlanProgress(latestActionSteps);
+
+      if (latestActionSteps.length === 0) {
+        container.innerHTML = '<div style="font-size:0.85rem; color:#94a3b8;">Không có cảnh báo can thiệp đặc biệt.</div>';
+        return;
+      }
+
+      container.replaceChildren();
+      latestActionSteps.forEach(s => {
+        const key = getStepKey(s);
+        const isDone = completedActionSteps.has(key);
+        let badgeClass = 'badge-care';
+        if (s.priority === 'KHAN_CAP') badgeClass = 'badge-urgent';
+        else if (s.priority === 'THEO_DOI') badgeClass = 'badge-monitor';
+
+        const card = document.createElement('div');
+        card.className = `plan-step-card${isDone ? ' is-done' : ''}`;
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('aria-checked', String(isDone));
+        card.tabIndex = 0;
+        card.addEventListener('click', () => toggleActionStep(key));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleActionStep(key);
+          }
+        });
+
+        card.innerHTML = `
+          <div class="plan-step-number">${isDone ? '<i class="fa-solid fa-check"></i>' : escapeHtml(s.step)}</div>
+          <div class="plan-step-content">
+            <div class="plan-step-head">
+              <span class="step-badge ${badgeClass}">${escapeHtml(s.priority_vi)}</span>
+              <span class="plan-step-title">${escapeHtml(s.title)}</span>
+            </div>
+            <div class="plan-step-detail">${escapeHtml(s.detail)}</div>
+          </div>
+          <span class="step-check-btn" title="${isDone ? 'Bỏ đánh dấu hoàn thành' : 'Đánh dấu đã hoàn thành'}">
+            <i class="fa-solid fa-check"></i>
+          </span>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderSoilProfile(profile) {
+      const card = document.getElementById('ai-profile-card');
+      if (!card) return;
+      const levelBadge = document.getElementById('ai-profile-level');
+      const nameEl = document.getElementById('ai-profile-name');
+      const matchEl = document.getElementById('ai-profile-match');
+      const tagsEl = document.getElementById('ai-profile-tags');
+      const warnBox = document.getElementById('ai-profile-warning');
+      const warnList = document.getElementById('ai-profile-warning-list');
+
+      if (!profile?.profile_name) {
+        card.className = 'bento-card ai-profile-card profile-empty bento-span-5';
+        if (levelBadge) levelBadge.style.display = 'none';
+        if (nameEl) nameEl.textContent = 'Chưa có hồ sơ mẫu đất';
+        if (matchEl) matchEl.textContent = 'Bản ghi lịch sử này chưa kèm trường phân loại nhóm đặc tính đất.';
+        if (tagsEl) {
+          tagsEl.replaceChildren();
+          tagsEl.style.display = 'none';
+        }
+        if (warnList) warnList.replaceChildren();
+        if (warnBox) warnBox.style.display = 'none';
+        return;
+      }
+
+      const level = SOIL_PROFILE_LEVELS[profile.profile_code] || 'good';
+      const ui = SOIL_PROFILE_LEVEL_UI[level];
+      card.className = `bento-card ai-profile-card profile-${level} bento-span-5`;
+
+      if (levelBadge) {
+        levelBadge.style.display = 'inline-flex';
+        levelBadge.className = `pillar-badge ${ui.badge}`;
+        levelBadge.textContent = ui.label;
+      }
+      if (nameEl) nameEl.textContent = profile.profile_name;
+      if (matchEl) matchEl.textContent = profile.common_match || '';
+
+      if (tagsEl) {
+        tagsEl.replaceChildren();
+        (Array.isArray(profile.tags) ? profile.tags : []).forEach(tag => {
+          const chip = document.createElement('span');
+          chip.className = 'profile-tag';
+          chip.textContent = tag;
+          tagsEl.appendChild(chip);
+        });
+        tagsEl.style.display = tagsEl.childElementCount > 0 ? 'flex' : 'none';
+      }
+
+      if (warnBox && warnList) {
+        const warnings = Array.isArray(profile.measurement_warnings) ? profile.measurement_warnings : [];
+        warnList.replaceChildren();
+        warnings.forEach(w => {
+          const li = document.createElement('li');
+          li.textContent = w;
+          warnList.appendChild(li);
+        });
+        warnBox.style.display = warnings.length > 0 ? 'flex' : 'none';
+      }
+    }
+
+    function renderAIDiagnostic(data) {
+      const errorBox = document.getElementById('ai-error-box');
+      const diagBody = document.getElementById('ai-diag-body');
+      const metaText = document.getElementById('ai-meta-text');
+      const ai = data?.ai_evaluation;
+      if (!ai) return;
+
+      if (data.weather) {
+        const wBadge = document.getElementById('ai-weather-badge');
+        const wText = document.getElementById('ai-weather-text');
+        if (wBadge && wText) {
+          wBadge.style.display = 'inline-flex';
+          const wSrc = data.weather.source === 'open-meteo-live' ? 'Live' : 'Dự báo';
+          wText.innerText = `TP.HCM: ${data.weather.temperature}°C • Ẩm ${data.weather.humidity}% • Mưa ${data.weather.rainfall}mm [${wSrc}]`;
+        }
+      }
+
+      if (ai.is_hardware_error) {
+        errorBox.style.display = 'flex';
+        diagBody.style.display = 'none';
+        metaText.innerText = 'Phát hiện sự cố cảm biến RS485 (Lớp 0)';
+        const reasonsList = document.getElementById('ai-error-reasons');
+        reasonsList.innerHTML = (ai.fault_reasons || []).map(r => `<li>${escapeHtml(r)}</li>`).join('');
+        return;
+      }
+
+      errorBox.style.display = 'none';
+      diagBody.style.display = 'flex';
+
+      const meta = ai.analysis_meta || {};
+      const sampleCount = meta.sample_count || data.sample_count || 1;
+      const timeStr = formatAITime(meta.analyzed_at || data.measured_at || new Date());
+      metaText.innerText = `Trung vị ${sampleCount} mẫu ổn định • ${timeStr}`;
+
+      const health = ai.soil_health || {};
+      const rawScore = Number(health.health_score ?? 50);
+      const score = Math.max(0, Math.min(100, Math.round(rawScore)));
+      const scoreRing = document.getElementById('ai-score-ring');
+      const scoreArc = document.getElementById('ai-score-arc');
+      document.getElementById('ai-score-num').innerText = score;
+
+      scoreRing.className = 'ai-score-ring';
+      if (score >= 75) scoreRing.classList.add('score-high');
+      else if (score >= 45) scoreRing.classList.add('score-mid');
+      else scoreRing.classList.add('score-low');
+
+      if (scoreArc) {
+        const offset = SCORE_RING_CIRCUMFERENCE * (1 - score / 100);
+        scoreArc.style.strokeDasharray = SCORE_RING_CIRCUMFERENCE.toFixed(2);
+        scoreArc.style.strokeDashoffset = offset.toFixed(2);
+      }
+
+      const riskTag = document.getElementById('ai-risk-tag');
+      const riskLvl = (ai.risk_level || 'LOW').toLowerCase();
+      riskTag.className = 'ai-risk-tag';
+      if (riskLvl.includes('crit') || riskLvl.includes('high')) riskTag.classList.add('risk-high');
+      else if (riskLvl.includes('med')) riskTag.classList.add('risk-med');
+      else riskTag.classList.add('risk-low');
+      riskTag.innerText = ai.primary_risk || health.label_vi || 'Thổ nhưỡng ổn định';
+
+      const anomalyPill = document.getElementById('ai-anomaly-pill');
+      const anomalyText = document.getElementById('ai-anomaly-text');
+      if (anomalyPill && anomalyText) {
+        if (ai.anomaly_detection?.is_anomaly === true) {
+          anomalyPill.style.display = 'inline-flex';
+          anomalyText.innerText = ai.anomaly_detection.note || 'Cảnh báo bất thường tổ hợp chỉ số';
+        } else {
+          anomalyPill.style.display = 'none';
+        }
+      }
+
+      document.getElementById('ai-overall-title').innerText = ai.overall_title || 'Đánh Giá Thổ Nhưỡng Tổng Thể';
+      document.getElementById('ai-overall-summary').innerText = ai.overall_summary || '';
+      renderSoilProfile(ai.soil_profile);
+
+      const pillarsGrid = document.getElementById('ai-pillars-grid');
+      pillarsGrid.innerHTML = (ai.pillars || []).map(p => {
+        let badgeClass = 'badge-tot';
+        let iconColor = '#34d399';
+        if (p.status === 'CANH_BAO') {
+          badgeClass = 'badge-canhbao';
+          iconColor = '#fbbf24';
+        } else if (p.status === 'NGUY_HIEM') {
+          badgeClass = 'badge-nguyhiem';
+          iconColor = '#f87171';
+        }
+        const iconClass = PILLAR_ICONS[p.key] || 'fa-cube';
+        return `
+          <div class="pillar-card">
+            <div class="pillar-head">
+              <span class="pillar-title-wrap">
+                <i class="fa-solid ${iconClass} pillar-icon" style="color: ${iconColor};"></i>
+                <span class="pillar-title">${escapeHtml(p.title)}</span>
+              </span>
+              <span class="pillar-badge ${badgeClass}">${escapeHtml(p.status_vi)}</span>
+            </div>
+            <div class="pillar-value">${escapeHtml(p.value_text)}</div>
+            <div class="pillar-note">${escapeHtml(p.short_note)}</div>
+          </div>
+        `;
+      }).join('');
+
+      const shapList = document.getElementById('ai-shap-list');
+      const shapFactors = (health && (health.top_influencing_factors || health.shap_top_factors)) || ai.shap_top_factors || [];
+      if (shapFactors && shapFactors.length > 0) {
+        shapList.innerHTML = shapFactors.map(f => {
+          const rawVal = Number(f.shap_value !== undefined ? f.shap_value : (f.impact_weight || 0.5));
+          const impact = Math.abs(rawVal);
+          const percent = Math.min(100, Math.max(20, Math.round(impact * 65)));
+          const isPos = rawVal >= 0 && !String(f.direction || '').includes('Tiêu cực');
+          const barClass = isPos ? 'bar-pos' : 'bar-neg';
+          const textClass = isPos ? 'is-pos' : 'is-neg';
+          const signStr = rawVal > 0 ? `+${rawVal.toFixed(2)}` : `${rawVal.toFixed(2)}`;
+          const dirStr = f.direction ? `${f.direction} (${signStr})` : signStr;
+          return `
+            <div class="ai-shap-item">
+              <div class="shap-row-head">
+                <span class="shap-name">${escapeHtml(f.name_vi || f.feature)}</span>
+                <span class="shap-impact ${textClass}">${escapeHtml(dirStr)}</span>
+              </div>
+              <div class="shap-track">
+                <div class="shap-bar ${barClass}" style="width: ${percent}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        shapList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8;">Đang tổng hợp trọng số các yếu tố ảnh hưởng...</div>';
+      }
+
+      const prereqAlert = document.getElementById('ai-prereq-alert');
+      const prereqText = document.getElementById('ai-prereq-text');
+      if (ai.crop_prerequisite_note) {
+        prereqAlert.style.display = 'flex';
+        prereqText.innerText = ai.crop_prerequisite_note;
+      } else {
+        prereqAlert.style.display = 'none';
+      }
+
+      const cropList = document.getElementById('ai-crop-list');
+      const crops = ai.crop_recommendations || [];
+      if (crops.length > 0) {
+        cropList.innerHTML = crops.map((c, idx) => {
+          const conf = Math.max(0, Math.min(100, Number(c.confidence_percent || 0)));
+          return `
+            <div class="crop-card">
+              <div class="crop-top">
+                <span class="crop-rank">#${idx + 1}</span>
+                <span class="crop-conf">${conf.toFixed(1)}%</span>
+              </div>
+              <div class="crop-name-vi">${escapeHtml(c.crop_vi)}</div>
+              <div class="crop-name-en">${escapeHtml(c.crop_en)}</div>
+              <div class="crop-bar-track">
+                <div class="crop-bar-fill" style="width: ${Math.max(8, conf)}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        cropList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8; grid-column: 1 / -1;">Chưa có dữ liệu gợi ý cây trồng.</div>';
+      }
+
+      renderActionPlan(ai.action_plan || []);
+    }
+
+    async function fetchAIDiagnostic() {
+      try {
+        const aiRes = await fetch('/api/v1/recommendations/ESP32_SOIL_01');
+        const aiData = await aiRes.json();
+        if (aiData.status === 'NO_DATA') return;
+        if (aiRes.ok && aiData) {
+          renderAIDiagnostic(aiData);
+        }
+      } catch (err) {
+        console.error('Lỗi server khi nạp chẩn đoán AI:', err);
+      }
+    }
+
+    async function reanalyzeAI() {
+      const btn = document.getElementById('btn-reanalyze');
+      const icon = document.getElementById('reanalyze-icon');
+      const label = document.getElementById('reanalyze-label');
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('is-loading');
+      }
+      if (icon) icon.classList.add('fa-spin');
+      if (label) label.textContent = 'Đang phân tích...';
+      try {
+        await Promise.all([fetchLatest(), fetchHistoryAndRender()]);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove('is-loading');
+        }
+        if (icon) icon.classList.remove('fa-spin');
+        if (label) label.textContent = 'Phân tích lại';
+      }
+    }
+
     // Fetch latest telemetry record
     async function fetchLatest() {
       try {
         const res = await fetch('/api/v1/telemetry/latest?device_id=ESP32_SOIL_01');
-        if (!res.ok) throw new Error('Chưa có bản ghi');
-        const data = await res.json();
+        const json = await res.json();
 
+        if (!res.ok || json.status === 'NO_DATA') {
+          const pill = document.getElementById('device-pill');
+          const dot = document.getElementById('pill-dot');
+          const text = document.getElementById('pill-text');
+          if (pill) pill.className = 'device-pill pill-offline';
+          if (dot) dot.className = 'pulsing-dot dot-red';
+          if (text) text.innerText = 'NGOẠI TUYẾN (Chờ dữ liệu)';
+          const relTime = document.getElementById('meta-relative-time');
+          if (relTime) relTime.innerText = 'Chờ ESP32 gửi dữ liệu...';
+          const aiTitle = document.getElementById('ai-overall-title');
+          if (aiTitle) aiTitle.innerText = 'Chờ Dữ Liệu Thực Từ Thiết Bị ESP32';
+          const aiSummary = document.getElementById('ai-overall-summary');
+          if (aiSummary) aiSummary.innerText = 'Cơ sở dữ liệu đang trống và sẵn sàng tiếp nhận dữ liệu đo thực tế từ mạch ESP32.';
+          const aiMeta = document.getElementById('ai-meta-text');
+          if (aiMeta) aiMeta.innerText = 'Hệ thống sẵn sàng • Đang chờ tín hiệu';
+          const anomalyPill = document.getElementById('ai-anomaly-pill');
+          if (anomalyPill) anomalyPill.style.display = 'none';
+          renderSoilProfile(null);
+          return;
+        }
+
+        const data = json.data || json;
         const recordDate = parseDateUTC(data.created_at);
         const now = new Date();
-        const diffSeconds = (now.getTime() - recordDate.getTime()) / 1000;
-        const isOnline = diffSeconds >= 0 && diffSeconds < 30;
+        const diffSeconds = Math.abs((now.getTime() - recordDate.getTime()) / 1000);
+        const isOnline = diffSeconds < 60;
 
         // Update Device Pill
         const pill = document.getElementById('device-pill');
@@ -1113,8 +2492,9 @@
         document.getElementById('val-k').innerText = Math.round(data.potassium);
 
         updateMetricStatus(data.moisture, data.temperature, data.ph, data.ec);
+        await fetchAIDiagnostic();
       } catch (err) {
-        console.warn('Latest fetch warning:', err);
+        console.error('Lỗi server khi tải telemetry:', err);
       }
     }
 

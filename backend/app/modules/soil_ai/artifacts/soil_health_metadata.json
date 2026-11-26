@@ -1,0 +1,42 @@
+{
+  "model_name": "Model A - Soil Health Classification",
+  "model_version": "xgb-soil-v1.0",
+  "trained_at": "2026-11-20T09:00:46.175939",
+  "raw_features": [
+    "n",
+    "p",
+    "k",
+    "ph",
+    "ec"
+  ],
+  "engineered_features": [
+    "n",
+    "p",
+    "k",
+    "ph",
+    "ec",
+    "npk_total",
+    "n_p_ratio",
+    "n_k_ratio",
+    "p_k_ratio",
+    "ph_dev_optimal",
+    "is_acidic_flag",
+    "ec_npk_ratio"
+  ],
+  "classes": [
+    "KEM",
+    "TOT",
+    "TRUNG_BINH"
+  ],
+  "label_vi": {
+    "KEM": "Đất kém dinh dưỡng – Cần cải tạo",
+    "TRUNG_BINH": "Đất trung bình – Cần bổ sung cân đối",
+    "TOT": "Đất phì nhiêu tốt"
+  },
+  "ppm_to_kg_ha_factor": 2.24,
+  "ec_unit": "uS/cm",
+  "ec_us_to_ds_divisor": 1.0,
+  "input_units_note": "Model A & Isolation Forest v1.0: N/P/K theo kg/ha (cảm biến mg/kg x 2.24), EC theo uS/cm (giữ nguyên, divisor 1.0). Đã kiểm chứng qua ngưỡng tách của cây quyết định.",
+  "test_accuracy": 0.892,
+  "test_macro_f1": 0.7944
+}
