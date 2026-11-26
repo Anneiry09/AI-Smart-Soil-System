@@ -164,6 +164,19 @@
       font-weight: 700;
       color: #34d399;
       letter-spacing: 0.03em;
+      transition: all 0.3s ease;
+    }
+
+    .live-badge.status-offline {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #f87171;
+    }
+
+    .live-badge.status-offline .pulse-dot {
+      background-color: #ef4444;
+      animation: none;
+      box-shadow: none;
     }
 
     .pulse-dot {
@@ -363,32 +376,865 @@
       width: 100%;
     }
 
-    /* ADVISORY & STATS SECTION */
-    .advisory-card {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 42, 0.8));
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: var(--radius);
-      padding: 22px 26px;
-      margin-bottom: 28px;
+    /* ==========================================================================
+       AI DIAGNOSTIC BENTO DARK MINIMALIST STYLES
+       ========================================================================== */
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .ai-diagnostic-card {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.92) 0%, rgba(9, 13, 24, 0.96) 100%);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 20px;
+      padding: 24px 26px;
+      margin-bottom: 30px;
+      box-shadow: 0 20px 48px -24px rgba(0, 0, 0, 0.75);
+      position: relative;
+    }
+
+    /* Header: single compact row, wraps neatly on mobile */
+    .ai-diag-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .ai-head-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .ai-icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .ai-head-meta-wrap {
+      min-width: 0;
+    }
+
+    .ai-head-left h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      line-height: 1.3;
+    }
+
+    .ai-meta-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .ai-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      background: rgba(15, 23, 42, 0.75);
+      color: #94a3b8;
+      line-height: 1.4;
+    }
+    .ai-chip-info {
+      background: rgba(56, 189, 248, 0.08);
+      color: #38bdf8;
+      border-color: rgba(56, 189, 248, 0.22);
+    }
+    .ai-chip-live {
+      background: rgba(16, 185, 129, 0.08);
+      color: #34d399;
+      border-color: rgba(16, 185, 129, 0.22);
+    }
+
+    .btn-reanalyze {
+      background: rgba(16, 185, 129, 0.10);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 9px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-reanalyze:hover:not(:disabled) {
+      background: #10b981;
+      border-color: #10b981;
+      color: #061210;
+    }
+    .btn-reanalyze:disabled,
+    .btn-reanalyze.is-loading {
+      opacity: 0.72;
+      cursor: wait;
+    }
+
+    /* Hardware Error Box */
+    .ai-error-box {
+      background: rgba(239, 68, 68, 0.10);
+      border: 1px solid rgba(239, 68, 68, 0.30);
+      border-radius: 16px;
+      padding: 18px 22px;
       display: flex;
       align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .ai-error-box > i {
+      font-size: 1.6rem;
+      color: #f87171;
+      padding-top: 2px;
+    }
+    .ai-error-content h4 {
+      font-size: 1rem;
+      color: #f87171;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .ai-error-content p {
+      font-size: 0.88rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    /* Bento 4-Row Stack */
+    .ai-bento-stack {
+      display: flex;
+      flex-direction: column;
       gap: 18px;
     }
-    .advisory-icon {
-      font-size: 2rem;
-      color: #10b981;
-      padding-top: 4px;
+
+    .bento-card {
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 20px 22px;
+      transition: border-color 0.2s ease;
     }
-    .advisory-content h4 {
-      font-size: 1.05rem;
+    .bento-card:hover {
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+
+    /* Row 1: Bento Hero (12 cols = 7 + 5) */
+    .ai-bento-hero {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .bento-span-7 { grid-column: span 7; }
+    .bento-span-5 { grid-column: span 5; }
+    .bento-span-6 { grid-column: span 6; }
+
+    /* Hero Left: Health Score SVG Ring + Overall Summary */
+    .ai-overview-card {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      height: 100%;
+    }
+
+    .ai-score-ring {
+      position: relative;
+      width: 112px;
+      height: 112px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-score-svg {
+      width: 112px;
+      height: 112px;
+      transform: rotate(-90deg);
+    }
+    .score-track {
+      fill: none;
+      stroke: rgba(148, 163, 184, 0.14);
+      stroke-width: 8;
+    }
+    .score-progress {
+      fill: none;
+      stroke: #34d399;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 301.59;
+      stroke-dashoffset: 301.59;
+      transition: stroke-dashoffset 0.65s cubic-bezier(0.22, 1, 0.36, 1), stroke 0.3s ease;
+    }
+    .ai-score-ring.score-high .score-progress { stroke: #34d399; }
+    .ai-score-ring.score-high .score-num { color: #34d399; }
+    .ai-score-ring.score-mid .score-progress { stroke: #fbbf24; }
+    .ai-score-ring.score-mid .score-num { color: #fbbf24; }
+    .ai-score-ring.score-low .score-progress { stroke: #f87171; }
+    .ai-score-ring.score-low .score-num { color: #f87171; }
+
+    .score-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .score-num {
+      font-size: 1.9rem;
+      font-weight: 800;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      color: #f8fafc;
+    }
+    .score-sub {
+      font-size: 0.72rem;
+      color: #64748b;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      margin-top: 2px;
+    }
+    .score-label {
+      font-size: 0.58rem;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .ai-overview-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .ai-hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .ai-risk-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      line-height: 1.3;
+    }
+    .risk-low {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .risk-med {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .risk-high, .risk-crit {
+      background: rgba(239, 68, 68, 0.14);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .ai-anomaly-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.71rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.10);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+
+    .ai-overview-text h4 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-bottom: 8px;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+    }
+    .ai-overview-text p {
+      font-size: 0.86rem;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* Hero Right: Soil Profile Card */
+    .ai-profile-card {
+      border-left: 3px solid #34d399;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      height: 100%;
+    }
+    .ai-profile-card.profile-danger { border-left-color: #f87171; }
+    .ai-profile-card.profile-warn { border-left-color: #fbbf24; }
+    .ai-profile-card.profile-good { border-left-color: #34d399; }
+    .ai-profile-card.profile-empty { border-left-color: rgba(148, 163, 184, 0.35); }
+
+    .profile-top {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .profile-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .profile-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .profile-name {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: #f1f5f9;
+      line-height: 1.35;
+    }
+    .ai-profile-card.profile-danger .profile-name { color: #fca5a5; }
+    .ai-profile-card.profile-warn .profile-name { color: #fde68a; }
+    .ai-profile-card.profile-good .profile-name { color: #6ee7b7; }
+    .profile-match {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+    .profile-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .profile-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      background: rgba(148, 163, 184, 0.10);
+      border: 1px solid rgba(148, 163, 184, 0.20);
+      border-radius: 999px;
+      padding: 3px 10px;
+      font-variant-numeric: tabular-nums;
+    }
+    .profile-warning {
+      background: rgba(245, 158, 11, 0.09);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-size: 0.78rem;
+      color: #fde68a;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .profile-warning i {
+      color: #fbbf24;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .profile-warning ul {
+      margin: 0;
+      padding-left: 16px;
+    }
+
+    /* Row 2: 4 Pillars (4 cols desktop, 2 cols tablet, 1 col mobile) */
+    .ai-pillars-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ai-pillars-head {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ai-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .pillar-card {
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+    .pillar-card:hover {
+      border-color: rgba(148, 163, 184, 0.25);
+      transform: translateY(-2px);
+    }
+    .pillar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .pillar-title-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+    }
+    .pillar-icon {
+      font-size: 0.84rem;
+      color: #38bdf8;
+      flex-shrink: 0;
+    }
+    .pillar-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pillar-badge {
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .badge-tot {
+      background: rgba(16, 185, 129, 0.12);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.28);
+    }
+    .badge-canhbao {
+      background: rgba(245, 158, 11, 0.12);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.28);
+    }
+    .badge-nguyhiem {
+      background: rgba(239, 68, 68, 0.14);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .pillar-value {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+    .pillar-note {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    /* Row 3: Insights (12 cols = 6 + 6) */
+    .ai-bento-insights {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+    .ai-sub-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-subtitle {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #e2e8f0;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* TreeSHAP Bars */
+    .ai-shap-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      justify-content: center;
+    }
+    .ai-shap-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .shap-row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      font-size: 0.8rem;
+    }
+    .shap-name {
+      color: #e2e8f0;
+      font-weight: 600;
+    }
+    .shap-impact {
+      font-size: 0.74rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      text-align: right;
+    }
+    .shap-impact.is-pos { color: #34d399; }
+    .shap-impact.is-neg { color: #f87171; }
+    .shap-track {
+      background: rgba(148, 163, 184, 0.12);
+      border-radius: 999px;
+      height: 7px;
+      overflow: hidden;
+    }
+    .shap-bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .bar-pos {
+      background: linear-gradient(90deg, #10b981, #34d399);
+    }
+    .bar-neg {
+      background: linear-gradient(90deg, #f59e0b, #f87171);
+    }
+
+    /* Prerequisite Banner */
+    .ai-prereq-alert {
+      background: rgba(245, 158, 11, 0.09);
+      border: 1px solid rgba(245, 158, 11, 0.28);
+      border-left: 3px solid #fbbf24;
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+      font-size: 0.8rem;
+      color: #fde68a;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+    .ai-prereq-alert i {
+      color: #fbbf24;
+      font-size: 0.95rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* Top 3 Crops Grid */
+    .ai-crop-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: auto;
+    }
+    .crop-card {
+      background: rgba(30, 41, 59, 0.45);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 12px;
+      padding: 12px 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .crop-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(56, 189, 248, 0.38);
+    }
+    .crop-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .crop-rank {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      background: rgba(56, 189, 248, 0.10);
+      padding: 1px 6px;
+      border-radius: 999px;
+    }
+    .crop-conf {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #34d399;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .crop-name-vi {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f8fafc;
+      margin-top: 4px;
+    }
+    .crop-name-en {
+      font-size: 0.72rem;
+      color: #64748b;
+      text-transform: capitalize;
+    }
+    .crop-bar-track {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.14);
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .crop-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #38bdf8, #34d399);
+      transition: width 0.45s ease;
+    }
+
+    /* Row 4: Interactive Action Plan Checklist (Full width 12 cols) */
+    .ai-action-plan-section {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ai-plan-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .ai-plan-head h4 {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #f8fafc;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 3px;
+    }
+    .plan-sub {
+      font-size: 0.78rem;
+      color: #94a3b8;
+    }
+    .plan-progress-chip {
+      font-size: 0.74rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.22);
+      border-radius: 999px;
+      padding: 4px 12px;
+    }
+
+    .ai-plan-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .plan-step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(30, 41, 59, 0.32);
+      border: 1px solid rgba(148, 163, 184, 0.10);
+      border-radius: 14px;
+      padding: 14px 16px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    }
+    .plan-step-card:hover {
+      background: rgba(30, 41, 59, 0.52);
+      border-color: rgba(148, 163, 184, 0.22);
+    }
+    .plan-step-card.is-done {
+      opacity: 0.56;
+      background: rgba(16, 185, 129, 0.04);
+      border-color: rgba(16, 185, 129, 0.18);
+    }
+    .plan-step-card.is-done .step-title {
+      text-decoration: line-through;
+      color: #94a3b8;
+    }
+    .plan-step-card.is-done .step-detail {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+    .step-number {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      color: #38bdf8;
+      font-weight: 800;
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s ease;
+    }
+    .plan-step-card.is-done .step-number {
+      background: rgba(16, 185, 129, 0.18);
+      border-color: #34d399;
       color: #34d399;
     }
-    .advisory-content p {
-      font-size: 0.92rem;
-      color: #e2e8f0;
-      line-height: 1.5;
+    .step-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .step-head {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+    }
+    .step-badge {
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .badge-urgent {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.32);
+    }
+    .badge-monitor {
+      background: rgba(56, 189, 248, 0.14);
+      color: #38bdf8;
+      border: 1px solid rgba(56, 189, 248, 0.30);
+    }
+    .badge-care {
+      background: rgba(16, 185, 129, 0.14);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.30);
+    }
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .step-detail {
+      font-size: 0.83rem;
+      color: #94a3b8;
+      line-height: 1.55;
+    }
+    .step-check-btn {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 1px solid rgba(148, 163, 184, 0.30);
+      background: rgba(15, 23, 42, 0.6);
+      color: transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      flex-shrink: 0;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+    .plan-step-card.is-done .step-check-btn {
+      background: #10b981;
+      border-color: #10b981;
+      color: #061210;
+    }
+
+    /* Bento Responsive Breakpoints */
+    @media (max-width: 1024px) {
+      .bento-span-7,
+      .bento-span-5 {
+        grid-column: span 12;
+      }
+      .ai-pillars-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (max-width: 960px) {
+      .bento-span-6 {
+        grid-column: span 12;
+      }
+    }
+    @media (max-width: 640px) {
+      .ai-diagnostic-card {
+        padding: 18px 16px;
+      }
+      .ai-overview-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .ai-pillars-grid,
+      .ai-crop-grid {
+        grid-template-columns: 1fr;
+      }
+      .ai-head-right {
+        width: 100%;
+      }
+      .btn-reanalyze {
+        width: 100%;
+        justify-content: center;
+      }
     }
 
     /* RECENT LOGS TABLE */
@@ -535,9 +1381,9 @@
       </a>
 
       <div class="nav-actions">
-        <div class="live-badge">
-          <span class="pulse-dot"></span>
-          <span>TRỰC TUYẾN: ESP32_SOIL_01</span>
+        <div class="live-badge" id="device-status-badge">
+          <span class="pulse-dot" id="device-status-dot"></span>
+          <span id="device-status-text">Đang kết nối...</span>
         </div>
 
         <a href="/docs" class="btn btn-api" target="_blank" title="Mở trang tài liệu Swagger API">
@@ -655,14 +1501,149 @@
       </div>
     </section>
 
-    <!-- ADVISORY BOX -->
-    <section class="advisory-card" id="advisory-container">
-      <div class="advisory-icon">
-        <i class="fa-solid fa-microchip-ai" id="adv-icon"></i>
+    <!-- AI DIAGNOSTIC SECTION (BENTO DARK MINIMALIST) -->
+    <section class="ai-diagnostic-card" id="ai-diagnostic-container">
+      <!-- HEADER -->
+      <div class="ai-diag-head">
+        <div class="ai-head-left">
+          <div class="ai-icon-badge"><i class="fa-solid fa-microchip"></i></div>
+          <div class="ai-head-meta-wrap">
+            <h3>Chẩn Đoán Thổ Nhưỡng Tổng Thể (AI)</h3>
+            <div class="ai-meta-chips">
+              <span class="ai-chip ai-chip-info" id="ai-meta-badge">
+                <i class="fa-solid fa-layer-group"></i> <span id="ai-meta-text">Đang kết nối mô hình AI...</span>
+              </span>
+              <span class="ai-chip ai-chip-live" id="ai-source-badge">
+                <i class="fa-solid fa-satellite-dish"></i> <span>Nguồn: Cảm biến thực tế ESP32 + Open-Meteo</span>
+              </span>
+              <span class="ai-chip ai-chip-info" id="ai-weather-badge" style="display: none;">
+                <i class="fa-solid fa-cloud-sun-rain"></i> <span id="ai-weather-text">Thời tiết</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-head-right">
+          <button type="button" onclick="fetchLatestTelemetry(true)" class="btn-reanalyze" id="btn-reanalyze" title="Phân tích lại dữ liệu mới nhất">
+            <i class="fa-solid fa-arrows-rotate" id="reanalyze-icon"></i>
+            <span id="reanalyze-label">Phân tích lại</span>
+          </button>
+        </div>
       </div>
-      <div class="advisory-content">
-        <h4 id="adv-title">Phân Tích Sức Khỏe Thổ Nhưỡng (Agronomic Analysis)</h4>
-        <p id="adv-text">Hệ thống đang nạp dữ liệu và đánh giá các chỉ số nông học thời gian thực...</p>
+
+      <!-- ERROR STATE (HIDDEN BY DEFAULT) -->
+      <div class="ai-error-box" id="ai-error-box" style="display: none;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div class="ai-error-content">
+          <h4 id="ai-error-title">Lỗi Cảm Biến / Phần Cứng RS485</h4>
+          <p id="ai-error-msg">Dữ liệu vượt ngưỡng vật lý an toàn hoặc mất tín hiệu. Hệ thống tạm dừng phân tích AI để tránh đưa ra lời khuyên sai lệch.</p>
+          <ul id="ai-error-reasons" style="margin-top: 6px; padding-left: 20px; font-size: 0.85rem; color: #fca5a5;"></ul>
+        </div>
+      </div>
+
+      <!-- MAIN AI CONTENT BODY: 4 BENTO ROWS -->
+      <div class="ai-diag-body ai-bento-stack" id="ai-diag-body">
+        <!-- ROW 1: BENTO HERO (7 + 5) -->
+        <div class="ai-bento-hero">
+          <!-- COL LEFT (7): HEALTH SCORE SVG RING + OVERALL DIAGNOSIS -->
+          <div class="bento-card ai-overview-card bento-span-7">
+            <div class="ai-score-ring" id="ai-score-ring">
+              <svg class="ai-score-svg" viewBox="0 0 112 112" aria-hidden="true">
+                <circle class="score-track" cx="56" cy="56" r="48"></circle>
+                <circle class="score-progress" id="ai-score-arc" cx="56" cy="56" r="48"></circle>
+              </svg>
+              <div class="score-center">
+                <span class="score-num" id="ai-score-num">--</span>
+                <span class="score-sub">/ 100</span>
+                <span class="score-label" id="ai-score-label">Sức khỏe</span>
+              </div>
+            </div>
+            <div class="ai-overview-text">
+              <div class="ai-hero-badges">
+                <span class="ai-risk-tag risk-low" id="ai-risk-tag">Đang tải...</span>
+                <span class="ai-anomaly-pill" id="ai-anomaly-pill" style="display: none;">
+                  <i class="fa-solid fa-wave-square"></i>
+                  <span id="ai-anomaly-text">Bất thường tổ hợp chỉ số</span>
+                </span>
+              </div>
+              <h4 id="ai-overall-title">Đang phân tích dữ liệu thổ nhưỡng...</h4>
+              <p id="ai-overall-summary">Vui lòng chờ trong giây lát khi hệ thống tổng hợp các chỉ số cảm biến 7-in-1 qua mô hình học máy.</p>
+            </div>
+          </div>
+
+          <!-- COL RIGHT (5): SOIL PROFILE -->
+          <div class="bento-card ai-profile-card profile-empty bento-span-5" id="ai-profile-card">
+            <div class="profile-top">
+              <div class="profile-head">
+                <span class="profile-label"><i class="fa-solid fa-layer-group"></i> Đặc Tính Đất Dự Đoán</span>
+                <span class="pillar-badge badge-tot" id="ai-profile-level" style="display: none;">Thuận lợi</span>
+              </div>
+              <div class="profile-name" id="ai-profile-name">Đang xác định hồ sơ đất...</div>
+              <div class="profile-match" id="ai-profile-match">Hệ thống đang đối chiếu tổ hợp chỉ số pH, EC, độ ẩm và NPK.</div>
+              <div class="profile-tags" id="ai-profile-tags" style="display: none;"></div>
+            </div>
+            <div class="profile-warning" id="ai-profile-warning" style="display: none;">
+              <i class="fa-solid fa-droplet-slash"></i>
+              <ul id="ai-profile-warning-list"></ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: 4 PILLARS (4 COLS EQUAL ON DESKTOP) -->
+        <div class="ai-pillars-section">
+          <div class="ai-pillars-head">
+            <i class="fa-solid fa-cubes"></i>
+            <span>4 Trụ Cột Thổ Nhưỡng Đánh Giá</span>
+          </div>
+          <div class="ai-pillars-grid" id="ai-pillars-grid">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
+
+        <!-- ROW 3: EXPLAINABLE AI & TOP 3 CROPS (6 + 6) -->
+        <div class="ai-bento-insights">
+          <!-- COL LEFT (6): TREESHAP FACTORS -->
+          <div class="bento-card ai-sub-card bento-span-6">
+            <div class="card-subtitle">
+              <i class="fa-solid fa-chart-simple" style="color: #38bdf8;"></i>
+              <span>Yếu Tố Ảnh Hưởng Chính (TreeSHAP)</span>
+            </div>
+            <div class="ai-shap-list" id="ai-shap-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- COL RIGHT (6): TOP 3 CROPS -->
+          <div class="bento-card ai-sub-card bento-span-6">
+            <div class="card-subtitle">
+              <i class="fa-solid fa-seedling" style="color: #34d399;"></i>
+              <span>Cây Trồng Phù Hợp Nhất (Top 3)</span>
+            </div>
+
+            <!-- PREREQUISITE BANNER (IF ANY) -->
+            <div class="ai-prereq-alert" id="ai-prereq-alert" style="display: none;">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span id="ai-prereq-text">Lưu ý điều kiện canh tác</span>
+            </div>
+
+            <div class="ai-crop-grid" id="ai-crop-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 4: INTERACTIVE ACTION PLAN CHECKLIST (FULL WIDTH 12 COLS) -->
+        <div class="bento-card ai-action-plan-section">
+          <div class="ai-plan-head">
+            <div>
+              <h4><i class="fa-solid fa-list-check" style="color: #fbbf24;"></i> Phác Đồ Xử Lý & Canh Tác Theo Thứ Tự Ưu Tiên</h4>
+              <span class="plan-sub">Thực hiện tuần tự từ Bước 1 • Bấm vào từng bước để đánh dấu đã hoàn thành</span>
+            </div>
+            <span class="plan-progress-chip" id="ai-plan-progress" style="display: none;">0/0 hoàn thành</span>
+          </div>
+          <div class="ai-plan-steps" id="ai-plan-steps">
+            <!-- Rendered via JS -->
+          </div>
+        </div>
       </div>
     </section>
 
@@ -755,33 +1736,49 @@
       return d.toLocaleTimeString('vi-VN', { hour12: false }) + ' ' + d.toLocaleDateString('vi-VN');
     }
 
-    // Helper evaluations
-    function evaluateMetrics(m, t, ph, ec) {
-      // Moisture
-      const mEl = document.getElementById('status-moisture');
-      if (m < 40) { mEl.className = 'card-status status-alert'; mEl.innerText = 'Thiếu Nước'; }
-      else if (m <= 75) { mEl.className = 'card-status status-good'; mEl.innerText = 'Tối Ưu'; }
-      else { mEl.className = 'card-status status-warn'; mEl.innerText = 'Độ Ẩm Cao'; }
+    // Helper cập nhật trạng thái trực tuyến / ngoại tuyến của ESP32 (< 60s)
+    function updateOnlineStatus(isOnline, ageSec) {
+      const badge = document.getElementById('device-status-badge');
+      const text = document.getElementById('device-status-text');
+      if (!badge || !text) return;
+      if (isOnline) {
+        badge.className = 'live-badge status-online';
+        text.innerText = 'TRỰC TUYẾN: ESP32_SOIL_01';
+      } else {
+        badge.className = 'live-badge status-offline';
+        const agoText = (ageSec !== null && ageSec !== undefined && ageSec < 86400) ? ` (${Math.round(ageSec)}s trước)` : '';
+        text.innerText = 'NGOẠI TUYẾN: ESP32_SOIL_01' + agoText;
+      }
+    }
 
-      // Temp
+    // Helper evaluations
+    // Helper evaluations & AI Diagnostic Renderer
+    async function evaluateMetrics(m, t, ph, ec) {
+      // 1. Cập nhật trạng thái tức thời trên các thẻ chỉ số (Quick card status)
+      const mEl = document.getElementById('status-moisture');
+      if (m < 25) { mEl.className = 'card-status status-alert'; mEl.innerText = 'Khô Hạn'; }
+      else if (m < 35) { mEl.className = 'card-status status-warn'; mEl.innerText = 'Thiếu Nước'; }
+      else if (m <= 75) { mEl.className = 'card-status status-good'; mEl.innerText = 'Tối Ưu'; }
+      else if (m <= 85) { mEl.className = 'card-status status-warn'; mEl.innerText = 'Độ Ẩm Cao'; }
+      else { mEl.className = 'card-status status-alert'; mEl.innerText = 'Ngập Úng'; }
+
       const tEl = document.getElementById('status-temp');
       if (t < 18) { tEl.className = 'card-status status-warn'; tEl.innerText = 'Lạnh'; }
-      else if (t <= 32) { tEl.className = 'card-status status-good'; tEl.innerText = 'Phù Hợp'; }
+      else if (t <= 33) { tEl.className = 'card-status status-good'; tEl.innerText = 'Phù Hợp'; }
       else { tEl.className = 'card-status status-alert'; tEl.innerText = 'Quá Nóng'; }
 
-      // pH
       const phEl = document.getElementById('status-ph');
-      if (ph < 5.5) { phEl.className = 'card-status status-alert'; phEl.innerText = 'Đất Chua'; }
-      else if (ph <= 7.0) { phEl.className = 'card-status status-good'; phEl.innerText = 'Lý Tưởng'; }
-      else { phEl.className = 'card-status status-warn'; phEl.innerText = 'Đất Kiềm'; }
+      if (ph < 5.0) { phEl.className = 'card-status status-alert'; phEl.innerText = 'Chua Nặng'; }
+      else if (ph < 6.0) { phEl.className = 'card-status status-warn'; phEl.innerText = 'Hơi Chua'; }
+      else if (ph <= 7.5) { phEl.className = 'card-status status-good'; phEl.innerText = 'Lý Tưởng'; }
+      else { phEl.className = 'card-status status-alert'; phEl.innerText = 'Đất Kiềm'; }
 
-      // EC
       const ecEl = document.getElementById('status-ec');
-      if (ec < 400) { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Nghèo Muối'; }
-      else if (ec <= 1600) { ecEl.className = 'card-status status-good'; ecEl.innerText = 'Dinh Dưỡng Tốt'; }
-      else { ecEl.className = 'card-status status-alert'; ecEl.innerText = 'Quá Mặn'; }
+      if (ec >= 2000) { ecEl.className = 'card-status status-alert'; ecEl.innerText = 'Mặn Nặng'; }
+      else if (ec >= 1500) { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Mặn Cao'; }
+      else if (ec >= 300) { ecEl.className = 'card-status status-good'; ecEl.innerText = 'Dinh Dưỡng Tốt'; }
+      else { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Nghèo Khoáng'; }
 
-      // NPK status
       document.getElementById('status-n').className = 'card-status status-good';
       document.getElementById('status-n').innerText = 'Hòa Tan';
       document.getElementById('status-p').className = 'card-status status-good';
@@ -789,42 +1786,420 @@
       document.getElementById('status-k').className = 'card-status status-good';
       document.getElementById('status-k').innerText = 'Hòa Tan';
 
-      // Advisory
-      const advTitle = document.getElementById('adv-title');
-      const advText = document.getElementById('adv-text');
-      const advIcon = document.getElementById('adv-icon');
-
-      let alerts = [];
-      if (ph < 5.5) alerts.push(`Đất có tính axit (pH = ${ph}). Cần bón thêm vôi nông nghiệp (CaCO3) để nâng pH lên mức 6.0 - 6.5.`);
-      if (m < 45) alerts.push(`Độ ẩm thấp (${m}%). Đất đang thiếu nước, khuyến nghị kích hoạt tưới nhỏ giọt.`);
-      if (m > 85) alerts.push(`Độ ẩm rất cao (${m}%). Nguy cơ úng rễ, cần kiểm tra mương thoát nước.`);
-      if (ec < 400 && ec > 0) alerts.push(`Độ dẫn điện EC thấp (${ec} µS/cm). Đất nghèo dinh dưỡng, cần bổ sung phân bón N-P-K cân đối.`);
-      if (ec === 0 && m === 0) alerts.push(`Cảm biến đang đặt ngoài không khí hoặc cắm trong môi trường đất khô cằn (EC = 0, NPK = 0).`);
-
-      if (alerts.length > 0) {
-        advTitle.innerText = "Cảnh Báo & Khuyến Nghị Nông Học";
-        advTitle.style.color = "#f59e0b";
-        advIcon.className = "fa-solid fa-triangle-exclamation";
-        advIcon.style.color = "#f59e0b";
-        advText.innerHTML = alerts.map(a => `• ${a}`).join('<br>');
-      } else {
-        advTitle.innerText = "Tình Trạng Sức Khỏe Đất Tuyệt Vời";
-        advTitle.style.color = "#34d399";
-        advIcon.className = "fa-solid fa-circle-check";
-        advIcon.style.color = "#34d399";
-        advText.innerText = "Các chỉ số Độ ẩm, Nhiệt độ, Độ chua (pH) và Muối khoáng (EC) đều nằm trong dải sinh trưởng tối ưu cho cây trồng.";
+      // 2. Gọi API Recommendations tổng hợp AI
+      try {
+        const aiRes = await fetch('/api/v1/recommendations/ESP32_SOIL_01');
+        const aiData = await aiRes.json();
+        // NO_DATA = DB trống hoặc thiết bị chưa gửi → im lặng, không log lỗi
+        if (aiData.status === 'NO_DATA') return;
+        if (aiRes.ok && aiData) {
+          renderAIDiagnostic(aiData);
+        }
+      } catch (err) {
+        // Chỉ log khi lỗi thật sự (500, mất kết nối server)
+        console.error('Lỗi server khi nạp chẩn đoán AI:', err);
       }
+    }
+
+    const SOIL_PROFILE_LEVELS = {
+      DAT_CHUA_MAN: 'danger',
+      DAT_NGHI_PHEN: 'danger',
+      DAT_NHIEM_MAN: 'danger',
+      DAT_CHUA_MANH: 'danger',
+      DAT_KIEM_CAO: 'danger',
+      DAT_BAC_MAU_CHUA: 'warn',
+      DAT_CHUA_NHE: 'warn',
+      DAT_HOI_KIEM: 'warn',
+      DAT_BAC_MAU: 'warn',
+      DAT_TRUNG_TINH_TOT: 'good',
+      DAT_TRUNG_TINH_ON_DINH: 'good'
+    };
+    const SOIL_PROFILE_LEVEL_UI = {
+      danger: { label: 'Rủi ro cao', badge: 'badge-nguyhiem' },
+      warn: { label: 'Cần lưu ý', badge: 'badge-canhbao' },
+      good: { label: 'Thuận lợi', badge: 'badge-tot' }
+    };
+    const PILLAR_ICONS = {
+      physical: 'fa-temperature-half',
+      chemical_ph: 'fa-flask',
+      salinity_ec: 'fa-bolt',
+      nutrition_npk: 'fa-seedling'
+    };
+    const SCORE_RING_CIRCUMFERENCE = 2 * Math.PI * 48; // r=48 -> 301.59
+    const completedActionSteps = new Set();
+    let latestActionSteps = [];
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function getStepKey(stepObj) {
+      return `${stepObj.step || 0}::${stepObj.title || ''}`;
+    }
+
+    function updatePlanProgress(steps) {
+      const chip = document.getElementById('ai-plan-progress');
+      if (!chip) return;
+      if (!steps || steps.length === 0) {
+        chip.style.display = 'none';
+        return;
+      }
+      const doneCount = steps.filter(s => completedActionSteps.has(getStepKey(s))).length;
+      chip.style.display = 'inline-flex';
+      chip.textContent = `${doneCount}/${steps.length} hoàn thành`;
+    }
+
+    function toggleActionStep(stepKey) {
+      if (completedActionSteps.has(stepKey)) {
+        completedActionSteps.delete(stepKey);
+      } else {
+        completedActionSteps.add(stepKey);
+      }
+      renderActionPlan(latestActionSteps);
+    }
+
+    function renderActionPlan(steps) {
+      latestActionSteps = Array.isArray(steps) ? steps : [];
+      const planStepsContainer = document.getElementById('ai-plan-steps');
+      if (!planStepsContainer) return;
+
+      updatePlanProgress(latestActionSteps);
+
+      if (latestActionSteps.length === 0) {
+        planStepsContainer.innerHTML = '<div style="font-size:0.85rem; color:#94a3b8;">Không có cảnh báo can thiệp đặc biệt.</div>';
+        return;
+      }
+
+      planStepsContainer.replaceChildren();
+      latestActionSteps.forEach(s => {
+        const key = getStepKey(s);
+        const isDone = completedActionSteps.has(key);
+        let badgeClass = 'badge-care';
+        if (s.priority === 'KHAN_CAP') badgeClass = 'badge-urgent';
+        else if (s.priority === 'THEO_DOI') badgeClass = 'badge-monitor';
+
+        const card = document.createElement('div');
+        card.className = `plan-step-card${isDone ? ' is-done' : ''}`;
+        card.setAttribute('role', 'checkbox');
+        card.setAttribute('aria-checked', String(isDone));
+        card.tabIndex = 0;
+        card.addEventListener('click', () => toggleActionStep(key));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleActionStep(key);
+          }
+        });
+
+        card.innerHTML = `
+          <div class="step-number">${isDone ? '<i class="fa-solid fa-check"></i>' : escapeHtml(s.step)}</div>
+          <div class="step-content">
+            <div class="step-head">
+              <span class="step-badge ${badgeClass}">${escapeHtml(s.priority_vi)}</span>
+              <span class="step-title">${escapeHtml(s.title)}</span>
+            </div>
+            <div class="step-detail">${escapeHtml(s.detail)}</div>
+          </div>
+          <span class="step-check-btn" title="${isDone ? 'Bỏ đánh dấu hoàn thành' : 'Đánh dấu đã hoàn thành'}">
+            <i class="fa-solid fa-check"></i>
+          </span>
+        `;
+        planStepsContainer.appendChild(card);
+      });
+    }
+
+    function renderSoilProfile(profile) {
+      const card = document.getElementById('ai-profile-card');
+      if (!card) return;
+      const levelBadge = document.getElementById('ai-profile-level');
+      const nameEl = document.getElementById('ai-profile-name');
+      const matchEl = document.getElementById('ai-profile-match');
+      const tagsEl = document.getElementById('ai-profile-tags');
+      const warnBox = document.getElementById('ai-profile-warning');
+      const warnList = document.getElementById('ai-profile-warning-list');
+
+      if (!profile?.profile_name) {
+        card.className = 'bento-card ai-profile-card profile-empty bento-span-5';
+        if (levelBadge) levelBadge.style.display = 'none';
+        if (nameEl) nameEl.textContent = 'Chưa có hồ sơ mẫu đất';
+        if (matchEl) matchEl.textContent = 'Bản ghi lịch sử này chưa kèm trường phân loại nhóm đặc tính đất.';
+        if (tagsEl) {
+          tagsEl.replaceChildren();
+          tagsEl.style.display = 'none';
+        }
+        if (warnList) warnList.replaceChildren();
+        if (warnBox) warnBox.style.display = 'none';
+        return;
+      }
+
+      const level = SOIL_PROFILE_LEVELS[profile.profile_code] || 'good';
+      const ui = SOIL_PROFILE_LEVEL_UI[level];
+      card.className = `bento-card ai-profile-card profile-${level} bento-span-5`;
+
+      if (levelBadge) {
+        levelBadge.style.display = 'inline-flex';
+        levelBadge.className = `pillar-badge ${ui.badge}`;
+        levelBadge.textContent = ui.label;
+      }
+
+      if (nameEl) nameEl.textContent = profile.profile_name;
+      if (matchEl) matchEl.textContent = profile.common_match || '';
+
+      if (tagsEl) {
+        tagsEl.replaceChildren();
+        (Array.isArray(profile.tags) ? profile.tags : []).forEach(tag => {
+          const chip = document.createElement('span');
+          chip.className = 'profile-tag';
+          chip.textContent = tag;
+          tagsEl.appendChild(chip);
+        });
+        tagsEl.style.display = tagsEl.childElementCount > 0 ? 'flex' : 'none';
+      }
+
+      if (warnBox && warnList) {
+        const warnings = Array.isArray(profile.measurement_warnings) ? profile.measurement_warnings : [];
+        warnList.replaceChildren();
+        warnings.forEach(w => {
+          const li = document.createElement('li');
+          li.textContent = w;
+          warnList.appendChild(li);
+        });
+        warnBox.style.display = warnings.length > 0 ? 'flex' : 'none';
+      }
+    }
+
+    function renderAIDiagnostic(data) {
+      const errorBox = document.getElementById('ai-error-box');
+      const diagBody = document.getElementById('ai-diag-body');
+      const metaText = document.getElementById('ai-meta-text');
+
+      const ai = data?.ai_evaluation;
+      if (!ai) return;
+
+      // Cập nhật trạng thái trực tuyến / ngoại tuyến
+      if (data.is_online !== undefined) {
+        updateOnlineStatus(data.is_online, data.last_seen_seconds);
+      }
+
+      // Cập nhật thông tin thời tiết Open-Meteo
+      if (data.weather) {
+        const wBadge = document.getElementById('ai-weather-badge');
+        const wText = document.getElementById('ai-weather-text');
+        if (wBadge && wText) {
+          wBadge.style.display = 'inline-flex';
+          const wSrc = data.weather.source === 'open-meteo-live' ? 'Live' : 'Dự báo';
+          wText.innerText = `TP.HCM: ${data.weather.temperature}°C • Ẩm ${data.weather.humidity}% • Mưa ${data.weather.rainfall}mm [${wSrc}]`;
+        }
+      }
+
+      // Xử lý Lớp 0 (Hardware / Sensor Error)
+      if (ai.is_hardware_error) {
+        errorBox.style.display = 'flex';
+        diagBody.style.display = 'none';
+        metaText.innerText = 'Phát hiện sự cố cảm biến RS485 (Lớp 0)';
+        const reasonsList = document.getElementById('ai-error-reasons');
+        reasonsList.innerHTML = (ai.fault_reasons || []).map(r => `<li>${escapeHtml(r)}</li>`).join('');
+        return;
+      }
+
+      // Ẩn box lỗi, hiển thị nội dung Bento 4 hàng
+      errorBox.style.display = 'none';
+      diagBody.style.display = 'flex';
+
+      // Meta chip từ analysis_meta / payload
+      const meta = ai.analysis_meta || {};
+      const sampleCount = meta.sample_count || data.sample_count || 1;
+      const timeStr = formatTime(meta.analyzed_at || data.measured_at || new Date().toISOString());
+      metaText.innerText = `Trung vị ${sampleCount} mẫu ổn định • ${timeStr}`;
+
+      // Hàng 1 trái: Vòng tròn tiến độ SVG điểm sức khỏe đất
+      const health = ai.soil_health || {};
+      const rawScore = Number(health.health_score ?? 50);
+      const score = Math.max(0, Math.min(100, Math.round(rawScore)));
+      const scoreRing = document.getElementById('ai-score-ring');
+      const scoreArc = document.getElementById('ai-score-arc');
+      const scoreNum = document.getElementById('ai-score-num');
+      scoreNum.innerText = score;
+
+      scoreRing.className = 'ai-score-ring';
+      if (score >= 75) scoreRing.classList.add('score-high');
+      else if (score >= 45) scoreRing.classList.add('score-mid');
+      else scoreRing.classList.add('score-low');
+
+      if (scoreArc) {
+        const offset = SCORE_RING_CIRCUMFERENCE * (1 - score / 100);
+        scoreArc.style.strokeDasharray = SCORE_RING_CIRCUMFERENCE.toFixed(2);
+        scoreArc.style.strokeDashoffset = offset.toFixed(2);
+      }
+
+      // Badge rủi ro chính + pill cảnh báo bất thường (Isolation Forest)
+      const riskTag = document.getElementById('ai-risk-tag');
+      const riskLvl = (ai.risk_level || 'LOW').toLowerCase();
+      riskTag.className = 'ai-risk-tag';
+      if (riskLvl.includes('crit') || riskLvl.includes('high')) riskTag.classList.add('risk-high');
+      else if (riskLvl.includes('med')) riskTag.classList.add('risk-med');
+      else riskTag.classList.add('risk-low');
+      riskTag.innerText = ai.primary_risk || health.label_vi || 'Thổ nhưỡng ổn định';
+
+      const anomalyPill = document.getElementById('ai-anomaly-pill');
+      const anomalyText = document.getElementById('ai-anomaly-text');
+      if (anomalyPill && anomalyText) {
+        if (ai.anomaly_detection?.is_anomaly === true) {
+          anomalyPill.style.display = 'inline-flex';
+          anomalyText.innerText = ai.anomaly_detection.note || 'Cảnh báo bất thường tổ hợp chỉ số';
+        } else {
+          anomalyPill.style.display = 'none';
+        }
+      }
+
+      // Tiêu đề & Tóm tắt tổng thể
+      document.getElementById('ai-overall-title').innerText = ai.overall_title || 'Đánh Giá Thổ Nhưỡng Tổng Thể';
+      document.getElementById('ai-overall-summary').innerText = ai.overall_summary || '';
+
+      // Hàng 1 phải: Card Đặc tính đất dự đoán (Soil Profile)
+      renderSoilProfile(ai.soil_profile);
+
+      // Hàng 2: 4 Trụ cột Thổ nhưỡng
+      const pillarsGrid = document.getElementById('ai-pillars-grid');
+      const pillars = ai.pillars || [];
+      pillarsGrid.innerHTML = pillars.map(p => {
+        let badgeClass = 'badge-tot';
+        let iconColor = '#34d399';
+        if (p.status === 'CANH_BAO') {
+          badgeClass = 'badge-canhbao';
+          iconColor = '#fbbf24';
+        } else if (p.status === 'NGUY_HIEM') {
+          badgeClass = 'badge-nguyhiem';
+          iconColor = '#f87171';
+        }
+        const iconClass = PILLAR_ICONS[p.key] || 'fa-cube';
+        return `
+          <div class="pillar-card">
+            <div class="pillar-head">
+              <span class="pillar-title-wrap">
+                <i class="fa-solid ${iconClass} pillar-icon" style="color: ${iconColor};"></i>
+                <span class="pillar-title">${escapeHtml(p.title)}</span>
+              </span>
+              <span class="pillar-badge ${badgeClass}">${escapeHtml(p.status_vi)}</span>
+            </div>
+            <div class="pillar-value">${escapeHtml(p.value_text)}</div>
+            <div class="pillar-note">${escapeHtml(p.short_note)}</div>
+          </div>
+        `;
+      }).join('');
+
+      // Hàng 3 trái: TreeSHAP Factors
+      const shapList = document.getElementById('ai-shap-list');
+      const shapFactors = (health && (health.top_influencing_factors || health.shap_top_factors)) || ai.shap_top_factors || [];
+      if (shapFactors && shapFactors.length > 0) {
+        shapList.innerHTML = shapFactors.map(f => {
+          const rawVal = Number(f.shap_value !== undefined ? f.shap_value : (f.impact_weight || 0.5));
+          const impact = Math.abs(rawVal);
+          const percent = Math.min(100, Math.max(20, Math.round(impact * 65)));
+          const isPos = rawVal >= 0 && !String(f.direction || '').includes('Tiêu cực');
+          const barClass = isPos ? 'bar-pos' : 'bar-neg';
+          const textClass = isPos ? 'is-pos' : 'is-neg';
+          const signStr = rawVal > 0 ? `+${rawVal.toFixed(2)}` : `${rawVal.toFixed(2)}`;
+          const dirStr = f.direction ? `${f.direction} (${signStr})` : signStr;
+          return `
+            <div class="ai-shap-item">
+              <div class="shap-row-head">
+                <span class="shap-name">${escapeHtml(f.name_vi || f.feature)}</span>
+                <span class="shap-impact ${textClass}">${escapeHtml(dirStr)}</span>
+              </div>
+              <div class="shap-track">
+                <div class="shap-bar ${barClass}" style="width: ${percent}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        shapList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8;">Đang tổng hợp trọng số các yếu tố ảnh hưởng...</div>';
+      }
+
+      // Hàng 3 phải: Cây trồng phù hợp nhất (Top 3) + Điều kiện tiên quyết
+      const prereqAlert = document.getElementById('ai-prereq-alert');
+      const prereqText = document.getElementById('ai-prereq-text');
+      if (ai.crop_prerequisite_note) {
+        prereqAlert.style.display = 'flex';
+        prereqText.innerText = ai.crop_prerequisite_note;
+      } else {
+        prereqAlert.style.display = 'none';
+      }
+
+      const cropList = document.getElementById('ai-crop-list');
+      const crops = ai.crop_recommendations || [];
+      if (crops.length > 0) {
+        cropList.innerHTML = crops.map((c, idx) => {
+          const conf = Math.max(0, Math.min(100, Number(c.confidence_percent || 0)));
+          return `
+            <div class="crop-card">
+              <div class="crop-top">
+                <span class="crop-rank">#${idx + 1}</span>
+                <span class="crop-conf">${conf.toFixed(1)}%</span>
+              </div>
+              <div class="crop-name-vi">${escapeHtml(c.crop_vi)}</div>
+              <div class="crop-name-en">${escapeHtml(c.crop_en)}</div>
+              <div class="crop-bar-track">
+                <div class="crop-bar-fill" style="width: ${Math.max(8, conf)}%;"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        cropList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8; grid-column: 1 / -1;">Chưa có dữ liệu gợi ý cây trồng.</div>';
+      }
+
+      // Hàng 4: Phác đồ xử lý tuần tự dạng checklist tương tác
+      renderActionPlan(ai.action_plan || []);
     }
 
     // Fetch Latest
     async function fetchLatestTelemetry(isManual = false) {
       const refreshIcon = document.getElementById('refresh-icon');
+      const reanalyzeBtn = document.getElementById('btn-reanalyze');
+      const reanalyzeIcon = document.getElementById('reanalyze-icon');
+      const reanalyzeLabel = document.getElementById('reanalyze-label');
+
       if (refreshIcon) refreshIcon.classList.add('fa-spin');
+      if (isManual && reanalyzeBtn) {
+        reanalyzeBtn.disabled = true;
+        reanalyzeBtn.classList.add('is-loading');
+        if (reanalyzeIcon) reanalyzeIcon.classList.add('fa-spin');
+        if (reanalyzeLabel) reanalyzeLabel.textContent = 'Đang phân tích...';
+      }
 
       try {
         const res = await fetch('/api/v1/telemetry/latest?device_id=ESP32_SOIL_01');
-        if (!res.ok) throw new Error('Không có bản ghi');
-        const data = await res.json();
+        const json = await res.json();
+
+        // NO_DATA (200 OK nhưng DB còn trống) → giữ giao diện chờ, không log lỗi
+        if (!res.ok || json.status === 'NO_DATA') {
+          updateOnlineStatus(false, null);
+          const metaTime = document.getElementById('meta-last-time');
+          if (metaTime) metaTime.innerText = 'Chờ ESP32 gửi dữ liệu...';
+          const aiTitle = document.getElementById('ai-overall-title');
+          if (aiTitle) aiTitle.innerText = 'Chờ Dữ Liệu Thực Từ Thiết Bị ESP32';
+          const aiSummary = document.getElementById('ai-overall-summary');
+          if (aiSummary) aiSummary.innerText = 'Cơ sở dữ liệu đã sạch hoàn toàn và sẵn sàng 100%. Hãy cấp nguồn cho mạch ESP32 để hệ thống bắt đầu tiếp nhận và phân tích thổ nhưỡng thời gian thực.';
+          const aiMeta = document.getElementById('ai-meta-text');
+          if (aiMeta) aiMeta.innerText = 'Hệ thống sẵn sàng • Đang chờ tín hiệu';
+          const anomalyPill = document.getElementById('ai-anomaly-pill');
+          if (anomalyPill) anomalyPill.style.display = 'none';
+          renderSoilProfile(null);
+          return; // Thoát êm, không ném lỗi
+        }
+
+        const data = json.data || json; // tương thích cả hai cấu trúc
+
+        // Kiểm tra thời gian đo đạc so với hiện tại để xác định trực tuyến (< 60s)
+        const ageSec = Math.abs((Date.now() - new Date(data.created_at).getTime()) / 1000);
+        updateOnlineStatus(ageSec <= 60, ageSec);
 
         // Update values
         document.getElementById('meta-record-id').innerText = '#' + data.id;
@@ -838,11 +2213,18 @@
         document.getElementById('val-p').innerText = Math.round(data.phosphorus);
         document.getElementById('val-k').innerText = Math.round(data.potassium);
 
-        evaluateMetrics(data.moisture, data.temperature, data.ph, data.ec);
+        await evaluateMetrics(data.moisture, data.temperature, data.ph, data.ec);
       } catch (err) {
-        console.warn('Telemetry fetch error:', err);
+        // Chỉ log khi lỗi thật sự (500, mất kết nối server)
+        console.error('Lỗi server khi tải telemetry:', err);
       } finally {
         if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+        if (isManual && reanalyzeBtn) {
+          reanalyzeBtn.disabled = false;
+          reanalyzeBtn.classList.remove('is-loading');
+          if (reanalyzeIcon) reanalyzeIcon.classList.remove('fa-spin');
+          if (reanalyzeLabel) reanalyzeLabel.textContent = 'Phân tích lại';
+        }
       }
     }
 

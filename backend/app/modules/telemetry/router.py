@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
-from fastapi.responses import StreamingResponse
+from fastapi import APIRouter, Depends, Query, status
+from fastapi.responses import StreamingResponse, JSONResponse
 from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from typing import List, Optional
@@ -35,8 +35,9 @@ def ingest_telemetry(payload: TelemetryCreate, db: Session = Depends(get_db)):
         nitrogen=round(payload.nitrogen, 2) if payload.nitrogen is not None else None,
         phosphorus=round(payload.phosphorus, 2) if payload.phosphorus is not None else None,
         potassium=round(payload.potassium, 2) if payload.potassium is not None else None,
-        created_at=payload.timestamp or None
     )
+    if payload.timestamp is not None:
+        new_record.created_at = payload.timestamp
 
     db.add(new_record)
     db.commit()
@@ -51,7 +52,6 @@ def ingest_telemetry(payload: TelemetryCreate, db: Session = Depends(get_db)):
 
 @router.get(
     "/latest",
-    response_model=TelemetryResponse,
     summary="Lấy bản ghi đo đạc mới nhất"
 )
 def get_latest_telemetry(
@@ -61,14 +61,17 @@ def get_latest_telemetry(
     query = db.query(TelemetryRecord)
     if device_id:
         query = query.filter(TelemetryRecord.device_id == device_id)
-    
+
     latest = query.order_by(desc(TelemetryRecord.created_at)).first()
     if not latest:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Chưa có dữ liệu đo đạc nào trong hệ thống"
-        )
-    return latest
+        return JSONResponse(status_code=200, content={
+            "status": "NO_DATA",
+            "data": None,
+            "message": "Chưa có dữ liệu từ thiết bị"
+        })
+
+    # Trả dữ liệu thật – giữ nguyên cấu trúc phẳng TelemetryResponse để tương thích 100% với Flutter App & test cũ
+    return TelemetryResponse.model_validate(latest)
 
 @router.get(
     "/history",

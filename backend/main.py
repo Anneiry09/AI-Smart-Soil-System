@@ -6,6 +6,9 @@ from contextlib import asynccontextmanager
 
 from app.core.database import engine, Base
 from app.modules.telemetry.router import router as telemetry_router
+from app.modules.recommendations.router import router as recommendations_router
+from app.modules.soil_ai.router import router as soil_ai_router
+import app.modules.telemetry.models  # noqa: F401
 
 TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "app", "templates", "index.html")
 
@@ -13,6 +16,11 @@ TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "app", "templates", "ind
 async def lifespan(app: FastAPI):
     # Tự động tạo các bảng CSDL khi khởi động (nếu chưa có)
     Base.metadata.create_all(bind=engine)
+    print("\n" + "=" * 54)
+    print("  AI Smart Soil System da san sang!")
+    print("  -> Dashboard Local : http://127.0.0.1:8000")
+    print("  -> API Docs        : http://127.0.0.1:8000/docs")
+    print("=" * 54 + "\n")
     yield
 
 app = FastAPI(
@@ -31,8 +39,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Đăng ký router telemetry
+# Đăng ký router telemetry, recommendations và soil_ai
 app.include_router(telemetry_router, prefix="/api/v1")
+app.include_router(recommendations_router, prefix="/api/v1")
+app.include_router(soil_ai_router, prefix="/api/v1")
 
 @app.get("/", tags=["Dashboard"], response_class=HTMLResponse)
 def root_dashboard():
