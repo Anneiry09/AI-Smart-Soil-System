@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Smart Soil System • Bảng Điều Khiển Giám Sát Đất Thời Gian Thực</title>
+  <title>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌱</text></svg>">
   
-  <!-- Google Fonts: Inter -->
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -19,19 +19,29 @@
 
   <style>
     :root {
-      --bg-body: #0b1120;
-      --bg-card: rgba(17, 24, 39, 0.85);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --primary: #10b981;
-      --primary-glow: rgba(16, 185, 129, 0.35);
-      --blue: #3b82f6;
-      --blue-glow: rgba(59, 130, 246, 0.35);
-      --amber: #f59e0b;
-      --red: #ef4444;
-      --purple: #8b5cf6;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --radius: 16px;
+      --bg-base: #070d18;
+      --bg-surface: #0f192b;
+      --bg-card: #132238;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(56, 189, 248, 0.35);
+      
+      --green-500: #10b981;
+      --green-400: #34d399;
+      --blue-500: #0ea5e9;
+      --blue-400: #38bdf8;
+      --amber-500: #f59e0b;
+      --amber-400: #fbbf24;
+      --red-500: #ef4444;
+      --red-400: #f87171;
+      --purple-500: #8b5cf6;
+      --purple-400: #a78bfa;
+
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
     }
 
     * {
@@ -41,31 +51,32 @@
     }
 
     body {
-      background-color: var(--bg-body);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       background-image: 
-        radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 40%);
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(16, 185, 129, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 85% 60%, rgba(14, 165, 233, 0.07), transparent);
       background-attachment: fixed;
-      padding-bottom: 60px;
+      line-height: 1.5;
+      padding-bottom: 70px;
     }
 
-    /* TOP NAVBAR */
-    .navbar {
-      background: rgba(15, 23, 42, 0.85);
+    /* TOP HEADER & NAVBAR */
+    .header-bar {
+      background: rgba(11, 20, 36, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-subtle);
       position: sticky;
       top: 0;
       z-index: 100;
       padding: 14px 24px;
     }
 
-    .nav-container {
-      max-width: 1380px;
+    .header-inner {
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -74,56 +85,58 @@
       gap: 16px;
     }
 
-    .brand {
+    .system-brand {
       display: flex;
       align-items: center;
       gap: 14px;
       text-decoration: none;
-      color: var(--text-main);
+      color: var(--text-primary);
     }
 
-    .brand-icon {
-      width: 44px;
-      height: 44px;
+    .brand-symbol {
+      width: 46px;
+      height: 46px;
       background: linear-gradient(135deg, #10b981, #059669);
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
-      color: #fff;
-      box-shadow: 0 0 20px var(--primary-glow);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.35);
+      flex-shrink: 0;
     }
 
-    .brand-title h1 {
-      font-size: 1.15rem;
+    .brand-meta h1 {
+      font-size: 1.05rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(120deg, #ffffff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.35;
     }
 
-    .brand-title p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
+    .brand-meta p {
+      font-size: 0.76rem;
+      color: var(--text-secondary);
       font-weight: 500;
+      margin-top: 2px;
     }
 
-    .nav-actions {
+    .header-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .btn {
+    /* BUTTONS */
+    .btn-action {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 9px 18px;
-      border-radius: 10px;
-      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
       font-weight: 600;
       text-decoration: none;
       transition: all 0.2s ease;
@@ -131,249 +144,524 @@
       border: 1px solid transparent;
     }
 
-    .btn-api {
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
-      color: #fff;
-      box-shadow: 0 4px 14px var(--blue-glow);
+    .btn-api-primary {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
     }
-    .btn-api:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-      color: #fff;
-    }
-
-    .btn-csv {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-main);
-      border-color: var(--border-card);
-    }
-    .btn-csv:hover {
-      background: rgba(255, 255, 255, 0.12);
-      transform: translateY(-2px);
+    .btn-api-primary:hover {
+      background: linear-gradient(135deg, #0369a1, #075985);
+      transform: translateY(-1px);
+      color: #ffffff;
     }
 
-    .live-badge {
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border-color: var(--border-subtle);
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    /* STATUS PILL */
+    .device-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(16, 185, 129, 0.12);
-      border: 1px solid rgba(16, 185, 129, 0.3);
       padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.75rem;
+      font-size: 0.74rem;
       font-weight: 700;
-      color: #34d399;
-      letter-spacing: 0.03em;
-      transition: all 0.3s ease;
+      letter-spacing: 0.02em;
     }
 
-    .live-badge.status-offline {
-      background: rgba(239, 68, 68, 0.12);
-      border-color: rgba(239, 68, 68, 0.35);
-      color: #f87171;
+    .pill-online {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: var(--green-400);
     }
 
-    .live-badge.status-offline .pulse-dot {
-      background-color: #ef4444;
-      animation: none;
-      box-shadow: none;
+    .pill-offline {
+      background: rgba(239, 68, 68, 0.14);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: var(--red-400);
     }
 
-    .pulse-dot {
+    .pulsing-dot {
       width: 8px;
       height: 8px;
-      background-color: #10b981;
       border-radius: 50%;
-      animation: pulse 1.8s infinite;
     }
 
-    @keyframes pulse {
+    .dot-green {
+      background: var(--green-500);
+      animation: pulse-glow 1.8s infinite;
+    }
+
+    .dot-red {
+      background: var(--red-500);
+    }
+
+    @keyframes pulse-glow {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-      70% { transform: scale(1.15); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      70% { transform: scale(1.15); box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
     }
 
-    /* MAIN CONTAINER */
-    .container {
-      max-width: 1380px;
-      margin: 28px auto 0;
+    /* MAIN WRAPPER */
+    .dashboard-content {
+      max-width: 1400px;
+      margin: 24px auto 0;
       padding: 0 20px;
     }
 
-    /* HERO BANNER */
-    .hero-banner {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
+    /* OFFLINE NOTICE */
+    .offline-notice {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: none;
+      align-items: center;
+      gap: 14px;
+    }
+    .offline-notice.show {
+      display: flex;
+    }
+    .offline-notice i {
+      font-size: 1.5rem;
+      color: var(--red-400);
+      flex-shrink: 0;
+    }
+    .offline-notice h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--red-400);
+      margin-bottom: 2px;
+    }
+    .offline-notice p {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+
+    /* SECTION 1: SƠ ĐỒ LUỒNG HOẠT ĐỘNG IOT (FLOW DIAGRAM) */
+    .diagram-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .section-title-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .section-title-wrap h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+    }
+
+    .section-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* FLOW PIPELINE TILES */
+    .flow-pipeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      position: relative;
+    }
+
+    @media (max-width: 1024px) {
+      .flow-pipeline {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .flow-pipeline {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flow-step-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .flow-step-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .step-number {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .step-icon {
+      font-size: 1.35rem;
+    }
+
+    .step-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .step-details {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    .step-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-top: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Colors for pipeline */
+    .color-sensor .step-icon { color: #10b981; }
+    .color-sensor .step-tag { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+
+    .color-mcu .step-icon { color: #f59e0b; }
+    .color-mcu .step-tag { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+    .color-cloud .step-icon { color: #0ea5e9; }
+    .color-cloud .step-tag { background: rgba(14, 165, 233, 0.15); color: #38bdf8; }
+
+    .color-dashboard .step-icon { color: #8b5cf6; }
+    .color-dashboard .step-tag { background: rgba(139, 92, 246, 0.15); color: #a78bfa; }
+
+    /* SECTION 2: 7 CHỈ SỐ ĐO ĐẠC THỜI GIAN THỰC */
+    .metrics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .metrics-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metrics-meta-text {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .metrics-grid-7 {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 1200px) {
+      .metrics-grid-7 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .metrics-grid-7 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 440px) {
+      .metrics-grid-7 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .metric-tile {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      position: relative;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .metric-tile:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .metric-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .metric-name {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .metric-symbol {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    .metric-val-wrap {
+      margin-bottom: 8px;
+    }
+
+    .metric-num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .metric-unit {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-left: 3px;
+    }
+
+    .metric-badge {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      align-self: flex-start;
+      margin-top: 4px;
+    }
+
+    .badge-optimal { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+    .badge-warning { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+    .badge-danger  { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+    .badge-neutral { background: rgba(148, 163, 184, 0.12); color: #cbd5e1; }
+
+    /* SECTION 3: 2 BIỂU ĐỒ RÕ RÀNG & DỄ HIỂU */
+    .charts-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 900px) {
+      .charts-duo {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .chart-panel-header {
+      margin-bottom: 14px;
+    }
+
+    .chart-panel-header h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-panel-header p {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-top: 3px;
+    }
+
+    .chart-holder {
+      position: relative;
+      height: 270px;
+      width: 100%;
+    }
+
+    .chart-legend-guide {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+    }
+
+    .guide-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .guide-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+
+    /* SECTION 4: BẢNG LỊCH SỬ ĐO ĐẠC */
+    .history-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 26px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      overflow-x: auto;
+    }
+
+    .history-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .history-card-header h3 {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+
+    table.data-table th {
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-align: left;
+    }
+
+    table.data-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-family: 'JetBrains Mono', monospace;
+      color: #cbd5e1;
+    }
+
+    table.data-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* SECTION 5: CỔNG API LẬP TRÌNH (DEVELOPER CALLOUT) */
+    .developer-gateway {
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.12), rgba(15, 25, 43, 0.95));
+      border: 1px solid rgba(14, 165, 233, 0.3);
+      border-radius: var(--radius-lg);
       padding: 24px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .hero-info h2 {
-      font-size: 1.4rem;
+    .gateway-info h3 {
+      font-size: 1.1rem;
       font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       margin-bottom: 6px;
     }
-    .hero-info p {
-      color: var(--text-muted);
-      font-size: 0.88rem;
+
+    .gateway-info p {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      max-width: 650px;
     }
 
-    .hero-meta {
+    .gateway-actions {
       display: flex;
-      gap: 24px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
-    .meta-box {
-      text-align: right;
-    }
-    .meta-box span {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .meta-box strong {
-      font-size: 0.95rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-    }
-
-    /* SENSOR CARDS GRID */
-    .grid-7 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .metric-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 20px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.25s ease;
-      backdrop-filter: blur(10px);
-    }
-    .metric-card:hover {
-      transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.18);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .metric-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-    }
-
-    .card-moisture::before { background: #38bdf8; }
-    .card-temp::before { background: #f97316; }
-    .card-ec::before { background: #a855f7; }
-    .card-ph::before { background: #10b981; }
-    .card-n::before { background: #6366f1; }
-    .card-p::before { background: #ec4899; }
-    .card-k::before { background: #eab308; }
-
-    .card-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .card-title {
+    /* FOOTER */
+    footer.app-footer {
+      text-align: center;
+      margin-top: 40px;
       font-size: 0.78rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
       color: var(--text-muted);
-    }
-    .card-icon {
-      font-size: 1.1rem;
-      opacity: 0.85;
-    }
-
-    .card-value {
-      font-size: 1.9rem;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
-    }
-    .card-unit {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-left: 4px;
-    }
-
-    .card-status {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 6px;
-      margin-top: 6px;
-    }
-
-    .status-good { background: rgba(16, 185, 129, 0.15); color: #34d399; }
-    .status-warn { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
-    .status-alert { background: rgba(239, 68, 68, 0.15); color: #f87171; }
-    .status-neutral { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
-
-    /* CHARTS SECTION */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-    @media (max-width: 992px) {
-      .charts-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .chart-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 24px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-    }
-
-    .chart-box-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .chart-box-head h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .chart-canvas-container {
-      position: relative;
-      height: 280px;
-      width: 100%;
     }
 
     /* ==========================================================================
@@ -384,16 +672,15 @@
     }
 
     .ai-diagnostic-card {
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.92) 0%, rgba(9, 13, 24, 0.96) 100%);
+      background: linear-gradient(180deg, rgba(15, 25, 43, 0.94) 0%, rgba(9, 13, 24, 0.96) 100%);
       border: 1px solid rgba(148, 163, 184, 0.14);
       border-radius: 20px;
       padding: 24px 26px;
-      margin-bottom: 30px;
+      margin-bottom: 26px;
       box-shadow: 0 20px 48px -24px rgba(0, 0, 0, 0.75);
       position: relative;
     }
 
-    /* Header: single compact row, wraps neatly on mobile */
     .ai-diag-head {
       display: flex;
       justify-content: space-between;
@@ -498,7 +785,6 @@
       cursor: wait;
     }
 
-    /* Hardware Error Box */
     .ai-error-box {
       background: rgba(239, 68, 68, 0.10);
       border: 1px solid rgba(239, 68, 68, 0.30);
@@ -526,7 +812,6 @@
       line-height: 1.5;
     }
 
-    /* Bento 4-Row Stack */
     .ai-bento-stack {
       display: flex;
       flex-direction: column;
@@ -544,7 +829,6 @@
       border-color: rgba(148, 163, 184, 0.22);
     }
 
-    /* Row 1: Bento Hero (12 cols = 7 + 5) */
     .ai-bento-hero {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -555,7 +839,6 @@
     .bento-span-5 { grid-column: span 5; }
     .bento-span-6 { grid-column: span 6; }
 
-    /* Hero Left: Health Score SVG Ring + Overall Summary */
     .ai-overview-card {
       display: flex;
       align-items: center;
@@ -693,7 +976,6 @@
       line-height: 1.6;
     }
 
-    /* Hero Right: Soil Profile Card */
     .ai-profile-card {
       border-left: 3px solid #34d399;
       display: flex;
@@ -781,7 +1063,6 @@
       padding-left: 16px;
     }
 
-    /* Row 2: 4 Pillars (4 cols desktop, 2 cols tablet, 1 col mobile) */
     .ai-pillars-section {
       display: flex;
       flex-direction: column;
@@ -879,7 +1160,6 @@
       line-height: 1.45;
     }
 
-    /* Row 3: Insights (12 cols = 6 + 6) */
     .ai-bento-insights {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -901,7 +1181,6 @@
       gap: 8px;
     }
 
-    /* TreeSHAP Bars */
     .ai-shap-list {
       display: flex;
       flex-direction: column;
@@ -951,7 +1230,6 @@
       background: linear-gradient(90deg, #f59e0b, #f87171);
     }
 
-    /* Prerequisite Banner */
     .ai-prereq-alert {
       background: rgba(245, 158, 11, 0.09);
       border: 1px solid rgba(245, 158, 11, 0.28);
@@ -973,7 +1251,6 @@
       flex-shrink: 0;
     }
 
-    /* Top 3 Crops Grid */
     .ai-crop-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1042,7 +1319,6 @@
       transition: width 0.45s ease;
     }
 
-    /* Row 4: Interactive Action Plan Checklist (Full width 12 cols) */
     .ai-action-plan-section {
       display: flex;
       flex-direction: column;
@@ -1106,15 +1382,15 @@
       background: rgba(16, 185, 129, 0.04);
       border-color: rgba(16, 185, 129, 0.18);
     }
-    .plan-step-card.is-done .step-title {
+    .plan-step-card.is-done .plan-step-title {
       text-decoration: line-through;
       color: #94a3b8;
     }
-    .plan-step-card.is-done .step-detail {
+    .plan-step-card.is-done .plan-step-detail {
       text-decoration: line-through;
       color: #64748b;
     }
-    .step-number {
+    .plan-step-number {
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -1131,16 +1407,16 @@
       margin-top: 2px;
       transition: all 0.2s ease;
     }
-    .plan-step-card.is-done .step-number {
+    .plan-step-card.is-done .plan-step-number {
       background: rgba(16, 185, 129, 0.18);
       border-color: #34d399;
       color: #34d399;
     }
-    .step-content {
+    .plan-step-content {
       flex: 1;
       min-width: 0;
     }
-    .step-head {
+    .plan-step-head {
       display: flex;
       align-items: center;
       gap: 9px;
@@ -1170,12 +1446,12 @@
       color: #34d399;
       border: 1px solid rgba(16, 185, 129, 0.30);
     }
-    .step-title {
+    .plan-step-title {
       font-size: 0.9rem;
       font-weight: 700;
       color: #f8fafc;
     }
-    .step-detail {
+    .plan-step-detail {
       font-size: 0.83rem;
       color: #94a3b8;
       line-height: 1.55;
@@ -1201,7 +1477,6 @@
       color: #061210;
     }
 
-    /* Bento Responsive Breakpoints */
     @media (max-width: 1024px) {
       .bento-span-7,
       .bento-span-5 {
@@ -1236,272 +1511,226 @@
         justify-content: center;
       }
     }
-
-    /* RECENT LOGS TABLE */
-    .table-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 32px;
-      overflow-x: auto;
-    }
-
-    .table-head-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    .table-head-row h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.85rem;
-    }
-
-    th {
-      color: var(--text-muted);
-      font-weight: 600;
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border-card);
-      text-transform: uppercase;
-      font-size: 0.72rem;
-      letter-spacing: 0.05em;
-    }
-
-    td {
-      padding: 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-family: 'JetBrains Mono', monospace;
-      color: #cbd5e1;
-    }
-
-    tbody tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    /* API CALLOUT BANNER */
-    .api-callout {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(15, 23, 42, 0.95));
-      border: 1px solid rgba(59, 130, 246, 0.35);
-      border-radius: var(--radius);
-      padding: 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);
-    }
-
-    .api-callout-text h3 {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .api-callout-text p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      max-width: 680px;
-    }
-
-    .api-callout-btns {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn-swagger {
-      background: #2563eb;
-      color: #fff;
-      padding: 12px 24px;
-      font-size: 0.95rem;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 18px var(--blue-glow);
-      transition: all 0.2s ease;
-    }
-    .btn-swagger:hover {
-      background: #1d4ed8;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(37, 99, 235, 0.6);
-      color: #fff;
-    }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      margin-top: 48px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    @media (max-width: 640px) {
-      .hero-meta {
-        text-align: left;
-      }
-      .meta-box {
-        text-align: left;
-      }
-      .card-value {
-        font-size: 1.55rem;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- NAVIGATION BAR -->
-  <header class="navbar">
-    <div class="nav-container">
-      <a href="/" class="brand">
-        <div class="brand-icon">
+  <!-- HEADER & NAVIGATION -->
+  <header class="header-bar">
+    <div class="header-inner">
+      <a href="/" class="system-brand">
+        <div class="brand-symbol">
           <i class="fa-solid fa-seedling"></i>
         </div>
-        <div class="brand-title">
-          <h1>AI SMART SOIL SYSTEM</h1>
-          <p>Hệ Thống Giám Sát & Phân Tích Thổ Nhưỡng Thời Gian Thực</p>
+        <div class="brand-meta">
+          <h1>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</h1>
+          <p>Quan trắc 7 chỉ số thổ nhưỡng nông nghiệp thời gian thực qua Modbus RS485 & Máy chủ Cloud</p>
         </div>
       </a>
 
-      <div class="nav-actions">
-        <div class="live-badge" id="device-status-badge">
-          <span class="pulse-dot" id="device-status-dot"></span>
-          <span id="device-status-text">Đang kết nối...</span>
+      <div class="header-actions">
+        <!-- Live device status pill -->
+        <div class="device-pill pill-offline" id="device-pill">
+          <span class="pulsing-dot dot-red" id="pill-dot"></span>
+          <span id="pill-text">Kiểm tra kết nối...</span>
         </div>
 
-        <a href="/docs" class="btn btn-api" target="_blank" title="Mở trang tài liệu Swagger API">
+        <!-- Swagger Docs Button -->
+        <a href="/docs" class="btn-action btn-api-primary" target="_blank" title="Xem tài liệu API Swagger">
           <i class="fa-solid fa-code"></i>
           <span>Tài Liệu API (Docs)</span>
         </a>
 
-        <a href="/api/v1/telemetry/export-csv" class="btn btn-csv" download title="Xuất toàn bộ dataset CSV">
+        <!-- Export CSV Button -->
+        <a href="/api/v1/telemetry/export-csv" class="btn-action btn-secondary" download title="Tải toàn bộ dữ liệu CSV">
           <i class="fa-solid fa-file-csv"></i>
           <span>Xuất CSV</span>
         </a>
 
-        <button onclick="fetchLatestTelemetry(true)" class="btn btn-csv" title="Làm mới tức thì">
-          <i class="fa-solid fa-arrows-rotate" id="refresh-icon"></i>
+        <!-- Refresh Button -->
+        <button onclick="manualRefresh()" class="btn-action btn-secondary" title="Làm mới dữ liệu">
+          <i class="fa-solid fa-arrows-rotate" id="refresh-spinner"></i>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- MAIN BODY -->
-  <main class="container">
+  <!-- MAIN CONTAINER -->
+  <main class="dashboard-content">
 
-    <!-- HERO STATUS BANNER -->
-    <section class="hero-banner">
-      <div class="hero-info">
-        <h2>Tổng Quan Chỉ Số Đất Hiện Tại</h2>
-        <p>Thu thập tự động từ Cảm biến 7-in-1 qua RS485 Modbus RTU & Lọc Trung Vị</p>
+    <!-- OFFLINE WARNING NOTICE -->
+    <div class="offline-notice" id="offline-banner">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div>
+        <h4>THIẾT BỊ ĐO ĐANG TẠM NGỪNG HOẠT ĐỘNG (OFFLINE)</h4>
+        <p id="offline-detail">ESP32 hiện chưa gửi dữ liệu mới. Bảng điều khiển đang hiển thị bản ghi lưu trữ cuối cùng trong cơ sở dữ liệu.</p>
       </div>
-      <div class="hero-meta">
-        <div class="meta-box">
-          <span>Thời gian đo gần nhất</span>
-          <strong id="meta-last-time">Đang tải...</strong>
+    </div>
+
+    <!-- 1. SƠ ĐỒ LUỒNG HOẠT ĐỘNG HỆ THỐNG IOT (FLOW PIPELINE) -->
+    <section class="diagram-panel">
+      <div class="section-title-wrap">
+        <div>
+          <h2><i class="fa-solid fa-diagram-project" style="color: #38bdf8;"></i> Sơ Đồ Luồng Hoạt Động Hệ Thống IoT</h2>
+          <p class="section-desc">Quy trình vận hành khép kín từ cảm biến ngoài thực địa đến máy chủ phân tích và ứng dụng người dùng</p>
         </div>
-        <div class="meta-box">
-          <span>Bản ghi ID</span>
-          <strong id="meta-record-id">#---</strong>
+        <div class="metrics-meta-text">
+          <span>Bản ghi mới nhất: </span><strong id="meta-record-id" style="color: #38bdf8;">#---</strong>
+          <span style="margin: 0 6px;">•</span>
+          <span id="meta-time-text">--:--:--</span>
         </div>
-        <div class="meta-box">
-          <span>Tần suất cập nhật</span>
-          <strong>3 Giây / Lần</strong>
+      </div>
+
+      <div class="flow-pipeline">
+        <!-- Bước 1 -->
+        <div class="flow-step-card color-sensor">
+          <span class="step-number">Bước 1 • Thực Địa</span>
+          <div class="step-header">
+            <i class="fa-solid fa-earth-americas step-icon"></i>
+            <div class="step-title">Cảm Biến 7-in-1</div>
+          </div>
+          <p class="step-details">Cắm trực tiếp tại vùng rễ cây trồng. Đo liên tục 7 thông số thổ nhưỡng quan trọng với độ bền chuẩn công nghiệp.</p>
+          <span class="step-tag">RS485 Modbus RTU</span>
+        </div>
+
+        <!-- Bước 2 -->
+        <div class="flow-step-card color-mcu">
+          <span class="step-number">Bước 2 • Vi Xử Lý</span>
+          <div class="step-header">
+            <i class="fa-solid fa-microchip step-icon"></i>
+            <div class="step-title">ESP32 DevKit V1</div>
+          </div>
+          <p class="step-details">Thu thập 5 mẫu liên tiếp qua UART2, chạy bộ lọc trung vị (Median Filter) loại bỏ 100% xung nhiễu và đóng gói JSON.</p>
+          <span class="step-tag">Lọc Nhiễu 5 Mẫu • Wi-Fi</span>
+        </div>
+
+        <!-- Bước 3 -->
+        <div class="flow-step-card color-cloud">
+          <span class="step-number">Bước 3 • Máy Chủ</span>
+          <div class="step-header">
+            <i class="fa-solid fa-server step-icon"></i>
+            <div class="step-title">Cloud VPS Backend</div>
+          </div>
+          <p class="step-details">FastAPI tiếp nhận dữ liệu qua REST API cổng 80, kiểm định Pydantic và lưu trữ đồng thời vào SQLite chế độ WAL.</p>
+          <span class="step-tag">FastAPI • SQLite WAL</span>
+        </div>
+
+        <!-- Bước 4 -->
+        <div class="flow-step-card color-dashboard">
+          <span class="step-number">Bước 4 • Đầu Ra</span>
+          <div class="step-header">
+            <i class="fa-solid fa-chart-pie step-icon"></i>
+            <div class="step-title">Bảng Điều Khiển</div>
+          </div>
+          <p class="step-details">Web Dashboard và App Mobile cập nhật tự động mỗi 3 giây, trực quan hóa biểu đồ và dữ liệu phục vụ chăm sóc cây trồng.</p>
+          <span class="step-tag">Web & Flutter App</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. 7 THẺ CHỈ SỐ THỔ NHƯỠNG THỜI GIAN THỰC -->
+    <section>
+      <div class="metrics-header">
+        <h3><i class="fa-solid fa-gauge-high" style="color: #10b981;"></i> Chỉ Số Thổ Nhưỡng Thời Gian Thực</h3>
+        <span class="metrics-meta-text" id="meta-relative-time">Đang kiểm tra...</span>
+      </div>
+
+      <div class="metrics-grid-7">
+        <!-- 1. Độ ẩm -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Ẩm Đất</span>
+            <i class="fa-solid fa-droplet metric-symbol" style="color: #38bdf8;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-moisture">--</span>
+            <span class="metric-unit">%</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-moisture">Chờ đo</div>
+        </div>
+
+        <!-- 2. Nhiệt độ -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Nhiệt Độ Đất</span>
+            <i class="fa-solid fa-temperature-half metric-symbol" style="color: #f97316;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-temperature">--</span>
+            <span class="metric-unit">°C</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-temp">Chờ đo</div>
+        </div>
+
+        <!-- 3. pH -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Chua pH</span>
+            <i class="fa-solid fa-flask-vial metric-symbol" style="color: #10b981;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-ph">--</span>
+            <span class="metric-unit">pH</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-ph">Chờ đo</div>
+        </div>
+
+        <!-- 4. EC -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Độ Dẫn Điện EC</span>
+            <i class="fa-solid fa-bolt metric-symbol" style="color: #a855f7;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-ec">--</span>
+            <span class="metric-unit">µS/cm</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-ec">Chờ đo</div>
+        </div>
+
+        <!-- 5. Nitơ (N) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Đạm (N)</span>
+            <i class="fa-solid fa-leaf metric-symbol" style="color: #6366f1;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-n">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-n">Chờ đo</div>
+        </div>
+
+        <!-- 6. Photpho (P) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Lân (P)</span>
+            <i class="fa-solid fa-dna metric-symbol" style="color: #ec4899;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-p">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-p">Chờ đo</div>
+        </div>
+
+        <!-- 7. Kali (K) -->
+        <div class="metric-tile">
+          <div class="metric-top">
+            <span class="metric-name">Kali (K)</span>
+            <i class="fa-solid fa-gem metric-symbol" style="color: #eab308;"></i>
+          </div>
+          <div class="metric-val-wrap">
+            <span class="metric-num" id="val-k">--</span>
+            <span class="metric-unit">mg/kg</span>
+          </div>
+          <div class="metric-badge badge-neutral" id="badge-k">Chờ đo</div>
         </div>
       </div>
     </section>
 
-    <!-- 7 METRIC CARDS -->
-    <section class="grid-7">
-      <!-- 1. Moisture -->
-      <div class="metric-card card-moisture">
-        <div class="card-head">
-          <span class="card-title">Độ Ẩm Đất</span>
-          <i class="fa-solid fa-droplet card-icon" style="color: #38bdf8;"></i>
-        </div>
-        <div class="card-value"><span id="val-moisture">--</span><span class="card-unit">%</span></div>
-        <div class="card-status status-neutral" id="status-moisture">Đang đọc</div>
-      </div>
 
-      <!-- 2. Temperature -->
-      <div class="metric-card card-temp">
-        <div class="card-head">
-          <span class="card-title">Nhiệt Độ Đất</span>
-          <i class="fa-solid fa-temperature-half card-icon" style="color: #f97316;"></i>
-        </div>
-        <div class="card-value"><span id="val-temperature">--</span><span class="card-unit">°C</span></div>
-        <div class="card-status status-neutral" id="status-temp">Đang đọc</div>
-      </div>
-
-      <!-- 3. pH -->
-      <div class="metric-card card-ph">
-        <div class="card-head">
-          <span class="card-title">Độ Chua pH</span>
-          <i class="fa-solid fa-flask-vial card-icon" style="color: #10b981;"></i>
-        </div>
-        <div class="card-value"><span id="val-ph">--</span><span class="card-unit">pH</span></div>
-        <div class="card-status status-neutral" id="status-ph">Đang đọc</div>
-      </div>
-
-      <!-- 4. EC -->
-      <div class="metric-card card-ec">
-        <div class="card-head">
-          <span class="card-title">Độ Dẫn Điện EC</span>
-          <i class="fa-solid fa-bolt card-icon" style="color: #a855f7;"></i>
-        </div>
-        <div class="card-value"><span id="val-ec">--</span><span class="card-unit">µS/cm</span></div>
-        <div class="card-status status-neutral" id="status-ec">Đang đọc</div>
-      </div>
-
-      <!-- 5. Nitrogen -->
-      <div class="metric-card card-n">
-        <div class="card-head">
-          <span class="card-title">Đạm (N)</span>
-          <i class="fa-solid fa-leaf card-icon" style="color: #6366f1;"></i>
-        </div>
-        <div class="card-value"><span id="val-n">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-neutral" id="status-n">Đang đọc</div>
-      </div>
-
-      <!-- 6. Phosphorus -->
-      <div class="metric-card card-p">
-        <div class="card-head">
-          <span class="card-title">Lân (P)</span>
-          <i class="fa-solid fa-dna card-icon" style="color: #ec4899;"></i>
-        </div>
-        <div class="card-value"><span id="val-p">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-neutral" id="status-p">Đang đọc</div>
-      </div>
-
-      <!-- 7. Potassium -->
-      <div class="metric-card card-k">
-        <div class="card-head">
-          <span class="card-title">Kali (K)</span>
-          <i class="fa-solid fa-gem card-icon" style="color: #eab308;"></i>
-        </div>
-        <div class="card-value"><span id="val-k">--</span><span class="card-unit">mg/kg</span></div>
-        <div class="card-status status-neutral" id="status-k">Đang đọc</div>
-      </div>
-    </section>
-
-    <!-- AI DIAGNOSTIC SECTION (BENTO DARK MINIMALIST) -->
+    <!-- 2B. CHẨN ĐOÁN THỔ NHƯỠNG TỔNG THỂ (AI BENTO DARK) -->
     <section class="ai-diagnostic-card" id="ai-diagnostic-container">
       <!-- HEADER -->
       <div class="ai-diag-head">
@@ -1523,7 +1752,7 @@
           </div>
         </div>
         <div class="ai-head-right">
-          <button type="button" onclick="fetchLatestTelemetry(true)" class="btn-reanalyze" id="btn-reanalyze" title="Phân tích lại dữ liệu mới nhất">
+          <button type="button" onclick="reanalyzeAI()" class="btn-reanalyze" id="btn-reanalyze" title="Phân tích lại dữ liệu mới nhất">
             <i class="fa-solid fa-arrows-rotate" id="reanalyze-icon"></i>
             <span id="reanalyze-label">Phân tích lại</span>
           </button>
@@ -1544,7 +1773,6 @@
       <div class="ai-diag-body ai-bento-stack" id="ai-diag-body">
         <!-- ROW 1: BENTO HERO (7 + 5) -->
         <div class="ai-bento-hero">
-          <!-- COL LEFT (7): HEALTH SCORE SVG RING + OVERALL DIAGNOSIS -->
           <div class="bento-card ai-overview-card bento-span-7">
             <div class="ai-score-ring" id="ai-score-ring">
               <svg class="ai-score-svg" viewBox="0 0 112 112" aria-hidden="true">
@@ -1570,7 +1798,6 @@
             </div>
           </div>
 
-          <!-- COL RIGHT (5): SOIL PROFILE -->
           <div class="bento-card ai-profile-card profile-empty bento-span-5" id="ai-profile-card">
             <div class="profile-top">
               <div class="profile-head">
@@ -1588,50 +1815,39 @@
           </div>
         </div>
 
-        <!-- ROW 2: 4 PILLARS (4 COLS EQUAL ON DESKTOP) -->
+        <!-- ROW 2: 4 PILLARS -->
         <div class="ai-pillars-section">
           <div class="ai-pillars-head">
             <i class="fa-solid fa-cubes"></i>
             <span>4 Trụ Cột Thổ Nhưỡng Đánh Giá</span>
           </div>
-          <div class="ai-pillars-grid" id="ai-pillars-grid">
-            <!-- Rendered via JS -->
-          </div>
+          <div class="ai-pillars-grid" id="ai-pillars-grid"></div>
         </div>
 
         <!-- ROW 3: EXPLAINABLE AI & TOP 3 CROPS (6 + 6) -->
         <div class="ai-bento-insights">
-          <!-- COL LEFT (6): TREESHAP FACTORS -->
           <div class="bento-card ai-sub-card bento-span-6">
             <div class="card-subtitle">
               <i class="fa-solid fa-chart-simple" style="color: #38bdf8;"></i>
               <span>Yếu Tố Ảnh Hưởng Chính (TreeSHAP)</span>
             </div>
-            <div class="ai-shap-list" id="ai-shap-list">
-              <!-- Rendered via JS -->
-            </div>
+            <div class="ai-shap-list" id="ai-shap-list"></div>
           </div>
 
-          <!-- COL RIGHT (6): TOP 3 CROPS -->
           <div class="bento-card ai-sub-card bento-span-6">
             <div class="card-subtitle">
               <i class="fa-solid fa-seedling" style="color: #34d399;"></i>
               <span>Cây Trồng Phù Hợp Nhất (Top 3)</span>
             </div>
-
-            <!-- PREREQUISITE BANNER (IF ANY) -->
             <div class="ai-prereq-alert" id="ai-prereq-alert" style="display: none;">
               <i class="fa-solid fa-shield-halved"></i>
               <span id="ai-prereq-text">Lưu ý điều kiện canh tác</span>
             </div>
-
-            <div class="ai-crop-grid" id="ai-crop-list">
-              <!-- Rendered via JS -->
-            </div>
+            <div class="ai-crop-grid" id="ai-crop-list"></div>
           </div>
         </div>
 
-        <!-- ROW 4: INTERACTIVE ACTION PLAN CHECKLIST (FULL WIDTH 12 COLS) -->
+        <!-- ROW 4: INTERACTIVE ACTION PLAN CHECKLIST -->
         <div class="bento-card ai-action-plan-section">
           <div class="ai-plan-head">
             <div>
@@ -1640,167 +1856,200 @@
             </div>
             <span class="plan-progress-chip" id="ai-plan-progress" style="display: none;">0/0 hoàn thành</span>
           </div>
-          <div class="ai-plan-steps" id="ai-plan-steps">
-            <!-- Rendered via JS -->
+          <div class="ai-plan-steps" id="ai-plan-steps"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 2 BIỂU ĐỒ MÔ TẢ DỄ HIỂU (CLEAR & INTUITIVE CHARTS) -->
+    <section class="charts-duo">
+      <!-- BIỂU ĐỒ 1: MÔI TRƯỜNG ĐẤT -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <h3><i class="fa-solid fa-water" style="color: #38bdf8;"></i> Biểu Đồ 1: Môi Trường Đất (Độ Ẩm & Nhiệt Độ)</h3>
+          <p>Theo dõi diễn biến lượng nước trong đất (%) và nhiệt độ vùng rễ (°C) qua 30 lần đo gần nhất</p>
+        </div>
+
+        <div class="chart-holder">
+          <canvas id="chart-env"></canvas>
+        </div>
+
+        <div class="chart-legend-guide">
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #38bdf8;"></span>
+            <span>Độ ẩm đất (%): Ngưỡng thích hợp 55% - 75%</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #f97316;"></span>
+            <span>Nhiệt độ đất (°C): Ngưỡng tối ưu 22°C - 32°C</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIỂU ĐỒ 2: ĐỘ CHUA & DINH DƯỠNG KHOÁNG -->
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <h3><i class="fa-solid fa-vial-circle-check" style="color: #10b981;"></i> Biểu Đồ 2: Hóa Sinh Đất (Độ Chua pH & Muối Khoáng EC)</h3>
+          <p>Theo dõi độ chua/kiềm (pH) và tổng lượng dinh dưỡng muối khoáng hòa tan trong đất (EC)</p>
+        </div>
+
+        <div class="chart-holder">
+          <canvas id="chart-chem"></canvas>
+        </div>
+
+        <div class="chart-legend-guide">
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #10b981;"></span>
+            <span>Độ pH: Đất lý tưởng 6.0 - 7.0 (Dưới 5.5 là đất chua)</span>
+          </div>
+          <div class="guide-item">
+            <span class="guide-bullet" style="background: #a855f7;"></span>
+            <span>Độ dẫn điện EC (µS/cm): Dinh dưỡng tốt 500 - 1500</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- REAL-TIME CHARTS -->
-    <section class="charts-row">
-      <div class="chart-box">
-        <div class="chart-box-head">
-          <h3><i class="fa-solid fa-chart-line" style="color: #38bdf8;"></i> Diễn Biến Độ Ẩm & Nhiệt Độ</h3>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">30 bản ghi gần nhất</span>
-        </div>
-        <div class="chart-canvas-container">
-          <canvas id="chart-env"></canvas>
-        </div>
+    <!-- 4. BẢNG NHẬT KÝ ĐO ĐẠC GẦN ĐÂY -->
+    <section class="history-card">
+      <div class="history-card-header">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Bảng Nhật Ký Dữ Liệu Đo Đạc Gần Nhất</h3>
+        <a href="/api/v1/telemetry/history?limit=50" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.78rem; font-weight: 600;">Xem API JSON &rarr;</a>
       </div>
 
-      <div class="chart-box">
-        <div class="chart-box-head">
-          <h3><i class="fa-solid fa-chart-area" style="color: #a855f7;"></i> Diễn Biến pH & Độ Dẫn Điện EC</h3>
-          <span style="font-size: 0.75rem; color: var(--text-muted); font-family: monospace;">Động thái hóa sinh</span>
-        </div>
-        <div class="chart-canvas-container">
-          <canvas id="chart-chem"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <!-- RECENT TELEMETRY TABLE -->
-    <section class="table-card">
-      <div class="table-head-row">
-        <h3><i class="fa-solid fa-clock-rotate-left"></i> Nhật Ký Đo Đạc Thời Gian Thực Gần Nhất</h3>
-        <a href="/api/v1/telemetry/history?limit=50" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 0.8rem; font-weight: 600;">Xem dạng JSON thô &rarr;</a>
-      </div>
-      <table>
+      <table class="data-table">
         <thead>
           <tr>
-            <th>Bản Ghi</th>
-            <th>Thời Gian (VN)</th>
+            <th>Mã Số</th>
+            <th>Thời Gian (Giờ VN)</th>
             <th>Độ Ẩm (%)</th>
             <th>Nhiệt Độ (°C)</th>
-            <th>pH</th>
+            <th>Độ pH</th>
             <th>EC (µS/cm)</th>
-            <th>N - P - K (mg/kg)</th>
+            <th>Đạm - Lân - Kali (mg/kg)</th>
           </tr>
         </thead>
-        <tbody id="table-logs-body">
+        <tbody id="logs-tbody">
           <tr>
-            <td colspan="7" style="text-align:center; padding: 20px;">Đang tải dữ liệu từ máy chủ...</td>
+            <td colspan="7" style="text-align: center; padding: 24px;">Đang tải dữ liệu từ máy chủ...</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <!-- API PROMINENT CALLOUT BANNER -->
-    <section class="api-callout">
-      <div class="api-callout-text">
-        <h3><i class="fa-solid fa-plug-circle-bolt" style="color: #60a5fa;"></i> Cổng Giao Tiếp Lập Trình (Developer API Gateway)</h3>
-        <p>Hệ thống cung cấp đầy đủ chuẩn RESTful API phục vụ kết nối IoT, ứng dụng di động Flutter và các mô hình AI Machine Learning huấn luyện độ phì đất.</p>
+    <!-- 5. KHỐI CỔNG GIAO TIẾP LẬP TRÌNH API -->
+    <section class="developer-gateway">
+      <div class="gateway-info">
+        <h3><i class="fa-solid fa-plug" style="color: #38bdf8;"></i> Cổng Giao Tiếp Lập Trình (Developer API Gateway)</h3>
+        <p>Hệ thống cung cấp chuẩn RESTful API phục vụ kết nối thiết bị IoT ESP32, ứng dụng di động Flutter và các mô hình AI Machine Learning phân tích độ phì nhiêu của đất.</p>
       </div>
-      <div class="api-callout-btns">
-        <a href="/docs" target="_blank" class="btn-swagger">
+
+      <div class="gateway-actions">
+        <a href="/docs" target="_blank" class="btn-action btn-api-primary" style="padding: 10px 20px;">
           <i class="fa-solid fa-book-open"></i>
           <span>Mở Swagger UI Docs (/docs)</span>
         </a>
-        <a href="/redoc" target="_blank" class="btn btn-csv" style="padding: 12px 20px;">
+        <a href="/redoc" target="_blank" class="btn-action btn-secondary" style="padding: 10px 18px;">
           <i class="fa-solid fa-file-lines"></i>
           <span>Mở ReDoc</span>
         </a>
-        <a href="/api/v1/telemetry/latest" target="_blank" class="btn btn-csv" style="padding: 12px 20px;">
+        <a href="/api/v1/telemetry/latest" target="_blank" class="btn-action btn-secondary" style="padding: 10px 18px;">
           <i class="fa-solid fa-bolt"></i>
-          <span>Endpoint /latest</span>
+          <span>API Số Đo Mới Nhất</span>
         </a>
       </div>
     </section>
 
   </main>
 
-  <footer>
-    <p>AI Smart Soil System • Dự Án Nông Nghiệp Thông Minh Giám Sát Sức Khỏe Thổ Nhưỡng</p>
-    <p style="margin-top: 4px; opacity: 0.7;">Chạy trên máy chủ đám mây Ubuntu • FastAPI • SQLite WAL</p>
+  <!-- FOOTER -->
+  <footer class="app-footer">
+    <p>Hệ thống IOT phân tích tình hình của đất và gợi ý hướng chăm sóc cho cây trồng</p>
+    <p style="margin-top: 4px; opacity: 0.65;">Vận hành trên nền tảng Cloud Ubuntu VPS • FastAPI • SQLite WAL Mode • Cảm biến Modbus RTU</p>
   </footer>
 
+  <!-- SCRIPT LOGIC -->
   <script>
     let envChart = null;
     let chemChart = null;
 
-    // Helper format date Vietnam
-    function formatTime(isoStr) {
-      if (!isoStr) return '--';
-      const d = new Date(isoStr);
+    // Parse UTC Date from SQLite ISO string
+    function parseDateUTC(isoStr) {
+      if (!isoStr) return null;
+      const cleanIso = isoStr.endsWith('Z') ? isoStr : isoStr + 'Z';
+      return new Date(cleanIso);
+    }
+
+    // Format local Vietnam time
+    function formatTime(d) {
+      if (!d) return '--:--:--';
       return d.toLocaleTimeString('vi-VN', { hour12: false }) + ' ' + d.toLocaleDateString('vi-VN');
     }
 
-    // Helper cập nhật trạng thái trực tuyến / ngoại tuyến của ESP32 (< 60s)
-    function updateOnlineStatus(isOnline, ageSec) {
-      const badge = document.getElementById('device-status-badge');
-      const text = document.getElementById('device-status-text');
-      if (!badge || !text) return;
-      if (isOnline) {
-        badge.className = 'live-badge status-online';
-        text.innerText = 'TRỰC TUYẾN: ESP32_SOIL_01';
-      } else {
-        badge.className = 'live-badge status-offline';
-        const agoText = (ageSec !== null && ageSec !== undefined && ageSec < 86400) ? ` (${Math.round(ageSec)}s trước)` : '';
-        text.innerText = 'NGOẠI TUYẾN: ESP32_SOIL_01' + agoText;
+    // Compute relative time string
+    function getRelativeTimeString(secondsAgo) {
+      if (secondsAgo < 15) return 'Vừa nhận tức thời';
+      if (secondsAgo < 60) return `${Math.round(secondsAgo)} giây trước`;
+      if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)} phút trước`;
+      if (secondsAgo < 86400) return `${Math.floor(secondsAgo / 3600)} giờ trước`;
+      return `${Math.floor(secondsAgo / 86400)} ngày trước`;
+    }
+
+    // Update status labels
+    function updateMetricStatus(m, t, ph, ec) {
+      // Check abnormal/unplugged sensor fault
+      const isFault = (t <= -35 || ec >= 19999 || (m === 100 && ph === 14));
+
+      if (isFault) {
+        setMetricBadge('badge-moisture', 'Lỗi tín hiệu', 'badge-danger');
+        setMetricBadge('badge-temp', 'Cực trị (-40°C)', 'badge-danger');
+        setMetricBadge('badge-ph', 'Cực trị (14.0)', 'badge-danger');
+        setMetricBadge('badge-ec', 'Chạm trần Max', 'badge-danger');
+        setMetricBadge('badge-n', 'Chưa cắm tải', 'badge-neutral');
+        setMetricBadge('badge-p', 'Chưa cắm tải', 'badge-neutral');
+        setMetricBadge('badge-k', 'Chưa cắm tải', 'badge-neutral');
+        return;
+      }
+
+      // Moisture
+      if (m < 40) setMetricBadge('badge-moisture', 'Đất khô', 'badge-danger');
+      else if (m <= 75) setMetricBadge('badge-moisture', 'Lý tưởng', 'badge-optimal');
+      else setMetricBadge('badge-moisture', 'Ẩm cao', 'badge-warning');
+
+      // Temp
+      if (t < 18) setMetricBadge('badge-temp', 'Hơi lạnh', 'badge-warning');
+      else if (t <= 32) setMetricBadge('badge-temp', 'Tối ưu', 'badge-optimal');
+      else setMetricBadge('badge-temp', 'Nóng rễ', 'badge-danger');
+
+      // pH
+      if (ph < 5.5) setMetricBadge('badge-ph', 'Đất chua', 'badge-danger');
+      else if (ph <= 7.0) setMetricBadge('badge-ph', 'Lý tưởng', 'badge-optimal');
+      else setMetricBadge('badge-ph', 'Đất kiềm', 'badge-warning');
+
+      // EC
+      if (ec === 0 && m === 0) setMetricBadge('badge-ec', 'Ngoài không khí', 'badge-neutral');
+      else if (ec < 400) setMetricBadge('badge-ec', 'Nghèo khoáng', 'badge-warning');
+      else if (ec <= 1600) setMetricBadge('badge-ec', 'Độ phì tốt', 'badge-optimal');
+      else setMetricBadge('badge-ec', 'Quá mặn', 'badge-danger');
+
+      // NPK
+      setMetricBadge('badge-n', 'Khả dụng', 'badge-optimal');
+      setMetricBadge('badge-p', 'Khả dụng', 'badge-optimal');
+      setMetricBadge('badge-k', 'Khả dụng', 'badge-optimal');
+    }
+
+    function setMetricBadge(elId, text, className) {
+      const el = document.getElementById(elId);
+      if (el) {
+        el.className = 'metric-badge ' + className;
+        el.innerText = text;
       }
     }
 
-    // Helper evaluations
-    // Helper evaluations & AI Diagnostic Renderer
-    async function evaluateMetrics(m, t, ph, ec) {
-      // 1. Cập nhật trạng thái tức thời trên các thẻ chỉ số (Quick card status)
-      const mEl = document.getElementById('status-moisture');
-      if (m < 25) { mEl.className = 'card-status status-alert'; mEl.innerText = 'Khô Hạn'; }
-      else if (m < 35) { mEl.className = 'card-status status-warn'; mEl.innerText = 'Thiếu Nước'; }
-      else if (m <= 75) { mEl.className = 'card-status status-good'; mEl.innerText = 'Tối Ưu'; }
-      else if (m <= 85) { mEl.className = 'card-status status-warn'; mEl.innerText = 'Độ Ẩm Cao'; }
-      else { mEl.className = 'card-status status-alert'; mEl.innerText = 'Ngập Úng'; }
 
-      const tEl = document.getElementById('status-temp');
-      if (t < 18) { tEl.className = 'card-status status-warn'; tEl.innerText = 'Lạnh'; }
-      else if (t <= 33) { tEl.className = 'card-status status-good'; tEl.innerText = 'Phù Hợp'; }
-      else { tEl.className = 'card-status status-alert'; tEl.innerText = 'Quá Nóng'; }
-
-      const phEl = document.getElementById('status-ph');
-      if (ph < 5.0) { phEl.className = 'card-status status-alert'; phEl.innerText = 'Chua Nặng'; }
-      else if (ph < 6.0) { phEl.className = 'card-status status-warn'; phEl.innerText = 'Hơi Chua'; }
-      else if (ph <= 7.5) { phEl.className = 'card-status status-good'; phEl.innerText = 'Lý Tưởng'; }
-      else { phEl.className = 'card-status status-alert'; phEl.innerText = 'Đất Kiềm'; }
-
-      const ecEl = document.getElementById('status-ec');
-      if (ec >= 2000) { ecEl.className = 'card-status status-alert'; ecEl.innerText = 'Mặn Nặng'; }
-      else if (ec >= 1500) { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Mặn Cao'; }
-      else if (ec >= 300) { ecEl.className = 'card-status status-good'; ecEl.innerText = 'Dinh Dưỡng Tốt'; }
-      else { ecEl.className = 'card-status status-warn'; ecEl.innerText = 'Nghèo Khoáng'; }
-
-      document.getElementById('status-n').className = 'card-status status-good';
-      document.getElementById('status-n').innerText = 'Hòa Tan';
-      document.getElementById('status-p').className = 'card-status status-good';
-      document.getElementById('status-p').innerText = 'Hòa Tan';
-      document.getElementById('status-k').className = 'card-status status-good';
-      document.getElementById('status-k').innerText = 'Hòa Tan';
-
-      // 2. Gọi API Recommendations tổng hợp AI
-      try {
-        const aiRes = await fetch('/api/v1/recommendations/ESP32_SOIL_01');
-        const aiData = await aiRes.json();
-        // NO_DATA = DB trống hoặc thiết bị chưa gửi → im lặng, không log lỗi
-        if (aiData.status === 'NO_DATA') return;
-        if (aiRes.ok && aiData) {
-          renderAIDiagnostic(aiData);
-        }
-      } catch (err) {
-        // Chỉ log khi lỗi thật sự (500, mất kết nối server)
-        console.error('Lỗi server khi nạp chẩn đoán AI:', err);
-      }
-    }
-
+    // =========================================================================
+    // AI DIAGNOSTIC BENTO DARK RENDERING
+    // =========================================================================
     const SOIL_PROFILE_LEVELS = {
       DAT_CHUA_MAN: 'danger',
       DAT_NGHI_PHEN: 'danger',
@@ -1825,7 +2074,7 @@
       salinity_ec: 'fa-bolt',
       nutrition_npk: 'fa-seedling'
     };
-    const SCORE_RING_CIRCUMFERENCE = 2 * Math.PI * 48; // r=48 -> 301.59
+    const SCORE_RING_CIRCUMFERENCE = 2 * Math.PI * 48;
     const completedActionSteps = new Set();
     let latestActionSteps = [];
 
@@ -1836,6 +2085,13 @@
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+    }
+
+    function formatAITime(rawTime) {
+      if (!rawTime) return '--:--:--';
+      const d = rawTime instanceof Date ? rawTime : new Date(rawTime);
+      if (Number.isNaN(d.getTime())) return String(rawTime);
+      return formatTime(d);
     }
 
     function getStepKey(stepObj) {
@@ -1855,27 +2111,23 @@
     }
 
     function toggleActionStep(stepKey) {
-      if (completedActionSteps.has(stepKey)) {
-        completedActionSteps.delete(stepKey);
-      } else {
-        completedActionSteps.add(stepKey);
-      }
+      if (completedActionSteps.has(stepKey)) completedActionSteps.delete(stepKey);
+      else completedActionSteps.add(stepKey);
       renderActionPlan(latestActionSteps);
     }
 
     function renderActionPlan(steps) {
       latestActionSteps = Array.isArray(steps) ? steps : [];
-      const planStepsContainer = document.getElementById('ai-plan-steps');
-      if (!planStepsContainer) return;
-
+      const container = document.getElementById('ai-plan-steps');
+      if (!container) return;
       updatePlanProgress(latestActionSteps);
 
       if (latestActionSteps.length === 0) {
-        planStepsContainer.innerHTML = '<div style="font-size:0.85rem; color:#94a3b8;">Không có cảnh báo can thiệp đặc biệt.</div>';
+        container.innerHTML = '<div style="font-size:0.85rem; color:#94a3b8;">Không có cảnh báo can thiệp đặc biệt.</div>';
         return;
       }
 
-      planStepsContainer.replaceChildren();
+      container.replaceChildren();
       latestActionSteps.forEach(s => {
         const key = getStepKey(s);
         const isDone = completedActionSteps.has(key);
@@ -1897,19 +2149,19 @@
         });
 
         card.innerHTML = `
-          <div class="step-number">${isDone ? '<i class="fa-solid fa-check"></i>' : escapeHtml(s.step)}</div>
-          <div class="step-content">
-            <div class="step-head">
+          <div class="plan-step-number">${isDone ? '<i class="fa-solid fa-check"></i>' : escapeHtml(s.step)}</div>
+          <div class="plan-step-content">
+            <div class="plan-step-head">
               <span class="step-badge ${badgeClass}">${escapeHtml(s.priority_vi)}</span>
-              <span class="step-title">${escapeHtml(s.title)}</span>
+              <span class="plan-step-title">${escapeHtml(s.title)}</span>
             </div>
-            <div class="step-detail">${escapeHtml(s.detail)}</div>
+            <div class="plan-step-detail">${escapeHtml(s.detail)}</div>
           </div>
           <span class="step-check-btn" title="${isDone ? 'Bỏ đánh dấu hoàn thành' : 'Đánh dấu đã hoàn thành'}">
             <i class="fa-solid fa-check"></i>
           </span>
         `;
-        planStepsContainer.appendChild(card);
+        container.appendChild(card);
       });
     }
 
@@ -1946,7 +2198,6 @@
         levelBadge.className = `pillar-badge ${ui.badge}`;
         levelBadge.textContent = ui.label;
       }
-
       if (nameEl) nameEl.textContent = profile.profile_name;
       if (matchEl) matchEl.textContent = profile.common_match || '';
 
@@ -1977,16 +2228,9 @@
       const errorBox = document.getElementById('ai-error-box');
       const diagBody = document.getElementById('ai-diag-body');
       const metaText = document.getElementById('ai-meta-text');
-
       const ai = data?.ai_evaluation;
       if (!ai) return;
 
-      // Cập nhật trạng thái trực tuyến / ngoại tuyến
-      if (data.is_online !== undefined) {
-        updateOnlineStatus(data.is_online, data.last_seen_seconds);
-      }
-
-      // Cập nhật thông tin thời tiết Open-Meteo
       if (data.weather) {
         const wBadge = document.getElementById('ai-weather-badge');
         const wText = document.getElementById('ai-weather-text');
@@ -1997,7 +2241,6 @@
         }
       }
 
-      // Xử lý Lớp 0 (Hardware / Sensor Error)
       if (ai.is_hardware_error) {
         errorBox.style.display = 'flex';
         diagBody.style.display = 'none';
@@ -2007,24 +2250,20 @@
         return;
       }
 
-      // Ẩn box lỗi, hiển thị nội dung Bento 4 hàng
       errorBox.style.display = 'none';
       diagBody.style.display = 'flex';
 
-      // Meta chip từ analysis_meta / payload
       const meta = ai.analysis_meta || {};
       const sampleCount = meta.sample_count || data.sample_count || 1;
-      const timeStr = formatTime(meta.analyzed_at || data.measured_at || new Date().toISOString());
+      const timeStr = formatAITime(meta.analyzed_at || data.measured_at || new Date());
       metaText.innerText = `Trung vị ${sampleCount} mẫu ổn định • ${timeStr}`;
 
-      // Hàng 1 trái: Vòng tròn tiến độ SVG điểm sức khỏe đất
       const health = ai.soil_health || {};
       const rawScore = Number(health.health_score ?? 50);
       const score = Math.max(0, Math.min(100, Math.round(rawScore)));
       const scoreRing = document.getElementById('ai-score-ring');
       const scoreArc = document.getElementById('ai-score-arc');
-      const scoreNum = document.getElementById('ai-score-num');
-      scoreNum.innerText = score;
+      document.getElementById('ai-score-num').innerText = score;
 
       scoreRing.className = 'ai-score-ring';
       if (score >= 75) scoreRing.classList.add('score-high');
@@ -2037,7 +2276,6 @@
         scoreArc.style.strokeDashoffset = offset.toFixed(2);
       }
 
-      // Badge rủi ro chính + pill cảnh báo bất thường (Isolation Forest)
       const riskTag = document.getElementById('ai-risk-tag');
       const riskLvl = (ai.risk_level || 'LOW').toLowerCase();
       riskTag.className = 'ai-risk-tag';
@@ -2057,17 +2295,12 @@
         }
       }
 
-      // Tiêu đề & Tóm tắt tổng thể
       document.getElementById('ai-overall-title').innerText = ai.overall_title || 'Đánh Giá Thổ Nhưỡng Tổng Thể';
       document.getElementById('ai-overall-summary').innerText = ai.overall_summary || '';
-
-      // Hàng 1 phải: Card Đặc tính đất dự đoán (Soil Profile)
       renderSoilProfile(ai.soil_profile);
 
-      // Hàng 2: 4 Trụ cột Thổ nhưỡng
       const pillarsGrid = document.getElementById('ai-pillars-grid');
-      const pillars = ai.pillars || [];
-      pillarsGrid.innerHTML = pillars.map(p => {
+      pillarsGrid.innerHTML = (ai.pillars || []).map(p => {
         let badgeClass = 'badge-tot';
         let iconColor = '#34d399';
         if (p.status === 'CANH_BAO') {
@@ -2093,7 +2326,6 @@
         `;
       }).join('');
 
-      // Hàng 3 trái: TreeSHAP Factors
       const shapList = document.getElementById('ai-shap-list');
       const shapFactors = (health && (health.top_influencing_factors || health.shap_top_factors)) || ai.shap_top_factors || [];
       if (shapFactors && shapFactors.length > 0) {
@@ -2122,7 +2354,6 @@
         shapList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8;">Đang tổng hợp trọng số các yếu tố ảnh hưởng...</div>';
       }
 
-      // Hàng 3 phải: Cây trồng phù hợp nhất (Top 3) + Điều kiện tiên quyết
       const prereqAlert = document.getElementById('ai-prereq-alert');
       const prereqText = document.getElementById('ai-prereq-text');
       if (ai.crop_prerequisite_note) {
@@ -2155,56 +2386,103 @@
         cropList.innerHTML = '<div style="font-size:0.82rem; color:#94a3b8; grid-column: 1 / -1;">Chưa có dữ liệu gợi ý cây trồng.</div>';
       }
 
-      // Hàng 4: Phác đồ xử lý tuần tự dạng checklist tương tác
       renderActionPlan(ai.action_plan || []);
     }
 
-    // Fetch Latest
-    async function fetchLatestTelemetry(isManual = false) {
-      const refreshIcon = document.getElementById('refresh-icon');
-      const reanalyzeBtn = document.getElementById('btn-reanalyze');
-      const reanalyzeIcon = document.getElementById('reanalyze-icon');
-      const reanalyzeLabel = document.getElementById('reanalyze-label');
-
-      if (refreshIcon) refreshIcon.classList.add('fa-spin');
-      if (isManual && reanalyzeBtn) {
-        reanalyzeBtn.disabled = true;
-        reanalyzeBtn.classList.add('is-loading');
-        if (reanalyzeIcon) reanalyzeIcon.classList.add('fa-spin');
-        if (reanalyzeLabel) reanalyzeLabel.textContent = 'Đang phân tích...';
+    async function fetchAIDiagnostic() {
+      try {
+        const aiRes = await fetch('/api/v1/recommendations/ESP32_SOIL_01');
+        const aiData = await aiRes.json();
+        if (aiData.status === 'NO_DATA') return;
+        if (aiRes.ok && aiData) {
+          renderAIDiagnostic(aiData);
+        }
+      } catch (err) {
+        console.error('Lỗi server khi nạp chẩn đoán AI:', err);
       }
+    }
 
+    async function reanalyzeAI() {
+      const btn = document.getElementById('btn-reanalyze');
+      const icon = document.getElementById('reanalyze-icon');
+      const label = document.getElementById('reanalyze-label');
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('is-loading');
+      }
+      if (icon) icon.classList.add('fa-spin');
+      if (label) label.textContent = 'Đang phân tích...';
+      try {
+        await Promise.all([fetchLatest(), fetchHistoryAndRender()]);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.classList.remove('is-loading');
+        }
+        if (icon) icon.classList.remove('fa-spin');
+        if (label) label.textContent = 'Phân tích lại';
+      }
+    }
+
+    // Fetch latest telemetry record
+    async function fetchLatest() {
       try {
         const res = await fetch('/api/v1/telemetry/latest?device_id=ESP32_SOIL_01');
         const json = await res.json();
 
-        // NO_DATA (200 OK nhưng DB còn trống) → giữ giao diện chờ, không log lỗi
         if (!res.ok || json.status === 'NO_DATA') {
-          updateOnlineStatus(false, null);
-          const metaTime = document.getElementById('meta-last-time');
-          if (metaTime) metaTime.innerText = 'Chờ ESP32 gửi dữ liệu...';
+          const pill = document.getElementById('device-pill');
+          const dot = document.getElementById('pill-dot');
+          const text = document.getElementById('pill-text');
+          if (pill) pill.className = 'device-pill pill-offline';
+          if (dot) dot.className = 'pulsing-dot dot-red';
+          if (text) text.innerText = 'NGOẠI TUYẾN (Chờ dữ liệu)';
+          const relTime = document.getElementById('meta-relative-time');
+          if (relTime) relTime.innerText = 'Chờ ESP32 gửi dữ liệu...';
           const aiTitle = document.getElementById('ai-overall-title');
           if (aiTitle) aiTitle.innerText = 'Chờ Dữ Liệu Thực Từ Thiết Bị ESP32';
           const aiSummary = document.getElementById('ai-overall-summary');
-          if (aiSummary) aiSummary.innerText = 'Cơ sở dữ liệu đã sạch hoàn toàn và sẵn sàng 100%. Hãy cấp nguồn cho mạch ESP32 để hệ thống bắt đầu tiếp nhận và phân tích thổ nhưỡng thời gian thực.';
+          if (aiSummary) aiSummary.innerText = 'Cơ sở dữ liệu đang trống và sẵn sàng tiếp nhận dữ liệu đo thực tế từ mạch ESP32.';
           const aiMeta = document.getElementById('ai-meta-text');
           if (aiMeta) aiMeta.innerText = 'Hệ thống sẵn sàng • Đang chờ tín hiệu';
           const anomalyPill = document.getElementById('ai-anomaly-pill');
           if (anomalyPill) anomalyPill.style.display = 'none';
           renderSoilProfile(null);
-          return; // Thoát êm, không ném lỗi
+          return;
         }
 
-        const data = json.data || json; // tương thích cả hai cấu trúc
+        const data = json.data || json;
+        const recordDate = parseDateUTC(data.created_at);
+        const now = new Date();
+        const diffSeconds = Math.abs((now.getTime() - recordDate.getTime()) / 1000);
+        const isOnline = diffSeconds < 60;
 
-        // Kiểm tra thời gian đo đạc so với hiện tại để xác định trực tuyến (< 60s)
-        const ageSec = Math.abs((Date.now() - new Date(data.created_at).getTime()) / 1000);
-        updateOnlineStatus(ageSec <= 60, ageSec);
+        // Update Device Pill
+        const pill = document.getElementById('device-pill');
+        const dot = document.getElementById('pill-dot');
+        const text = document.getElementById('pill-text');
+        const banner = document.getElementById('offline-banner');
+        const detail = document.getElementById('offline-detail');
 
-        // Update values
+        if (isOnline) {
+          pill.className = 'device-pill pill-online';
+          dot.className = 'pulsing-dot dot-green';
+          text.innerText = 'TRỰC TUYẾN: ESP32';
+          banner.classList.remove('show');
+        } else {
+          pill.className = 'device-pill pill-offline';
+          dot.className = 'pulsing-dot dot-red';
+          text.innerText = 'NGOẠI TUYẾN (ESP32 Tắt)';
+          banner.classList.add('show');
+          detail.innerHTML = `ESP32 hiện chưa gửi dữ liệu mới (lần gửi cuối: <strong>${getRelativeTimeString(diffSeconds)}</strong>). Bảng điều khiển đang hiển thị bản ghi lưu trữ <strong>#${data.id}</strong> từ lúc <strong>${formatTime(recordDate)}</strong>.`;
+        }
+
+        // Meta header
         document.getElementById('meta-record-id').innerText = '#' + data.id;
-        document.getElementById('meta-last-time').innerText = formatTime(data.created_at);
+        document.getElementById('meta-time-text').innerText = formatTime(recordDate);
+        document.getElementById('meta-relative-time').innerText = isOnline ? '🟢 Đang cập nhật trực tuyến' : `🔴 Lần cuối: ${getRelativeTimeString(diffSeconds)}`;
 
+        // Card values
         document.getElementById('val-moisture').innerText = data.moisture.toFixed(1);
         document.getElementById('val-temperature').innerText = data.temperature.toFixed(1);
         document.getElementById('val-ph').innerText = data.ph.toFixed(1);
@@ -2213,22 +2491,14 @@
         document.getElementById('val-p').innerText = Math.round(data.phosphorus);
         document.getElementById('val-k').innerText = Math.round(data.potassium);
 
-        await evaluateMetrics(data.moisture, data.temperature, data.ph, data.ec);
+        updateMetricStatus(data.moisture, data.temperature, data.ph, data.ec);
+        await fetchAIDiagnostic();
       } catch (err) {
-        // Chỉ log khi lỗi thật sự (500, mất kết nối server)
         console.error('Lỗi server khi tải telemetry:', err);
-      } finally {
-        if (refreshIcon) refreshIcon.classList.remove('fa-spin');
-        if (isManual && reanalyzeBtn) {
-          reanalyzeBtn.disabled = false;
-          reanalyzeBtn.classList.remove('is-loading');
-          if (reanalyzeIcon) reanalyzeIcon.classList.remove('fa-spin');
-          if (reanalyzeLabel) reanalyzeLabel.textContent = 'Phân tích lại';
-        }
       }
     }
 
-    // Fetch History & Draw Charts
+    // Fetch history and render both charts + table
     async function fetchHistoryAndRender() {
       try {
         const res = await fetch('/api/v1/telemetry/history?limit=30&device_id=ESP32_SOIL_01');
@@ -2236,24 +2506,27 @@
         const list = await res.json();
         if (!list || list.length === 0) return;
 
-        // Render Table
-        const tbody = document.getElementById('table-logs-body');
-        tbody.innerHTML = list.slice(0, 10).map(row => `
-          <tr>
-            <td style="color:#38bdf8; font-weight:700;">#${row.id}</td>
-            <td>${formatTime(row.created_at)}</td>
-            <td><strong style="color:#38bdf8;">${row.moisture.toFixed(1)}%</strong></td>
-            <td>${row.temperature.toFixed(1)}°C</td>
-            <td><span style="color:#10b981; font-weight:600;">${row.ph.toFixed(1)}</span></td>
-            <td>${Math.round(row.ec)}</td>
-            <td>${Math.round(row.nitrogen)} - ${Math.round(row.phosphorus)} - ${Math.round(row.potassium)}</td>
-          </tr>
-        `).join('');
+        // Render Table (10 rows)
+        const tbody = document.getElementById('logs-tbody');
+        tbody.innerHTML = list.slice(0, 10).map(row => {
+          const rowDate = parseDateUTC(row.created_at);
+          return `
+            <tr>
+              <td style="color: #38bdf8; font-weight: 700;">#${row.id}</td>
+              <td>${formatTime(rowDate)}</td>
+              <td><strong style="color: #38bdf8;">${row.moisture.toFixed(1)}%</strong></td>
+              <td>${row.temperature.toFixed(1)}°C</td>
+              <td><span style="color: #10b981; font-weight: 600;">${row.ph.toFixed(1)}</span></td>
+              <td>${Math.round(row.ec)}</td>
+              <td>${Math.round(row.nitrogen)} - ${Math.round(row.phosphorus)} - ${Math.round(row.potassium)}</td>
+            </tr>
+          `;
+        }).join('');
 
-        // Prepare chart data (reverse to chronological order)
+        // Prepare chronological chart data
         const chron = [...list].reverse();
         const labels = chron.map(c => {
-          const d = new Date(c.created_at);
+          const d = parseDateUTC(c.created_at);
           return d.toLocaleTimeString('vi-VN', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
         });
 
@@ -2262,7 +2535,7 @@
         const phs = chron.map(c => c.ph);
         const ecs = chron.map(c => c.ec);
 
-        // Chart 1: Environment
+        // Chart 1: Environment (Moisture & Temperature)
         if (!envChart) {
           const ctx1 = document.getElementById('chart-env').getContext('2d');
           envChart = new Chart(ctx1, {
@@ -2271,20 +2544,24 @@
               labels: labels,
               datasets: [
                 {
-                  label: 'Độ ẩm (%)',
+                  label: 'Độ ẩm đất (%)',
                   data: moistures,
                   borderColor: '#38bdf8',
-                  backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                  backgroundColor: 'rgba(56, 189, 248, 0.08)',
                   fill: true,
                   tension: 0.35,
+                  borderWidth: 2.5,
+                  pointRadius: 2,
                   yAxisID: 'y'
                 },
                 {
-                  label: 'Nhiệt độ (°C)',
+                  label: 'Nhiệt độ đất (°C)',
                   data: temps,
                   borderColor: '#f97316',
                   backgroundColor: 'transparent',
                   tension: 0.35,
+                  borderWidth: 2,
+                  pointRadius: 2,
                   yAxisID: 'y1'
                 }
               ]
@@ -2292,11 +2569,34 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: { labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 12 } } },
+                tooltip: { backgroundColor: 'rgba(15, 25, 43, 0.95)', titleColor: '#fff', padding: 10 }
+              },
               scales: {
-                x: { ticks: { color: '#64748b', maxTicksLimit: 6 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { type: 'linear', position: 'left', ticks: { color: '#38bdf8' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y1: { type: 'linear', position: 'right', ticks: { color: '#f97316' }, grid: { drawOnChartArea: false } }
+                x: {
+                  ticks: { color: '#64748b', maxTicksLimit: 6, font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' }
+                },
+                y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: { display: true, text: 'Độ ẩm (%)', color: '#38bdf8', font: { size: 11 } },
+                  ticks: { color: '#38bdf8', font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                  min: 0,
+                  max: 100
+                },
+                y1: {
+                  type: 'linear',
+                  position: 'right',
+                  title: { display: true, text: 'Nhiệt độ (°C)', color: '#f97316', font: { size: 11 } },
+                  ticks: { color: '#f97316', font: { size: 11 } },
+                  grid: { drawOnChartArea: false },
+                  min: 0,
+                  max: 50
+                }
               }
             }
           });
@@ -2307,7 +2607,7 @@
           envChart.update('none');
         }
 
-        // Chart 2: Chemical (pH & EC)
+        // Chart 2: Soil Chemistry (pH & EC)
         if (!chemChart) {
           const ctx2 = document.getElementById('chart-chem').getContext('2d');
           chemChart = new Chart(ctx2, {
@@ -2316,20 +2616,24 @@
               labels: labels,
               datasets: [
                 {
-                  label: 'pH',
+                  label: 'Độ chua (pH)',
                   data: phs,
                   borderColor: '#10b981',
                   backgroundColor: 'transparent',
                   tension: 0.35,
+                  borderWidth: 2.5,
+                  pointRadius: 2,
                   yAxisID: 'y'
                 },
                 {
-                  label: 'EC (µS/cm)',
+                  label: 'Độ dẫn điện EC (µS/cm)',
                   data: ecs,
                   borderColor: '#a855f7',
-                  backgroundColor: 'rgba(168, 85, 247, 0.1)',
+                  backgroundColor: 'rgba(168, 85, 247, 0.08)',
                   fill: true,
                   tension: 0.35,
+                  borderWidth: 2,
+                  pointRadius: 2,
                   yAxisID: 'y1'
                 }
               ]
@@ -2337,11 +2641,33 @@
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { labels: { color: '#cbd5e1' } } },
+              interaction: { mode: 'index', intersect: false },
+              plugins: {
+                legend: { labels: { color: '#cbd5e1', font: { family: 'Plus Jakarta Sans', size: 12 } } },
+                tooltip: { backgroundColor: 'rgba(15, 25, 43, 0.95)', titleColor: '#fff', padding: 10 }
+              },
               scales: {
-                x: { ticks: { color: '#64748b', maxTicksLimit: 6 }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y: { type: 'linear', position: 'left', ticks: { color: '#10b981' }, grid: { color: 'rgba(255,255,255,0.05)' } },
-                y1: { type: 'linear', position: 'right', ticks: { color: '#a855f7' }, grid: { drawOnChartArea: false } }
+                x: {
+                  ticks: { color: '#64748b', maxTicksLimit: 6, font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' }
+                },
+                y: {
+                  type: 'linear',
+                  position: 'left',
+                  title: { display: true, text: 'Độ pH (0 - 14)', color: '#10b981', font: { size: 11 } },
+                  ticks: { color: '#10b981', font: { size: 11 } },
+                  grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                  min: 0,
+                  max: 14
+                },
+                y1: {
+                  type: 'linear',
+                  position: 'right',
+                  title: { display: true, text: 'EC (µS/cm)', color: '#a855f7', font: { size: 11 } },
+                  ticks: { color: '#a855f7', font: { size: 11 } },
+                  grid: { drawOnChartArea: false },
+                  suggestedMin: 0
+                }
               }
             }
           });
@@ -2353,16 +2679,24 @@
         }
 
       } catch (err) {
-        console.warn('History fetch error:', err);
+        console.warn('History fetch warning:', err);
       }
     }
 
-    // Auto Refresh Interval
-    fetchLatestTelemetry();
-    fetchHistoryAndRender();
+    // Manual Refresh Trigger
+    function manualRefresh() {
+      const spinner = document.getElementById('refresh-spinner');
+      if (spinner) spinner.classList.add('fa-spin');
+      Promise.all([fetchLatest(), fetchHistoryAndRender()]).finally(() => {
+        if (spinner) setTimeout(() => spinner.classList.remove('fa-spin'), 400);
+      });
+    }
 
+    // Auto-update every 3 seconds
+    fetchLatest();
+    fetchHistoryAndRender();
     setInterval(() => {
-      fetchLatestTelemetry();
+      fetchLatest();
       fetchHistoryAndRender();
     }, 3000);
   </script>
